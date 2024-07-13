@@ -1,6 +1,8 @@
 package user.application;
 
 
+import java.util.List;
+
 import user.domain.entity.User;
 import user.domain.service.UserService;
 
@@ -18,5 +20,8 @@ public class UserUseCase {
     // IR A MODIFICAR CONTROLADOR
     public void accederUser(User user){
         userService.accederUser(user);
+    }
+    public List<String> obtenerPermisosUserCase(int id_rolUsuario){
+        return userService.obtenerPermisosUser(id_rolUsuario);
     }
 }
