@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.aeroline.DatabaseConfig;
 
+import permisosusuarios.domain.entity.PermisosUsuarios;
 import user.domain.entity.User;
 import user.domain.service.UserService;
 
@@ -43,6 +46,33 @@ public class UserRepository implements UserService{
     public void accederUser(User user) {
         // Logica de ACCEDER COMO USUARIO
         System.out.println(user.getId_rolUsuario());
+    }
+
+    @Override
+    public List<String> obtenerPermisosUser(int idRole) {
+
+        List<String> permisos = new ArrayList<>();
+
+        String sql = "SELECT PU.nombre_permiso\n" + //
+                     "FROM permisosUsuarios AS PU\n" + //
+                     "INNER JOIN rol_permiso AS RP ON PU.id_permisosUsuarios = RP.id_permisosUsuarios\n" + //
+                     "WHERE RP.id_rolUsuario = ?;";
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, idRole);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    permisos.add(resultSet.getString("nombre_permiso"));
+                } 
+                System.out.println("SALI DEL VIAJE");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return permisos;        
     }
 
 }
