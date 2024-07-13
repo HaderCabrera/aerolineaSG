@@ -13,17 +13,12 @@ CREATE Table IF NOT EXISTS cliente (
     nombre1 VARCHAR(30) NOT NULL,
     nombre2 VARCHAR(30) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
-    Fnacimiento DATE NOT NULL,
+    fecha_nacimiento DATE NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
     id_tipo_documento INT NOT NULL,
     Foreign Key (id_tipo_documento) REFERENCES tipoDocumento (id_tipo_documento)
 );
 
-CREATE Table IF NOT EXISTS tarifasAerolinea (
-    id_tarifasAerolinea INT PRIMARY KEY AUTO_INCREMENT,
-    descrip VARCHAR(50),
-    detalles TEXT,
-    valorTarifaVuelo DOUBLE(15, 2)
-);
 
 CREATE Table IF NOT EXISTS aerolinea (
     id_aerolineas INT PRIMARY KEY AUTO_INCREMENT,
@@ -63,18 +58,18 @@ CREATE TABLE IF NOT EXISTS puertaSalidaAbordaje (
     Foreign Key (id_aeropuerto) REFERENCES aeropuerto (id_aeropuerto)
 );
 
+
+-- crear ticket
+
 CREATE TABLE IF NOT EXISTS empleado (
     id_empleado VARCHAR(20) PRIMARY KEY,
     nombre1 VARCHAR(40) NOT NULL,
     nombre2 VARCHAR(40) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
-    fecha_ingreso_empleado DATE NOT NULL,
     id_tripulacionRoles INT NULL NULL,
     id_aerolineas INT NOT NULL,
-    id_aeropuerto INT NOT NULL,
     Foreign Key (id_tripulacionRoles) REFERENCES tripulacionRol (id_tripulacionRoles),
-    Foreign Key (id_aerolineas) REFERENCES aerolinea (id_aerolineas),
-    Foreign Key (id_aeropuerto) REFERENCES aeropuerto (id_aeropuerto)
+    Foreign Key (id_aerolineas) REFERENCES aerolinea (id_aerolineas)
 );
 
 
@@ -95,7 +90,7 @@ CREATE TABLE IF NOT EXISTS modelo (
     Foreign Key (id_manufactura) REFERENCES manufactura (id_manufactura)
 );
 
-CREATE TABLE IF NOT EXISTS estado (
+CREATE TABLE IF NOT EXISTS estadoAvion (
     id_estado INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL
 );
@@ -107,8 +102,8 @@ CREATE TABLE IF NOT EXISTS avion (
     fabricacion_fecha DATE NOT NULL,
     id_estado INT NOT NULL,
     id_modelo INT NULL,
-    Foreign Key (id_estado) REFERENCES estado (id_estado),
-    Foreign Key (id_modelo) REFERENCES modelo (id_modelo)
+    Foreign Key (id_estado) REFERENCES estadoAvion(id_estado),
+    Foreign Key (id_modelo) REFERENCES modelo(id_modelo)
 );
 
 
@@ -132,11 +127,18 @@ aeropuerto_id: Este campo es una clave foránea que referencia a la tabla de Aer
 CREATE TABLE escala (
     id_escala INT AUTO_INCREMENT PRIMARY KEY,
     id_vuelo INT NOT NULL,
-    id_aeropuerto INT NOT NULL,
-    hora_llegada DATETIME NOT NULL,
-    hora_salida DATETIME NOT NULL,
-    FOREIGN KEY (id_vuelo) REFERENCES vuelo(id_vuelo),
-    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    FOREIGN KEY (id_vuelo) REFERENCES vuelo(id_vuelo)
+);
+CREATE TABLE IF NOT EXISTS estadoPuesto(
+    id_estadoPuesto INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_estado_puesto VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS puesto(
+    id_puesto INT PRIMARY KEY AUTO_INCREMENT,
+    numero_puesto INT NOT NULL,
+    id_estadoPuesto INT NOT NULL,
+    Foreign Key (id_estadoPuesto) REFERENCES estadoPuesto(id_estadoPuesto)
 );
 
 
@@ -144,32 +146,28 @@ CREATE TABLE IF NOT EXISTS detalle_vuelo(
     id_detalle_vuelo INT PRIMARY KEY AUTO_INCREMENT,
     id_vuelo INT NOT NULL,
     id_escala INT,
-    id_avion INT NOT NULL,
+    id_puesto INT NOT NULL,
     Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
     Foreign Key (id_escala) REFERENCES escala(id_escala),
-    Foreign Key (id_avion) REFERENCES avion(id_avion)
+    Foreign Key (id_puesto) REFERENCES puesto(id_puesto)
 );
 
 
-CREATE TABLE IF NOT EXISTS tripulacionVuelo(
+CREATE TABLE IF NOT EXISTS tripulacionvuelo_empleado(
     id_empleado VARCHAR(20) NOT NULL,
     id_detalle_vuelo INT NOT NULL,
     Foreign Key (id_empleado) REFERENCES empleado(id_empleado),
     Foreign Key (id_detalle_vuelo) REFERENCES detalle_vuelo(id_detalle_vuelo)
 );
 
-CREATE Table IF NOT EXISTS detalleRevision (
-    id_detalleRevision INT PRIMARY KEY AUTO_INCREMENT,
-    descrip TEXT NOT NULL
-);
+
 
 CREATE TABLE IF NOT EXISTS revision(
     id_revision VARCHAR(5) PRIMARY KEY,
     fecha_revision DATE NOT NULL,
     id_avion INT NOT NULL,
-    id_detalleRevision INT NOT NULL,
-    Foreign Key (id_avion) REFERENCES avion(id_avion),
-    Foreign Key (id_detalleRevision) REFERENCES detalleRevision(id_detalleRevision)
+    descrip TEXT NOT NULL,
+    Foreign Key (id_avion) REFERENCES avion(id_avion)
 );
 
 CREATE TABLE IF NOT EXISTS empleado_revision(
@@ -184,6 +182,8 @@ CREATE TABLE IF NOT EXISTS tipoClase(
     id_tipoClase INT PRIMARY KEY AUTO_INCREMENT,
     nombre_Clase VARCHAR(50)
 );
+-- 
+/*Las tarifas en los vuelos se refieren a los diferentes precios que las aerolíneas o proveedores de servicios de vuelo ofrecen para los asientos en una aeronave. Estas tarifas pueden variar según varios factores, como la clase del asiento, la antelación con la que se realiza la reserva, la temporada del año, la duración del vuelo, entre otros.*/
 
 CREATE TABLE IF NOT EXISTS tarifasVuelo (
     id_tarifasVuelo INT AUTO_INCREMENT PRIMARY KEY,
@@ -202,38 +202,38 @@ CREATE TABLE IF NOT EXISTS estadoReserva(
 );
 
 CREATE TABLE IF NOT EXISTS reserva(
-    id_reserva VARCHAR(5) PRIMARY KEY,
+    id_reserva INT PRIMARY KEY AUTO_INCREMENT,
     fecha_reserva DATE NOT NULL,
     id_vuelo INT NOT NULL,
+    id_cliente INT NOT NULL,
     id_estadoReserva INT NOT NULL,
     Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
-    Foreign Key (id_estadoReserva) REFERENCES estadoReserva(id_estadoReserva)
+    Foreign Key (id_estadoReserva) REFERENCES estadoReserva(id_estadoReserva),
+    Foreign Key (id_cliente) REFERENCES cliente(id_cliente)
 );
 
 
-CREATE TABLE IF NOT EXISTS metodosPago(
-    id_metodosPago INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS metodoPago(
+    id_metodoPago INT PRIMARY KEY AUTO_INCREMENT,
     nombre_metodo VARCHAR(60) NOT NULL
 );
 
-CREATE TABLE pago (
+CREATE TABLE IF NOT EXISTS  pago (
     id_pago INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente INT NOT NULL,
+    id_reserva INT NOT NULL,
     id_tarifasVuelo INT NOT NULL,
     fecha_pago DATETIME NOT NULL,
-    monto DECIMAL(10, 2) NOT NULL,
-    id_metodosPago INT NOT NULL,
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
-    FOREIGN KEY (id_tarifasVuelo) REFERENCES tarifasVuelo(id_tarifasVuelo),
-    FOREIGN KEY (id_metodosPago) REFERENCES metodosPago(id_metodosPago)
+    total_pago  DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva),
+    FOREIGN KEY (id_tarifasVuelo) REFERENCES tarifasVuelo(id_tarifasVuelo)
 );
 -- PODEMOS CREAR UNA VISTA QUE GENERE LA FACTURA
-CREATE TABLE factura_vuelo_reserva (
-    id_factura_vuelo INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente INT NOT NULL,
+CREATE TABLE factura_Neta (
+    id_factura_Neta INT AUTO_INCREMENT PRIMARY KEY,
+    id_metodoPago INT NOT NULL,
     fecha_emision DATETIME NOT NULL,
     id_pago INT NOT NULL,
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+    FOREIGN KEY (id_metodoPago) REFERENCES metodoPago(id_metodoPago),
     Foreign Key (id_pago) REFERENCES pago(id_pago)
 );
 
@@ -242,6 +242,7 @@ CREATE TABLE factura_vuelo_reserva (
 CREATE TABLE IF NOT EXISTS rolUsuario(
     id_rolUsuario INT PRIMARY KEY AUTO_INCREMENT,
     nombre_rol VARCHAR(40)
+)
 
 CREATE TABLE IF NOT EXISTS permisosUsuarios(
    id_permisosUsuarios INT PRIMARY KEY AUTO_INCREMENT,
@@ -266,4 +267,4 @@ CREATE TABLE IF NOT EXISTS usuario(
 );
 
 
-SHOW TABLEs;    
+SHOW TABLEs;
