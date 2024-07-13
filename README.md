@@ -11,3 +11,9 @@ tripulación.
 
 ## Modelo relacional remasterizado.
 ![]()
+
+## Shedule
+### Definicion de entidades/servicios.
+### Crear paquete de acceso como usuario.
+### Montar estructura del proyecto aplicacion hexagonal y vertical slice.
+### Registrar conexiones de cada entidad a la espera de ser llamadas.
