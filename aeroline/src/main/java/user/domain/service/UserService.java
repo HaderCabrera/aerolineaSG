@@ -3,6 +3,6 @@ package user.domain.service;
 import user.domain.entity.User;
 
 public interface UserService {
-    void consultarUser(User user);
+    User consultarUser(String user, String contraseña);
     void accederUser(User user);
 } 
