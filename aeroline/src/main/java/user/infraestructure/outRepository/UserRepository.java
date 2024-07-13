@@ -36,14 +36,13 @@ public class UserRepository implements UserService{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return user;
-        
     }
 
     @Override
     public void accederUser(User user) {
         // Logica de ACCEDER COMO USUARIO
+        System.out.println(user.getId_rolUsuario());
     }
 
 }
