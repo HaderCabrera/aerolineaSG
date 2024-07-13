@@ -1,6 +1,9 @@
-CREATE DATABASE aiport;
-DROP DATABASE IF EXISTS aiport;
-USE aiport;
+
+DROP DATABASE IF EXISTS railway;
+
+CREATE DATABASE railway;
+
+USE railway;
 
 CREATE TABLE IF NOT EXISTS tipoDocumento(
     id_tipo_documento INT PRIMARY KEY AUTO_INCREMENT,
