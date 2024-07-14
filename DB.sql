@@ -271,3 +271,8 @@ CREATE TABLE IF NOT EXISTS usuario(
 
 
 SHOW TABLEs;
+
+SELECT PU.nombre_permiso
+FROM permisosUsuarios AS PU
+INNER JOIN rol_permiso AS RP ON PU.id_permisosUsuarios = RP.id_permisosUsuarios
+WHERE RP.id_rolUsuario = ?;

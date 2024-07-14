@@ -1,6 +1,5 @@
 package user.application;
 
-
 import java.util.List;
 
 import user.domain.entity.User;
@@ -14,14 +13,11 @@ public class UserUseCase {
         this.userService = userService;
     }
     
-    public User consultarUser(String user, String contraseña){
-        return userService.consultarUser(user, contraseña);
-    }
     // IR A MODIFICAR CONTROLADOR
-    public void accederUser(User user){
-        userService.accederUser(user);
+    public User findUserCase(String user_name, String contraseña_user){
+        return userService.findUser(user_name, contraseña_user);
     }
-    public List<String> obtenerPermisosUserCase(int id_rolUsuario){
-        return userService.obtenerPermisosUser(id_rolUsuario);
+    public List<String> getPermisosCase(int id_rolUsuario){
+        return userService.getPermisos(id_rolUsuario);
     }
 }
