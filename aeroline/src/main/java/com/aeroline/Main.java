@@ -1,7 +1,5 @@
 package com.aeroline;
 
-
-
 import user.application.UserUseCase;
 
 import user.domain.service.UserService;
