@@ -30,7 +30,7 @@ public class UserController {
         boolean bandera0 = false;
 
         while (!bandera0) {
-            String[] opcionesMenuPrincipal = {"Iniciar sesión", "Acceder como cliente", "Salír"};
+            String[] opcionesMenuPrincipal = {"Iniciar Sesión", "Acceder Como Cliente", "Salír"};
             
             // Mostrar el menú principal
             JPanel panel = new JPanel();
@@ -46,28 +46,31 @@ public class UserController {
                 button.setAlignmentX(Component.CENTER_ALIGNMENT);
                 button.addActionListener(e -> {
                     switch (opcion) {
-                        case "Iniciar sesión":
+                        case "Iniciar Sesión":
                             List<String> datosAcceso  = vistaInicioSesion();
-                            
                             // Aquí puedes añadir la lógica para validar el usuario y la contraseña
                             User usuarioValidado = userUseCase.findUserCase(datosAcceso.get(0), datosAcceso.get(1));
+
                             if (usuarioValidado != null) {
                                 List<String> permisos = userUseCase.getPermisosCase(usuarioValidado.getId_rolUsuario());
                                 
                                 if (usuarioValidado.getId_rolUsuario() == 1) {
                                     mostrarSubMenuPaquetesPermisosAdmin(permisos);
                                 }  else if (usuarioValidado.getId_rolUsuario() == 3){
-                                    //mostrarSubMenuPaquetesPermisosVentas(permisos);
+                                    mostrarSubMenuPaquetesPermisosVendedor(permisos);
                                 } else {
                                     generarVistaUser(permisos);
                                 }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "USUARIO NO ENCONTRADO", "Not Connected", JOptionPane.WARNING_MESSAGE);
                             }
-                            
                             break;
-                        case "Acceder como cliente":
+
+                        case "Acceder Como Cliente":
                             List<String> permisos = userUseCase.getPermisosCase(2);
                             generarVistaUser(permisos);
                             break;
+
                         case "Salír":
                             JOptionPane.showMessageDialog(null, "Saliendo de la aplicación.");
                             System.exit(0);
@@ -81,9 +84,9 @@ public class UserController {
             JOptionPane.showOptionDialog(
                 null,
                 panel,
-                "Aeroline",
+                "Aeroline, Hight All The Time!",
                 JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
+                JOptionPane.PLAIN_MESSAGE,
                 null,
                 new Object[]{}, // Pasar un array vacío de opciones para que solo se muestre el panel
                 null
@@ -94,11 +97,12 @@ public class UserController {
 
     public List<String> vistaInicioSesion(){
          //Crear los componentes
-         JPanel panel = new JPanel(new GridLayout(2, 2, 15, 15));
+         JPanel panel = new JPanel(new GridLayout(2, 2, 1, 1));
          JLabel userLabel = new JLabel("Usuario:");
          JTextField userField = new JTextField();
          JLabel passLabel = new JLabel("Contraseña:");
          JPasswordField passField = new JPasswordField();
+         panel.setPreferredSize(new Dimension(20, 60));
 
          List<String> datosAcceso = new ArrayList<>();
  
@@ -112,9 +116,9 @@ public class UserController {
          int option = JOptionPane.showConfirmDialog(
              null, 
              panel, 
-             "Iniciar Sesión", 
+             "Airline, Hight All  The Time!", 
              JOptionPane.OK_CANCEL_OPTION, 
-             JOptionPane.PLAIN_MESSAGE
+             JOptionPane.QUESTION_MESSAGE
          );
  
         // Manejar la entrada del usuario
@@ -149,7 +153,7 @@ public class UserController {
         }
 
         // Definir las opciones del submenú de Gestión de Usuarios
-        String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Aeropuerto", "Gestionar Documento", "Volver"};
+        String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
@@ -182,7 +186,7 @@ public class UserController {
                         generarVistaUser(lstPermisoDocumento);
                         break;
 
-                    case "Volver":
+                    case "Menú Principal":
                         start();
                         break;
                 }
@@ -197,7 +201,83 @@ public class UserController {
             panel,
             "Gestión de Usuarios",
             JOptionPane.DEFAULT_OPTION,
-            JOptionPane.INFORMATION_MESSAGE,
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            new Object[]{}, // Pasar un array vacío de opciones para que solo se muestre el panel
+            null
+        );        
+    }
+
+    public void mostrarSubMenuPaquetesPermisosVendedor(List<String> permisos){
+        List<String> lstPermisoReserva = new ArrayList<>();
+        List<String> lstPermisoCliente = new ArrayList<>();
+
+        //Separando permisos por paquetes
+        for (String permiso: permisos) {
+            if (permiso.contains("cliente".toUpperCase())) {
+                lstPermisoCliente.add(permiso);
+            } else  if(permiso.contains("vuelo".toUpperCase()) || permiso.contains("reserva".toUpperCase())) {
+                lstPermisoReserva.add(permiso);
+            } 
+        }
+        // Definir las opciones del submenú de Gestión de Usuarios
+        String[] opcionesPaqueteAdmin = {"Gestionar Reserva", "Gestionar Cliente", "Consultar Asignacion De Tripulacion", "Consultar Escala De Un Trayecto", "Consultar Tarifa De Vuelo","Consultar Tipo De Documento", "Menú Principal"};
+
+        // Crear un panel con BoxLayout para organizar las opciones verticalmente
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        Dimension buttonSize = new Dimension(350, 30); // Tamaño fijo para todos los botones
+
+        // Agregar las opciones al panel
+        for (String opcion : opcionesPaqueteAdmin) {
+            JButton button = new JButton(opcion);
+            button.setPreferredSize(buttonSize);
+            button.setMaximumSize(buttonSize);
+            button.setMinimumSize(buttonSize);
+            button.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button.addActionListener(e -> {
+                switch (opcion) {
+                    case "Gestionar Reserva":
+                        generarVistaUser(lstPermisoReserva);    
+                        break;
+
+                    case "Gestionar Cliente":
+                        generarVistaUser(lstPermisoCliente);
+                        break;
+
+                    case "Consultar Asignacion De Tripulacion":
+                        ejecutarPermiso("CONSULTAR TRIPULACION A TRAYECTO");
+                        break;
+
+                    case "Consultar Escala De Un Trayecto":
+                        ejecutarPermiso("Consultar Escalas De Un Vuelo".toUpperCase());
+                        break;
+
+                    case "Consultar Tarifa De Vuelo":
+                        ejecutarPermiso("Consultar Tarifa De Vuelo".toUpperCase());
+                        break;
+
+                    case "Consultar Tipo De Documento":
+                        ejecutarPermiso("Consultar Tipo De Documento".toUpperCase());
+                        break;
+
+                    case "Menú Principal":
+                        start();
+                        break;
+                }
+            });
+            panel.add(button);
+            panel.add(Box.createRigidArea(new Dimension(0, 5))); // Espacio entre botones
+        }
+
+        // Mostrar el panel en un JOptionPane
+        JOptionPane.showOptionDialog(
+            null,
+            panel,
+            "Gestión de Usuarios",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.PLAIN_MESSAGE,
             null,
             new Object[]{}, // Pasar un array vacío de opciones para que solo se muestre el panel
             null
@@ -209,13 +289,13 @@ public class UserController {
         String[] opcionesUsuarios = permisos.toArray(new String[0]);
         String[] nuevasOpciones = new String[opcionesUsuarios.length + 1];
         System.arraycopy(opcionesUsuarios, 0, nuevasOpciones, 0, opcionesUsuarios.length);
-        nuevasOpciones[nuevasOpciones.length - 1] = "MENU PRINCIPAL";
+        nuevasOpciones[nuevasOpciones.length - 1] = "Menú Principal";
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        Dimension buttonSize = new Dimension(350, 30); // Tamaño fijo para todos los botones
+        Dimension buttonSize = new Dimension(450, 30); // Tamaño fijo para todos los botones
 
         // Agregar las opciones al panel
         for (String opcion : nuevasOpciones) {
@@ -235,9 +315,9 @@ public class UserController {
         JOptionPane.showOptionDialog(
             null,
             panel,
-            "Gestión de Usuarios",
+            "Airline, Higth All The Time!",
             JOptionPane.DEFAULT_OPTION,
-            JOptionPane.INFORMATION_MESSAGE,
+            JOptionPane.PLAIN_MESSAGE,
             null,
             new Object[]{}, // Pasar un array vacío de opciones para que solo se muestre el panel
             null
@@ -259,6 +339,9 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "ASIGNAR TRIPULACION A TRAYECTO":
+                System.out.println("SI LO TOMOA BIEN");
+                break;
+            case "CONSULTAR TRIPULACION A TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "CONSULTAR INFORMACION DE TRAYECTO":
@@ -366,7 +449,7 @@ public class UserController {
             case "MOSTRAR DETALLES DE LA RESERVA":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "MENU PRINCIPAL":
+            case "Menú Principal":
                 start();                
                 break;
             default:
