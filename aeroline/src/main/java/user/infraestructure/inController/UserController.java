@@ -12,6 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import avion.application.AvionUseCase;
+import avion.domain.service.AvionService;
+import avion.infraestructure.inController.AvionController;
+import avion.infraestructure.outRepository.AvionRepository;
+
 import java.awt.*;
 
 import user.application.UserUseCase;
@@ -92,7 +97,6 @@ public class UserController {
                 null
             );
         }
-
     }
 
     public List<String> vistaInicioSesion(){
@@ -327,7 +331,12 @@ public class UserController {
    public void ejecutarPermiso(String permiso){
         switch (permiso) {
             case "REGISTRAR AVION":
-                System.out.println("SI LO TOMOA BIEN");
+                AvionService avionService = new AvionRepository();
+                AvionUseCase avionUseCase = new AvionUseCase(avionService);
+                AvionController avionController = new AvionController(avionUseCase);
+                avionController.ingresarDatosRegistro();
+                avionUseCase.registrarAvion(null);
+
                 break;
             case "CONSULTAR INFORMACION DE AVION":
                 System.out.println("SI LO TOMOA BIEN");
