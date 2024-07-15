@@ -3,10 +3,10 @@ package detallevuelo.domain.service;
 import detallevuelo.domain.entity.DetalleVuelo;
 
 public interface DetalleVueloService {
-    DetalleVuelo consultarDetalleVuelo(String id_vuelo);
-    void eliminarDetalleVuelo(String numero_vuelo);
-    DetalleVuelo actualizarDetallevulo();
-    DetalleVuelo consultarInfoTripulacion(String id_empleado);
-    DetalleVuelo editarEscalaVuelo();
+    DetalleVuelo consultarDetalleVuelo(int id_vuelo);
+    void eliminarDetalleVuelo(int id_detalle_vuelo);
+    // Esto ya inluye otra tabla que es EMPLEADO-DETALLEVUELO
+    DetalleVuelo consultarInfoTripulacion(int id_empleado);
+    DetalleVuelo editarEscalaVuelo(int id_escala);
     
 }
