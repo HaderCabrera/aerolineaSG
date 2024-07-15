@@ -5,14 +5,17 @@ import java.sql.Date;
 public class Avion {
     private int id_avion;
     private String placa_identificacion;
+    private int capacidad;
     private Date fabricacion_fecha;
     private int id_estado;
     private int id_modelo;
     public Avion() {
     }
-    public Avion(int id_avion, String placa_identificacion, Date fabricacion_fecha, int id_estado, int id_modelo) {
+    public Avion(int id_avion, String placa_identificacion, int capacidad, Date fabricacion_fecha, int id_estado,
+            int id_modelo) {
         this.id_avion = id_avion;
         this.placa_identificacion = placa_identificacion;
+        this.capacidad = capacidad;
         this.fabricacion_fecha = fabricacion_fecha;
         this.id_estado = id_estado;
         this.id_modelo = id_modelo;
@@ -28,6 +31,12 @@ public class Avion {
     }
     public void setPlaca_identificacion(String placa_identificacion) {
         this.placa_identificacion = placa_identificacion;
+    }
+    public int getCapacidad() {
+        return capacidad;
+    }
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
     }
     public Date getFabricacion_fecha() {
         return fabricacion_fecha;

@@ -334,52 +334,65 @@ public class UserController {
                 AvionService avionService = new AvionRepository();
                 AvionUseCase avionUseCase = new AvionUseCase(avionService);
                 AvionController avionController = new AvionController(avionUseCase);
-                avionController.ingresarDatosRegistro();
-                avionUseCase.registrarAvion(null);
-
+                avionController.registrarAvion();
                 break;
+
             case "CONSULTAR INFORMACION DE AVION":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ACTUALIZAR INFORMACION DE AVION":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ELIMINAR AVION":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ASIGNAR TRIPULACION A TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "CONSULTAR TRIPULACION A TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "CONSULTAR INFORMACION DE TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ASIGNAR AERONAVE A TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ACTUALIZAR INFORMACION DE TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ELIMINAR ESCALA":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "REGISTRAR AEROPUERTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "CONSULTAR INFORMACION DE AEROPUERTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ACTUALIZAR INFORMACION DE AEROPUERTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ELIMINAR AEROPUERTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "CONSULTAR INFORMACION VUELO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+                
             case "CONSULTAR ESCALAS DE UN VUELO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
