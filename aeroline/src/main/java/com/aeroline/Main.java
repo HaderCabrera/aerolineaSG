@@ -17,6 +17,7 @@ public class Main {
         UserUseCase userUseCase = new UserUseCase(userService);
         UserController userController = new UserController(userUseCase);
         userController.start();
+        
         // VueloService vueloService = new VueloRepository();
         // VueloUseCase vueloUseCase = new VueloUseCase(vueloService);
         // Vuelocontroller vueloController = new Vuelocontroller(vueloUseCase);
