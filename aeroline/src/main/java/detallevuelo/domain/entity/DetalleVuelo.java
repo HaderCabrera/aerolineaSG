@@ -1,7 +1,7 @@
 package detallevuelo.domain.entity;
 
 public class DetalleVuelo {
-    
+    private int id_detalle_vuelo;
     private int id_vuelo;
     private int id_escala;
     private int id_puesto;
@@ -11,7 +11,8 @@ public class DetalleVuelo {
 
     }
 
-    public DetalleVuelo(int id_vuelo, int id_escala, int id_puesto) {
+    public DetalleVuelo(int id_detalle_vuelo, int id_vuelo, int id_escala, int id_puesto) {
+        this.id_detalle_vuelo = id_detalle_vuelo;
         this.id_vuelo = id_vuelo;
         this.id_escala = id_escala;
         this.id_puesto = id_puesto;
@@ -45,6 +46,14 @@ public class DetalleVuelo {
 
     public void setId_puesto(int id_puesto) {
         this.id_puesto = id_puesto;
+    }
+
+    public int getId_detalle_vuelo() {
+        return id_detalle_vuelo;
+    }
+
+    public void setId_detalle_vuelo(int id_detalle_vuelo) {
+        this.id_detalle_vuelo = id_detalle_vuelo;
     }
 
     

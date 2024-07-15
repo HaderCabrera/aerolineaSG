@@ -12,7 +12,7 @@ tripulación.
 
 ## Modelo relacional remasterizado.
 
-![]()
+![](./img/modelorelacional.jpg)
 
 ## Shedule
 
