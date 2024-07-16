@@ -16,6 +16,11 @@ import avion.application.AvionUseCase;
 import avion.domain.service.AvionService;
 import avion.infraestructure.inController.AvionController;
 import avion.infraestructure.outRepository.AvionRepository;
+import detallevuelo.application.DetalleVueloUseCase;
+import detallevuelo.domain.entity.DetalleVuelo;
+import detallevuelo.domain.service.DetalleVueloService;
+import detallevuelo.infraestructure.inController.DetallevueloController;
+import detallevuelo.infraestructure.outRepository.DetalleVueloRepository;
 
 import java.awt.*;
 
@@ -354,6 +359,10 @@ public class UserController {
                 break;
 
             case "CONSULTAR TRIPULACION A TRAYECTO":
+                DetalleVueloService detalleVueloService = new DetalleVueloRepository();
+                DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
+                DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
+                detallevueloController.consultarDetalleVuelo();
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 

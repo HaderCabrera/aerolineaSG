@@ -7,6 +7,7 @@ public interface DetalleVueloService {
     void eliminarDetalleVuelo(int id_detalle_vuelo);
     // Esto ya inluye otra tabla que es EMPLEADO-DETALLEVUELO
     DetalleVuelo consultarInfoTripulacion(int id_empleado);
+    DetalleVuelo asignarEmpleadoTripulacion(int id_empleado);
     DetalleVuelo editarEscalaVuelo(int id_escala);
     
 }
