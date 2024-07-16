@@ -2,17 +2,20 @@ package revision.infraestructure.inController;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import avion.domain.entity.Avion;
+
 import revision.application.RevisionUseCase;
 import revision.domain.entity.Revision;
+import revision.domain.service.RevisionEmpleadoService;
+import revisionEmpleado.application.RevisionEmpleadoUseCase;
+import revisionEmpleado.infraestructure.inController.RevisionEmpleadoController;
+import revisionEmpleado.infraestructure.outRepository.RevisionEmpleadoRepository;
 
 public class RevisionController {
     private final RevisionUseCase revisionUseCase;
@@ -22,7 +25,17 @@ public class RevisionController {
     }
     
     public void registrarRevision(){
-
+        Revision revision = solicitarDatosRegistro();
+        Long confirmacion = revisionUseCase.registrarRevision(revision);
+        
+        //Logica para registrar la revision a un empleado
+        if (confirmacion != 0) {
+            //PENDIENTE LOGICA DE REGISTRAR EN ENTIDAD revision_empleado
+            RevisionEmpleadoService revisionEmpleadoService = new RevisionEmpleadoRepository();
+            RevisionEmpleadoUseCase revisionEmpleadoUseCase = new RevisionEmpleadoUseCase(revisionEmpleadoService);
+            RevisionEmpleadoController revisionEmpleadoController = new RevisionEmpleadoController(revisionEmpleadoUseCase);
+            revisionEmpleadoController.registrarRevisionEmpleado(null);
+        } 
     }
 
     public Revision solicitarDatosRegistro(){

@@ -2,7 +2,10 @@ package revision.infraestructure.outRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
 
 import com.aeroline.DatabaseConfig;
 
@@ -12,28 +15,40 @@ import revision.domain.service.RevisionService;
 public class RevisionRepository implements RevisionService {
 
     @Override
-    public boolean registrarRevision(Revision revision) {
-                String sql = "INSERT INTO revision (placa_identificacion, capacidad, fabricacion_fecha, id_estado, id_modelo)\n" + //
-                        "VALUES (?, ?, ?, ?, ?);\n" + //
-                        "";
+    public Long registrarRevision(Revision revision) {
+                String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip) VALUES \n" + //
+                            "(?, ?, ?);\n" + //
+                            "";
 
         try (Connection connection = DatabaseConfig.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql,
                         PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            // statement.setString(1, re.getPlaca_identificacion());
-            // statement.setInt(2   , avion.getCapacidad());
-            // statement.setDate(3, avion.getFabricacion_fecha());
-            // statement.setInt(4, avion.getId_estado());
-            // statement.setInt(5, avion.getId_modelo());
+            statement.setString(1, revision.getFecha_revision());
+            statement.setInt(2, revision.getId_avion());
+            statement.setString(3, revision.getDescrip());
             statement.executeUpdate();
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    Long idRevision = generatedKeys.getLong(1);
+
+                    //Confirmacion de registro
+                    String mensaje = "Registro Exitoso!";
+                    JOptionPane.showMessageDialog(null, mensaje, "Confirm", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    return idRevision;
+                } 
+            }
 
         } catch (SQLException e) { 
             e.printStackTrace();
-            return false;
+            String mensaje = "Registro Fallido!"; 
+            JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.WARNING_MESSAGE);
+            return 0L;
         }
         
-        return true;
+        return 0L;
     }
 
 }
