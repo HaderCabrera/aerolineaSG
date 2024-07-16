@@ -1,4 +1,4 @@
-package avion.infraestructure.outRepository;
+package revision.infraestructure.outRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,14 +6,14 @@ import java.sql.SQLException;
 
 import com.aeroline.DatabaseConfig;
 
-import avion.domain.entity.Avion;
-import avion.domain.service.AvionService;
+import revision.domain.entity.Revision;
+import revision.domain.service.RevisionService;
 
-public class AvionRepository implements AvionService{
+public class RevisionRepository implements RevisionService {
 
     @Override
-    public boolean registrarAvion(Avion avion) {
-        String sql = "INSERT INTO avion (placa_identificacion, capacidad, fabricacion_fecha, id_estado, id_modelo)\n" + //
+    public boolean registrarRevision(Revision revision) {
+                String sql = "INSERT INTO revision (placa_identificacion, capacidad, fabricacion_fecha, id_estado, id_modelo)\n" + //
                         "VALUES (?, ?, ?, ?, ?);\n" + //
                         "";
 
@@ -21,7 +21,7 @@ public class AvionRepository implements AvionService{
                 PreparedStatement statement = connection.prepareStatement(sql,
                         PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, avion.getPlaca_identificacion());
+            statement.setString(1, re.getPlaca_identificacion());
             statement.setInt(2   , avion.getCapacidad());
             statement.setDate(3, avion.getFabricacion_fecha());
             statement.setInt(4, avion.getId_estado());

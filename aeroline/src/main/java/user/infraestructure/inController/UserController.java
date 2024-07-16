@@ -72,7 +72,7 @@ public class UserController {
                                     generarVistaUser(permisos);
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null, "USUARIO NO ENCONTRADO", "Not Connected", JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Usuario No Registrado", "Not Connected", JOptionPane.WARNING_MESSAGE);
                             }
                             break;
 
@@ -301,7 +301,7 @@ public class UserController {
         nuevasOpciones[nuevasOpciones.length - 1] = "Menú Principal";
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel();    
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         Dimension buttonSize = new Dimension(450, 30); // Tamaño fijo para todos los botones
