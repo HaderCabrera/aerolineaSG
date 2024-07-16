@@ -79,8 +79,19 @@ CREATE TABLE IF NOT EXISTS estadoAvion (
 CREATE TABLE IF NOT EXISTS revision (
     id_revision INT PRIMARY KEY AUTO_INCREMENT,
     fecha_revision VARCHAR(12) NOT NULL,
-    descrip TEXT NOT NULL
+    id_avion INT NOT NULL,
+    descrip TEXT NOT NULL,
+Foreign Key (id_avion) REFERENCES avion (id_avion)
 );
+
+CREATE TABLE IF NOT EXISTS revision_empleado(
+	id_revision INT NOT NULL,
+    id_empleado VARCHAR(20) NOT NULL,
+    FOREIGN KEY (id_revision) REFERENCES revision(id_revision),
+	FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),  
+    PRIMARY KEY(id_revision, id_empleado)
+);
+
 CREATE TABLE IF NOT EXISTS avion (
     id_avion INT PRIMARY KEY AUTO_INCREMENT,
     placa_identificacion VARCHAR(30) NOT NULL,
@@ -88,12 +99,9 @@ CREATE TABLE IF NOT EXISTS avion (
     fabricacion_fecha VARCHAR(12) NOT NULL,
     id_estado INT NOT NULL,
     id_modelo INT NOT NULL,
-    id_revision INT NOT NULL,
     Foreign Key (id_estado) REFERENCES estadoAvion (id_estado),
-    Foreign Key (id_modelo) REFERENCES modelo (id_modelo),
-    Foreign Key (id_revision) REFERENCES revision(id_revision)
+    Foreign Key (id_modelo) REFERENCES modelo (id_modelo)
 );
-
 
 CREATE TABLE IF NOT EXISTS vuelo (
     id_vuelo INT AUTO_INCREMENT PRIMARY KEY,
@@ -110,11 +118,13 @@ CREATE TABLE IF NOT EXISTS vuelo (
  vuelo_id: Este campo es una clave foránea que referencia a la tabla de Vuelos, indicando a qué vuelo pertenece la escala.
  aeropuerto_id: Este campo es una clave foránea que referencia a la tabla de Aeropuertos, indicando en qué aeropuerto se realiza la escala.
  */
-CREATE TABLE escala (
-    id_escala INT AUTO_INCREMENT PRIMARY KEY,
-    id_vuelo INT NOT NULL,
-    FOREIGN KEY (id_vuelo) REFERENCES vuelo (id_vuelo)
+CREATE TABLE IF NOT EXISTS escala(
+    id_vuelo INT,
+    id_detalle_vuelo INT NOT NULL,
+    Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
+    Foreign Key (id_detalle_vuelo) REFERENCES detalle_vuelo(id_detalle_vuelo)
 );
+
 CREATE TABLE IF NOT EXISTS estadoPuesto (
     id_estadoPuesto INT PRIMARY KEY AUTO_INCREMENT,
     nombre_estado_puesto VARCHAR(50) NOT NULL
@@ -130,13 +140,7 @@ CREATE TABLE IF NOT EXISTS detalle_vuelo (
     id_puesto INT NOT NULL,
     Foreign Key (id_puesto) REFERENCES puesto (id_puesto)
 );
--- CREAXCION DE TABLA ESCALA COMO TABLA INTERMEDIA DE DETALLE_VUELO Y vUELO
-CREATE TABLE IF NOT EXISTS escala(
-    id_escala INT,
-    id_vuelo INT NOT NULL,
-    Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
-    Foreign Key (id_escala) REFERENCES escala(id_escala)
-);
+
 CREATE TABLE IF NOT EXISTS tripulacionvuelo_empleado (
     id_empleado VARCHAR(20) NOT NULL,
     id_detalle_vuelo INT NOT NULL,
@@ -200,16 +204,16 @@ CREATE TABLE factura_Neta (
     FOREIGN KEY (id_metodoPago) REFERENCES metodoPago (id_metodoPago),
     Foreign Key (id_pago) REFERENCES pago (id_pago)
 );
---CREACION USERS AEREOPUERTO
+-- CREACION USERS AEREOPUERTO
 CREATE TABLE IF NOT EXISTS rolUsuario (
     id_rolUsuario INT PRIMARY KEY AUTO_INCREMENT,
     nombre_rol VARCHAR(40)
 );
 CREATE TABLE IF NOT EXISTS permisosUsuarios (
     id_permisosUsuarios INT PRIMARY KEY AUTO_INCREMENT,
-    nombre_permiso VARCHAR(50),
-    descripcion_permiso TEXT
+    nombre_permiso VARCHAR(50)
 );
+
 CREATE TABLE IF NOT EXISTS rol_permiso (
     id_rolUsuario INT NOT NULL,
     id_permisosUsuarios INT NOT NULL,

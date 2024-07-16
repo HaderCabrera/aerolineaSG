@@ -10,8 +10,8 @@ public class RevisionUseCase {
         this.revisionService = revisionService;
     }
     
-    Boolean registrarRevision(Revision revision){
-        Boolean confirmacion = revisionService.registrarRevision(revision);
+    public Long registrarRevision(Revision revision){
+        Long confirmacion = revisionService.registrarRevision(revision);
         return confirmacion;
     }
 }

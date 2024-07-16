@@ -20,6 +20,10 @@ import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.service.DetalleVueloService;
 import detallevuelo.infraestructure.inController.DetallevueloController;
 import detallevuelo.infraestructure.outRepository.DetalleVueloRepository;
+import revision.application.RevisionUseCase;
+import revision.domain.service.RevisionService;
+import revision.infraestructure.inController.RevisionController;
+import revision.infraestructure.outRepository.RevisionRepository;
 
 import java.awt.*;
 
@@ -446,7 +450,10 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Registrar Revision Mantenimiento":
-                System.out.println("SI LO TOMOA BIEN");
+                RevisionService revisionService = new RevisionRepository();
+                RevisionUseCase revisionUseCase = new RevisionUseCase(revisionService);
+                RevisionController revisionController = new RevisionController(revisionUseCase);
+                revisionController.registrarRevision();
                 break;
             case "Historico De Revisiones En Avion":
                 System.out.println("SI LO TOMOA BIEN");
