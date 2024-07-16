@@ -17,7 +17,6 @@ import avion.domain.service.AvionService;
 import avion.infraestructure.inController.AvionController;
 import avion.infraestructure.outRepository.AvionRepository;
 import detallevuelo.application.DetalleVueloUseCase;
-import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
 import detallevuelo.infraestructure.inController.DetallevueloController;
 import detallevuelo.infraestructure.outRepository.DetalleVueloRepository;
@@ -150,13 +149,13 @@ public class UserController {
 
         //Separando permisos por paquetes
         for (String permiso: permisos) {
-            if (permiso.contains("avion".toUpperCase())) {
+            if (permiso.contains("Avion")) {
                 lstPermisoAvion.add(permiso);
-            } else if (permiso.contains("vuelo".toUpperCase()) || permiso.contains("trayecto".toUpperCase()) || permiso.contains("escala".toUpperCase())) {
+            } else if (permiso.contains("Vuelo") || permiso.contains("Trayecto".toUpperCase()) || permiso.contains("Escala".toUpperCase())) {
                 lstPermisoVuelo.add(permiso);
-            } else if (permiso.contains("documento".toUpperCase())) {
+            } else if (permiso.contains("Documento")) {
                 lstPermisoDocumento.add(permiso);
-            } else if (permiso.contains("aeropuerto".toUpperCase())) {
+            } else if (permiso.contains("Aeropuerto")) {
                 lstPermisoAeropuerto.add(permiso);
             }
         }
@@ -223,14 +222,14 @@ public class UserController {
 
         //Separando permisos por paquetes
         for (String permiso: permisos) {
-            if (permiso.contains("cliente".toUpperCase())) {
+            if (permiso.contains("Cliente")) {
                 lstPermisoCliente.add(permiso);
-            } else  if(permiso.contains("vuelo".toUpperCase()) || permiso.contains("reserva".toUpperCase())) {
+            } else  if(permiso.contains("Vuelo") || permiso.contains("Reserva")) {
                 lstPermisoReserva.add(permiso);
             } 
         }
         // Definir las opciones del submenú de Gestión de Usuarios
-        String[] opcionesPaqueteAdmin = {"Gestionar Reserva", "Gestionar Cliente", "Consultar Asignacion De Tripulacion", "Consultar Escala De Un Trayecto", "Consultar Tarifa De Vuelo","Consultar Tipo De Documento", "Menú Principal"};
+        String[] opcionesPaqueteAdmin = {"Gestionar Vuelo", "Gestionar Cliente", "Consultar Asignacion De Tripulacion", "Consultar Tarifa De Vuelo","Consultar Tipo De Documento", "Menú Principal"};
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
@@ -247,7 +246,7 @@ public class UserController {
             button.setAlignmentX(Component.CENTER_ALIGNMENT);
             button.addActionListener(e -> {
                 switch (opcion) {
-                    case "Gestionar Reserva":
+                    case "Gestionar Vuelo":
                         generarVistaUser(lstPermisoReserva);    
                         break;
 
@@ -256,19 +255,15 @@ public class UserController {
                         break;
 
                     case "Consultar Asignacion De Tripulacion":
-                        ejecutarPermiso("CONSULTAR TRIPULACION A TRAYECTO");
+                        ejecutarPermiso("Consultar Tripulacion De Trayecto");
                         break;
 
                     case "Consultar Escala De Un Trayecto":
-                        ejecutarPermiso("Consultar Escalas De Un Vuelo".toUpperCase());
-                        break;
-
-                    case "Consultar Tarifa De Vuelo":
-                        ejecutarPermiso("Consultar Tarifa De Vuelo".toUpperCase());
+                        ejecutarPermiso("Consultar Escalas De Vuelo");
                         break;
 
                     case "Consultar Tipo De Documento":
-                        ejecutarPermiso("Consultar Tipo De Documento".toUpperCase());
+                        ejecutarPermiso("Consultar Tipo Documento");
                         break;
 
                     case "Menú Principal":
@@ -335,30 +330,30 @@ public class UserController {
 
    public void ejecutarPermiso(String permiso){
         switch (permiso) {
-            case "REGISTRAR AVION":
+            case "Registrar Avion":
                 AvionService avionService = new AvionRepository();
                 AvionUseCase avionUseCase = new AvionUseCase(avionService);
                 AvionController avionController = new AvionController(avionUseCase);
                 avionController.registrarAvion();
                 break;
 
-            case "CONSULTAR INFORMACION DE AVION":
+            case "Consultar Informacion De Avion":
+                System.out.println("SI LO TOMOA BIEN"); 
+                break;
+
+            case "Actualizar Informacion De Avion":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "ACTUALIZAR INFORMACION DE AVION":
+            case "Eliminar Avion":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "ELIMINAR AVION":
+            case "Asignar Tripulacion A Trayecto":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "ASIGNAR TRIPULACION A TRAYECTO":
-                System.out.println("SI LO TOMOA BIEN");
-                break;
-
-            case "CONSULTAR TRIPULACION A TRAYECTO":
+            case "Consultar Tripulacion De Trayecto":
                 DetalleVueloService detalleVueloService = new DetalleVueloRepository();
                 DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
                 DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
@@ -366,118 +361,136 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "CONSULTAR INFORMACION DE TRAYECTO":
+            case "Consultar Informacion De Trayecto":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "ASIGNAR AERONAVE A TRAYECTO":
+            case "Asignar Aeronave A Trayecto":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "ACTUALIZAR INFORMACION DE TRAYECTO":
+            case "Actualizar Informacion De Trayecto":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "ELIMINAR ESCALA":
+            case "Eliminar Escala":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "REGISTRAR AEROPUERTO":
+            case "Registrar Aeropuerto":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "CONSULTAR INFORMACION DE AEROPUERTO":
+            case "Consultar Informacion De Aeronave":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "ACTUALIZAR INFORMACION DE AEROPUERTO":
+            case "Actualizar Informacion De Aeropuerto":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "ELIMINAR AEROPUERTO":
+            case "Eliminar Aeropuerto":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
-            case "CONSULTAR INFORMACION VUELO":
+            case "Consultar Informacion De Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
                 
-            case "CONSULTAR ESCALAS DE UN VUELO":
+            case "Consultar Escalas De Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "REGISTRAR TARIFA DE VUELO":
+            case "Registrar Tarifa De Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ACTUALIZAR INFORMACION DE TARIFA DE VUELO":
+            case "Actualizar Informacion Tarifa De Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ELIMINAR TARIFA DE VUELO":
+            case "Eliminar Tarifa De Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "CONSULTAR TARIFA DE VUELO":
+            case "Consultar Tarifa De Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "BUSCAR VUELO":
+            case "Buscar Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "SELECCIONAR VUELO":
+            case "Seleccionar Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "REGISTRAR TIPO DE DOCUMENTO":
+            case "Registrar Tipo Documento":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ACTUALIZAR TIPO DE DOCUMENTO":
+            case "Actualizar Tipo Documento":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ELIMINAR TIPO DE DOCUMENTO":
+            case "Eliminar Tipo Documento":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "CONSULTAR TIPO DE DOCUMENTO":
+            case "Consultar Tipo Documento":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "REALIZAR PAGO":
+            case "Realizar Pago":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "REGISTRAR RESERVA DE VUELO":
+            case "Registrar Reserva Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "CONSULTAR INFORMACION DEL CLIENTE":
+            case "Consultar Informacion Cliente":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ACTUALIZAR INFORMACION DEL CLIENTE":
+            case "Actualizar Informacion Cliente":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ELIMINAR CLIENTE":
+            case "Eliminar Cliente":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "REGISTRAR REVISION DE MANTENIMIENTO":
+            case "Registrar Revision Mantenimiento":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "CONSULTAR HISTORIAL DE REVISIONES DE AVIONES":
+            case "Historico De Revisiones En Avion":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ACTUALIZAR INFORMACION DE REVISION":
+            case "Actualizar Informacion Revision":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ELIMINAR REVISION DE MANTENIMIENTO":
+            case "Eliminar Revision Mantenimiento":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "MODIFICAR ESTADO RESERVA":
+            case "Modificar Estado Reserva":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "ELIMINAR RESERVA DE VUELO":
+            case "Eliminar Reserva Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "CONSULTAR RESERVA DE VUELO":
+            case "Consultar Reserva Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "LISTAR RESERVA":
+            case "Listar Reservas":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "CREAR RESERVA DE VUELO":
+            case "Crear Reserva Vuelo":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "MOSTRAR DETALLES DE LA RESERVA":
+            case "Mostrar Detalles Reserva":
+                System.out.println("SI LO TOMOA BIEN");
+                break;
+            case "Consultar Informacion De Aeropuerto":
+                System.out.println("SI LO TOMOA BIEN");
+                break;
+            case "Eliminar Trayecto":
+                System.out.println("SI LO TOMOA BIEN");
+                break;
+            case "Actualizar Informacion De Escala":
+                System.out.println("SI LO TOMOA BIEN");
+                break;
+            case "Añadir Pasajero":
+                System.out.println("SI LO TOMOA BIEN");
+                break;
+            case "Seleccionar Asiento":
+                System.out.println("SI LO TOMOA BIEN");
+                break;
+            case "Registrar Cliente":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Menú Principal":

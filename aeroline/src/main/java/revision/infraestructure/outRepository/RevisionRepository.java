@@ -21,11 +21,11 @@ public class RevisionRepository implements RevisionService {
                 PreparedStatement statement = connection.prepareStatement(sql,
                         PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, re.getPlaca_identificacion());
-            statement.setInt(2   , avion.getCapacidad());
-            statement.setDate(3, avion.getFabricacion_fecha());
-            statement.setInt(4, avion.getId_estado());
-            statement.setInt(5, avion.getId_modelo());
+            // statement.setString(1, re.getPlaca_identificacion());
+            // statement.setInt(2   , avion.getCapacidad());
+            // statement.setDate(3, avion.getFabricacion_fecha());
+            // statement.setInt(4, avion.getId_estado());
+            // statement.setInt(5, avion.getId_modelo());
             statement.executeUpdate();
 
         } catch (SQLException e) { 
