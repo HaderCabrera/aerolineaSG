@@ -23,6 +23,5 @@ public class Main {
         // vueloController.start();
 
         //SIMPLEMENTE INSERTANDO DATOS A FALTA DE DATABASE
-      
     }
 }
