@@ -20,51 +20,50 @@ public class AvionController {
         this.avionUseCase = avionUseCase;
     }
 
-    /*Metodos*/
+    /* Metodos */
 
-    public void registrarAvion(){
+    public void registrarAvion() {
         Avion avion = solicitarDatosRegistro();
         avionUseCase.registrarAvion(avion);
     }
 
-    public Avion solicitarDatosRegistro(){
+    public Avion solicitarDatosRegistro() {
 
         Avion avion = new Avion();
 
-         //Crear los componentes
-         JPanel panel = new JPanel(new GridLayout(5, 2, 5, 1));
-         JLabel placaLabel = new JLabel("Placa de identificación:");
-         JTextField placaField = new JTextField();
-         JLabel capacidadLabel = new JLabel("Capacidad:");
-         JTextField capacidadField = new JTextField();
-         JLabel fechaLabel = new JLabel("Fabricado (AAAA-MM-DD):");
-         JTextField fechaField = new JTextField();
-         JLabel estadoLabel = new JLabel("Id estado:");
-         JTextField estadoField = new JTextField();
-         JLabel modeloLabel = new JLabel("Id modelo:");
-         JTextField modeloField = new JTextField();
-         panel.setPreferredSize(new Dimension(450, 120));
+        // Crear los componentes
+        JPanel panel = new JPanel(new GridLayout(5, 2, 5, 1));
+        JLabel placaLabel = new JLabel("Placa de identificación:");
+        JTextField placaField = new JTextField();
+        JLabel capacidadLabel = new JLabel("Capacidad:");
+        JTextField capacidadField = new JTextField();
+        JLabel fechaLabel = new JLabel("Fabricado (AAAA-MM-DD):");
+        JTextField fechaField = new JTextField();
+        JLabel estadoLabel = new JLabel("Id estado:");
+        JTextField estadoField = new JTextField();
+        JLabel modeloLabel = new JLabel("Id modelo:");
+        JTextField modeloField = new JTextField();
+        panel.setPreferredSize(new Dimension(450, 120));
 
-         // Añadir los componentes al panel
-         panel.add(placaLabel);
-         panel.add(placaField);
-         panel.add(capacidadLabel);
-         panel.add(capacidadField);
-         panel.add(fechaLabel);
-         panel.add(fechaField);
-         panel.add(estadoLabel);
-         panel.add(estadoField);
-         panel.add(modeloLabel);
-         panel.add(modeloField);
-         // Mostrar el panel en un JOptionPane
-         int option = JOptionPane.showConfirmDialog(
-             null, 
-             panel, 
-             "Airline, Hight All  The Time!", 
-             JOptionPane.OK_CANCEL_OPTION, 
-             JOptionPane.QUESTION_MESSAGE
-         );
- 
+        // Añadir los componentes al panel
+        panel.add(placaLabel);
+        panel.add(placaField);
+        panel.add(capacidadLabel);
+        panel.add(capacidadField);
+        panel.add(fechaLabel);
+        panel.add(fechaField);
+        panel.add(estadoLabel);
+        panel.add(estadoField);
+        panel.add(modeloLabel);
+        panel.add(modeloField);
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+                null,
+                panel,
+                "Airline, Hight All  The Time!",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
         // Manejar la entrada del usuario
         if (option == JOptionPane.OK_OPTION) {
 
@@ -78,30 +77,30 @@ public class AvionController {
                 avion.setCapacidad(Integer.parseInt(capacidad));
                 avion.setId_estado(Integer.parseInt(id_estado));
                 avion.setId_modelo(Integer.parseInt(id_modelo));
-                
+
                 String dateFormatPattern = "yyyy-MM-dd";
                 SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatPattern);
                 try {
                     // Convertir el String a java.util.Date
                     Date utilDate = dateFormat.parse(dateString);
-    
+
                     // Convertir java.util.Date a java.sql.Date
                     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-    
+
                     // Aquí puedes enviar `sqlDate` a la base de datos
                     avion.setFabricacion_fecha(sqlDate);
-    
+
                 } catch (Exception e) {
                     System.out.println("Formato de fecha incorrecto, lea mano!");
                 }
             } catch (Exception e) {
                 System.out.println("Formatos invalidos, Try Again!" + e);
             }
-          
+
         } else {
             System.out.println("Registro de avión cancelado.");
         }
-        
+
         return avion;
     }
 
