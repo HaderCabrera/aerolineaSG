@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 import avion.application.AvionUseCase;
 import avion.domain.entity.Avion;
 
@@ -24,7 +25,16 @@ public class AvionController {
 
     public void registrarAvion() {
         Avion avion = solicitarDatosRegistro();
-        avionUseCase.registrarAvion(avion);
+        boolean confirmacion = avionUseCase.registrarAvion(avion);
+        
+        if (confirmacion) {
+            String mensaje = "Registro Exitoso!";
+            JOptionPane.showMessageDialog(null, mensaje, "Confirm", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            String mensaje = "Registro Fallido!";   
+            JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.WARNING_MESSAGE);
+        }
+
     }
 
     public Avion solicitarDatosRegistro() {
