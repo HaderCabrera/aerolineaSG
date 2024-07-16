@@ -9,23 +9,23 @@ public class DatabaseConfig {
 
     // RAILWAY 
     
-    // private static final String URL = "jdbc:mysql://monorail.proxy.rlwy.net:25239/railway";
-    // private static final String USER = "root";
-    // private static final String PASSWORD = "aCnubcljtlOQUMjOYFHnHCeAKeWJMehP";
-
-    // public static Connection getConnection() throws SQLException {
-    //     return DriverManager.getConnection(URL, USER, PASSWORD);
-    // }
-
-    // MYSQL 
-
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/railway";
+    private static final String URL = "jdbc:mysql://roundhouse.proxy.rlwy.net:41600/railway";
     private static final String USER = "root";
-    private static final String PASSWORD = "juandavidgomez15@";
+    private static final String PASSWORD = "FtjNcJYULtcbURPVLBrmAReMgZcdLjAK";
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
+
+    // MYSQL 
+
+    // private static final String URL = "jdbc:mysql://127.0.0.1:3306/railway";
+    // private static final String USER = "root";
+    // private static final String PASSWORD = "juandavidgomez15@";
+
+    // public static Connection getConnection() throws SQLException {
+    //     return DriverManager.getConnection(URL, USER, PASSWORD);
+    // }
 
 
 }
