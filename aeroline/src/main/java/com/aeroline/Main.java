@@ -12,7 +12,6 @@ import user.infraestructure.outRepository.UserRepository;
 
 public class Main {
     public static void main(String[] args) {
-
         UserService userService = new UserRepository();
         UserUseCase userUseCase = new UserUseCase(userService);
         UserController userController = new UserController(userUseCase);
@@ -22,8 +21,8 @@ public class Main {
         // VueloUseCase vueloUseCase = new VueloUseCase(vueloService);
         // Vuelocontroller vueloController = new Vuelocontroller(vueloUseCase);
         // vueloController.start();
+
+        //SIMPLEMENTE INSERTANDO DATOS A FALTA DE DATABASE
       
     }
 }
-
-

@@ -12,6 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import avion.application.AvionUseCase;
+import avion.domain.service.AvionService;
+import avion.infraestructure.inController.AvionController;
+import avion.infraestructure.outRepository.AvionRepository;
+
 import java.awt.*;
 
 import user.application.UserUseCase;
@@ -92,7 +97,6 @@ public class UserController {
                 null
             );
         }
-
     }
 
     public List<String> vistaInicioSesion(){
@@ -327,50 +331,68 @@ public class UserController {
    public void ejecutarPermiso(String permiso){
         switch (permiso) {
             case "REGISTRAR AVION":
-                System.out.println("SI LO TOMOA BIEN");
+                AvionService avionService = new AvionRepository();
+                AvionUseCase avionUseCase = new AvionUseCase(avionService);
+                AvionController avionController = new AvionController(avionUseCase);
+                avionController.registrarAvion();
                 break;
+
             case "CONSULTAR INFORMACION DE AVION":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ACTUALIZAR INFORMACION DE AVION":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ELIMINAR AVION":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ASIGNAR TRIPULACION A TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "CONSULTAR TRIPULACION A TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "CONSULTAR INFORMACION DE TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ASIGNAR AERONAVE A TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ACTUALIZAR INFORMACION DE TRAYECTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ELIMINAR ESCALA":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "REGISTRAR AEROPUERTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "CONSULTAR INFORMACION DE AEROPUERTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ACTUALIZAR INFORMACION DE AEROPUERTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "ELIMINAR AEROPUERTO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+
             case "CONSULTAR INFORMACION VUELO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
+                
             case "CONSULTAR ESCALAS DE UN VUELO":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
