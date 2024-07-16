@@ -37,9 +37,11 @@ public class DetallevueloController {
                 "Airline, Hight All  The Time!",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
-                
+
             
             System.out.println(option);
+        
+        
 
 
         return detalle;
