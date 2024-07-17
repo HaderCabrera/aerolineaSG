@@ -1,6 +1,7 @@
 package revision.infraestructure.inController;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 
@@ -12,7 +13,7 @@ import javax.swing.JTextField;
 
 import revision.application.RevisionUseCase;
 import revision.domain.entity.Revision;
-import revision.domain.service.RevisionEmpleadoService;
+import revisionEmpleado.domain.service.RevisionEmpleadoService;
 import revisionEmpleado.application.RevisionEmpleadoUseCase;
 import revisionEmpleado.infraestructure.inController.RevisionEmpleadoController;
 import revisionEmpleado.infraestructure.outRepository.RevisionEmpleadoRepository;
@@ -46,10 +47,13 @@ public class RevisionController {
         JPanel panel = new JPanel(new GridLayout(3, 2, 5, 1));
         JLabel fechaLabel = new JLabel("Fecha De Revisión:");
         JTextField fechaField = new JTextField();
+        fechaField.setFont(new Font("Monospaced", Font.BOLD, 12));
         JLabel idLabel = new JLabel("Id Avión:");
         JTextField idField = new JTextField();
+
         JLabel descripcionLabel = new JLabel("Descripción:");
         JTextField descripcionField = new JTextField();
+        descripcionField.setFont(new Font("Monospaced", Font.BOLD, 13));
         panel.setPreferredSize(new Dimension(450, 120));
 
         // Añadir los componentes al panel

@@ -1,7 +1,9 @@
-package revision.domain.service;
+package revisionEmpleado.domain.service;
 
 import revisionEmpleado.domain.entity.RevisionEmpleado;
 
-public interface RevisionEmpleadoService {
+public interface RevisionEmpleadoService{
+
     void registrarRevisionEmpleado(RevisionEmpleado revisionEmpleado);
+    
 }

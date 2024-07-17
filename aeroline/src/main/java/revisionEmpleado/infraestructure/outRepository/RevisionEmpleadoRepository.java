@@ -1,7 +1,8 @@
 package revisionEmpleado.infraestructure.outRepository;
 
-import revision.domain.service.RevisionEmpleadoService;
+
 import revisionEmpleado.domain.entity.RevisionEmpleado;
+import revisionEmpleado.domain.service.RevisionEmpleadoService;
 
 public class RevisionEmpleadoRepository implements RevisionEmpleadoService{
 
