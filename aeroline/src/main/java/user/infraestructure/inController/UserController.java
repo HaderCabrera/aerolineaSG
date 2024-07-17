@@ -332,7 +332,7 @@ public class UserController {
         );
    }
 
-   public void ejecutarPermiso(String permiso){
+    public void ejecutarPermiso(String permiso){
         switch (permiso) {
             case "Registrar Avion":
                 AvionService avionService = new AvionRepository();
