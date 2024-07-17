@@ -25,10 +25,6 @@ public class DetalleVueloUseCase {
         detalleVueloService.eliminarDetalleVuelo(id_vuelo);
     }
 
-    public  DetalleVuelo asignarEmpleadoTripulacion(int id_empleado){
-        return detalleVueloService.asignarEmpleadoTripulacion(id_empleado);
-        
-    }
     
 
     

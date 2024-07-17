@@ -21,15 +21,26 @@ public class DetallevueloController {
     
     public DetalleVuelo consultarDetalleVuelo(){
 
-        DetalleVuelo detalle = new DetalleVuelo();
+    
+
+        DetalleVuelo detallevuelo = new DetalleVuelo();
 
         // Crear los componentes
-        JPanel panel = new JPanel(new GridLayout(5, 2, 5, 1));
-        JLabel codigoVueloLabel = new JLabel("Placa de identificación:");
+        JPanel panel = new JPanel(new GridLayout(4, 2, 5, 1));
+
+        JLabel codigoVueloLabel = new JLabel("Codigo Vuelo:");
         JTextField codigoVueloField = new JTextField();
-        panel.setPreferredSize(new Dimension(450, 120));
+        codigoVueloField.setFont(new Font("Monospaced", Font.BOLD, 12));
         codigoVueloField.setEditable(false);
+        
+        panel.setPreferredSize(new Dimension(450, 120));
+
+        // Añadir componentes Al window
+
         panel.add(codigoVueloLabel);
+
+
+        // Capta la informacion al moento de dicir si
         // Imprimir informacion de Detalle
         int option = JOptionPane.showConfirmDialog(
                 null,
@@ -40,11 +51,25 @@ public class DetallevueloController {
 
             
             System.out.println(option);
+
+        if (option == JOptionPane.OK_OPTION) {
+            
+            String codigo_vuelo = codigoVueloField.getText();
+            try{
+                   detallevuelo.setId_detalle_vuelo(Integer.parseInt(codigo_vuelo));
+            }catch(Exception e){
+
+            }
+        }
+
+
         
         
 
 
-        return detalle;
+        return detallevuelo;
         
     }
+
+    
 }

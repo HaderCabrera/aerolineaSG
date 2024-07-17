@@ -12,21 +12,10 @@ public class DetalleVueloRepository implements DetalleVueloService {
         
     }
 
-    @Override
-    public DetalleVuelo asignarEmpleadoTripulacion(int id_empleado) {
-        // listar Empleados Disponibles
-        String sql = "SELECT CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ',     COALESCE(EM.apellidos, '')) AS Empleado,\r\n" + //
-                        "TR.nombre AS Rol_Empleado\r\n" + //
-                        "FROM tripulacionRol AS TR\r\n" + //
-                        "INNER JOIN empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles\r\n" + //
-                        "INNER JOIN tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado;";
-        System.out.println(sql);
-        return null;
-    }
 
     @Override
     public DetalleVuelo consultarInfoTripulacion(int id_empleado) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
