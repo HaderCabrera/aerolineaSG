@@ -47,6 +47,7 @@ public class AvionController {
         JTextField placaField = new JTextField();
         JLabel capacidadLabel = new JLabel("Capacidad:");
         JTextField capacidadField = new JTextField();
+        //capacidadField.setMaximumSize(new Dimension(20,50));
         JLabel fechaLabel = new JLabel("Fabricado (AAAA-MM-DD):");
         JTextField fechaField = new JTextField();
         JLabel estadoLabel = new JLabel("Id estado:");

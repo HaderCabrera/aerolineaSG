@@ -1,6 +1,6 @@
 package revisionEmpleado.application;
 
-import revision.domain.service.RevisionEmpleadoService;
+import revisionEmpleado.domain.service.RevisionEmpleadoService;
 import revisionEmpleado.domain.entity.RevisionEmpleado;
 
 public class RevisionEmpleadoUseCase {
