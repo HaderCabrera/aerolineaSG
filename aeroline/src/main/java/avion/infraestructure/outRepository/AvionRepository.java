@@ -23,7 +23,7 @@ public class AvionRepository implements AvionService{
 
             statement.setString(1, avion.getPlaca_identificacion());
             statement.setInt(2   , avion.getCapacidad());
-            statement.setDate(3, avion.getFabricacion_fecha());
+            statement.setString(3, avion.getFabricacion_fecha());
             statement.setInt(4, avion.getId_estado());
             statement.setInt(5, avion.getId_modelo());
             statement.executeUpdate();

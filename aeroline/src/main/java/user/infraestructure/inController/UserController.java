@@ -109,30 +109,33 @@ public class UserController {
 
     public List<String> vistaInicioSesion(){
          //Crear los componentes
-         JPanel panel = new JPanel(new GridLayout(2, 2, 1, 1));
-         JLabel userLabel = new JLabel("Usuario:");
-         JTextField userField = new JTextField();
-         JLabel passLabel = new JLabel("Contraseña:");
-         JPasswordField passField = new JPasswordField();
-         panel.setPreferredSize(new Dimension(20, 60));
+        JPanel panel = new JPanel(new GridLayout(2, 2, 1, 1));
+        JLabel userLabel = new JLabel("Usuario:");
+        JTextField userField = new JTextField();
+        userField.setFont(new Font("Monospaced", Font.BOLD, 13));   
 
-         List<String> datosAcceso = new ArrayList<>();
- 
-         // Añadir los componentes al panel
-         panel.add(userLabel);
-         panel.add(userField);
-         panel.add(passLabel);
-         panel.add(passField);
- 
-         // Mostrar el panel en un JOptionPane
-         int option = JOptionPane.showConfirmDialog(
-             null, 
-             panel, 
-             "Airline, Hight All  The Time!", 
-             JOptionPane.OK_CANCEL_OPTION, 
-             JOptionPane.QUESTION_MESSAGE
-         );
- 
+        JLabel passLabel = new JLabel("Contraseña:");
+        JPasswordField passField = new JPasswordField();
+
+        panel.setPreferredSize(new Dimension(20, 60));
+
+        List<String> datosAcceso = new ArrayList<>();
+
+        // Añadir los componentes al panel
+        panel.add(userLabel);
+        panel.add(userField);
+        panel.add(passLabel);
+        panel.add(passField);
+
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.OK_CANCEL_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
         // Manejar la entrada del usuario
         if (option == JOptionPane.OK_OPTION) {
             String usuario = userField.getText();

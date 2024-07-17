@@ -34,8 +34,8 @@ public class RevisionRepository implements RevisionService {
                     Long idRevision = generatedKeys.getLong(1);
 
                     //Confirmacion de registro
-                    String mensaje = "Registro Exitoso!";
-                    JOptionPane.showMessageDialog(null, mensaje, "Confirm", JOptionPane.INFORMATION_MESSAGE);
+                    //String mensaje = "Registro Exitoso!";
+                    //JOptionPane.showMessageDialog(null, mensaje, "Confirm", JOptionPane.INFORMATION_MESSAGE);
                     
                     return idRevision;
                 } 

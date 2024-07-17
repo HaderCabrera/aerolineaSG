@@ -8,7 +8,7 @@ public class RevisionEmpleadoRepository implements RevisionEmpleadoService{
 
     @Override
     public void registrarRevisionEmpleado(RevisionEmpleado revisionEmpleado) {
-        //LOGICA DE SQL PARA INSERTAR
+        System.out.println("falta hacer el querwy");
     }
 
 }

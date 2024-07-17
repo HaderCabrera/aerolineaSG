@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import revision.application.RevisionUseCase;
 import revision.domain.entity.Revision;
@@ -35,6 +37,7 @@ public class RevisionController {
             RevisionEmpleadoService revisionEmpleadoService = new RevisionEmpleadoRepository();
             RevisionEmpleadoUseCase revisionEmpleadoUseCase = new RevisionEmpleadoUseCase(revisionEmpleadoService);
             RevisionEmpleadoController revisionEmpleadoController = new RevisionEmpleadoController(revisionEmpleadoUseCase);
+            //falta terminar
             revisionEmpleadoController.registrarRevisionEmpleado(null);
         } 
     }
@@ -45,16 +48,46 @@ public class RevisionController {
 
         //Crear los componentes
         JPanel panel = new JPanel(new GridLayout(3, 2, 5, 1));
+
         JLabel fechaLabel = new JLabel("Fecha De Revisión:");
         JTextField fechaField = new JTextField();
         fechaField.setFont(new Font("Monospaced", Font.BOLD, 12));
+
         JLabel idLabel = new JLabel("Id Avión:");
         JTextField idField = new JTextField();
+        idField.setFont(new Font("Monospaced", Font.BOLD, 12));
 
         JLabel descripcionLabel = new JLabel("Descripción:");
         JTextField descripcionField = new JTextField();
         descripcionField.setFont(new Font("Monospaced", Font.BOLD, 13));
+
         panel.setPreferredSize(new Dimension(450, 120));
+
+        //VALIDACIONES DE ENTERO
+        idField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                    JOptionPane.showMessageDialog(panel, "Campo solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
+                    e.consume(); // Ignorar la tecla no numérica
+                }
+            }
+        });
+        //VALIDACIONES DE FECHA
+        fechaField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE && c != '-') {
+                    JOptionPane.showMessageDialog(panel, "Caracter  Ingreado Invalido!", "Error", JOptionPane.ERROR_MESSAGE);
+                    e.consume(); // Ignorar la tecla no numérica
+                } else if (fechaField.getText().length() >= 10) {
+                    JOptionPane.showMessageDialog(panel, "No Se Puede Ingresar Mas Caracteres!", "Error", JOptionPane.ERROR_MESSAGE);
+                    e.consume(); 
+                }
+            }
+        });
 
         // Añadir los componentes al panel
         panel.add(fechaLabel);
@@ -91,7 +124,7 @@ public class RevisionController {
             } catch (Exception e) {
                 System.out.println("Formatos invalidos, Try Again!" + e);
             }
-          
+        
         } else {
             System.out.println("Registro de avión cancelado.");
         }
