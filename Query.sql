@@ -13,6 +13,9 @@ FROM tripulacionRol AS TR
 INNER JOIN empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
 INNER JOIN tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado;
 
+
+--
+
 INSERT INTO permisosUsuarios (nombre_permiso) VALUES
 ('Registrar Avion'),('Consultar Informacion De Avion'),('Eliminar Avion'),('Actualizar Informacion De Avion'),
 ('Asignar Tripulacion A Trayecto'),('Consultar Tripulacion De Trayecto'),('Consultar Informacion De Trayecto'),('Asignar Aeronave A Trayecto'),
