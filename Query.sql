@@ -13,9 +13,11 @@ FROM tripulacionRol AS TR
 INNER JOIN empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
 INNER JOIN tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado;
 
+CREATE VIEW vista_tripulacion_vuelo AS
 SELECT 
     CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Empleado,
     TR.nombre AS Rol_Empleado,
+    VU.numero_vuelo AS Numero_Vuelo,
     AO.nombre AS Aeropuerto_Origen,
     AD.nombre AS Aeropuerto_Destino,
     VU.hora_salida AS Hora_Salida,
@@ -35,11 +37,11 @@ INNER JOIN
 INNER JOIN 
     aeropuerto AS AO ON VU.aeropuerto_origen = AO.id_aeropuerto
 INNER JOIN 
-    aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto
-WHERE DT.id_detalle_vuelo = ?;
+    aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto;
 
+SELECT * FROM vista_tripulacion_vuelo;
 
-
+SELECT * FROM vuelo;
 
 
 
@@ -137,4 +139,71 @@ INSERT INTO tipoDocumento (nombreDoc) VALUES
 -- Insertar un registro en la tabla cliente
 INSERT INTO cliente (documento, nombre1, nombre2, apellidos, fecha_nacimiento, email, id_tipo_documento)
 VALUES (12345678, 'Juan', 'Carlos', 'Gómez Pérez', '1990-05-15', 'juan@gmail.com', 1);
+-- INSERCIONES PAIS
 
+INSERT INTO pais (id_pais, nombre) VALUES 
+('PA001', 'Estados Unidos'),
+('PA002', 'España');
+
+-- INSERCIONES CIUDAD
+INSERT INTO ciudad (id_ciudad, nombre, id_pais) VALUES 
+('CI001', 'Nueva York', 'PA001'),
+('CI002', 'Madrid', 'PA002');
+
+-- INSERCIONES AEROPUERTO 
+INSERT INTO aeropuerto (nombre, id_ciudad) VALUES 
+('JFK Airport', 'CI001'),
+('Barajas Airport', 'CI002');
+
+-- INSERCIONES PUERTADE ABORDAJE
+INSERT INTO puertaSalidaAbordaje (nombre, id_aeropuerto) VALUES 
+('Gate A1', 1),
+('Gate B2', 2);
+
+
+
+
+-- INSERCIONES VUELO
+
+INSERT INTO vuelo (numero_vuelo, aeropuerto_origen, aeropuerto_destino, hora_salida, hora_llegada)
+VALUES ('VU123', 1, 2, '08:00 AM', '10:00 AM');
+
+INSERT INTO vuelo (numero_vuelo, aeropuerto_origen, aeropuerto_destino, hora_salida, hora_llegada)
+VALUES ('VU456', 2, 1, '02:00 PM', '04:00 PM');
+
+SELECT * FROM avion;
+
+-- INSERCIONES ESTADO PUESTO
+INSERT INTO estadoPuesto (nombre_estado_puesto) VALUES
+('Disponible'),
+('Ocupado');
+SELECT * FROM `vuelo`;
+-- INSERCIONES PUESTO
+
+-- Suponiendo que tienes valores específicos para los campos
+INSERT INTO puesto (numero_puesto, id_estadoPuesto, id_avion) VALUES
+(1, 1, 3),  
+(2, 1, 6);  
+
+-- DELETE FROM puesto;
+-- ALTER TABLE puesto
+-- ADD COLUMN id_avion INT,
+-- ADD FOREIGN KEY (id_avion) REFERENCES avion(id_avion);
+
+INSERT INTO detalle_vuelo (id_puesto) VALUES
+(3),
+(4);
+
+-- Suponiendo que tienes valores específicos para id_vuelo y id_detalle_vuelo
+INSERT INTO escala (id_vuelo, id_detalle_vuelo) VALUES
+(1, 1),  -- Ejemplo: Asignar id_vuelo 1 y id_detalle_vuelo 1 a la primera escala
+(2, 2);  -- Ejemplo: Asignar id_vuelo 2 y id_detalle_vuelo 2 a la segunda escala
+
+
+-- Suponiendo que los datos se insertan en el orden id_empleado, nombre, id_empleado, id_detalle_vuelo
+INSERT INTO tripulacionvuelo_empleado (id_empleado, id_detalle_vuelo) VALUES
+('E001', 1),
+('E002', 2);
+SELECT * FROM vista_detalle_tripulacion WHERE Numero_Vuelo = "VU123";
+SELECT * FROM vista_detalle_tripulacion;
+SELECT * FROM vuelo;

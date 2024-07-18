@@ -7,8 +7,8 @@ import javax.swing.JTextField;
 
 
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+// import java.awt.event.KeyAdapter;
+// import java.awt.event.KeyEvent;
 
 
 
@@ -36,10 +36,9 @@ public class DetallevueloController {
         JLabel codigoVueloLabel = new JLabel("Codigo Vuelo:");
         JTextField codigoVueloField = new JTextField();
         codigoVueloField.setFont(new Font("Monospaced", Font.BOLD, 12));
-        codigoVueloField.setEditable(false);
         
         panel.setPreferredSize(new Dimension(450, 120));
-
+        /*      
         //VALIDACIONES DE ENTERO
         codigoVueloField.addKeyListener(new KeyAdapter() {
             @Override
@@ -64,7 +63,7 @@ public class DetallevueloController {
             }
         });
 
-
+        */
 
         // Añadir componentes Al window
         
@@ -88,13 +87,15 @@ public class DetallevueloController {
             
             String codigo_vuelo = codigoVueloField.getText();
             try{
-                int id_detalle_vuelo = Integer.parseInt(codigo_vuelo);
-                DetalleVuelo detalvuelo = detalleVueloUseCase.consultarDetalleVuelo(id_detalle_vuelo);
+              
+                DetalleVuelo detalvuelo = detalleVueloUseCase.consultarDetalleVuelo(codigo_vuelo);
 
                 // Crear el panel de detalles
                 JPanel detailsPanel = new JPanel(new GridLayout(6, 2, 5, 5));
                 detailsPanel.add(new JLabel("Empleado:"));
                 detailsPanel.add(new JLabel(detalvuelo.getEmpleado()));
+                detailsPanel.add(new JLabel("Numero_Vuelo:"));
+                detailsPanel.add(new JLabel(detalvuelo.getNumero_Vuelo()));
                 detailsPanel.add(new JLabel("Rol Empleado:"));
                 detailsPanel.add(new JLabel(detalvuelo.getRolEmpleado()));
                 detailsPanel.add(new JLabel("Aeropuerto Origen:"));
