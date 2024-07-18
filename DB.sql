@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS revision (
     fecha_revision VARCHAR(12) NOT NULL,
     id_avion INT NOT NULL,
     descrip TEXT NOT NULL,
-Foreign Key (id_avion) REFERENCES avion (id_avion)
+    Foreign Key (id_avion) REFERENCES avion (id_avion)
 );
 
 CREATE TABLE IF NOT EXISTS revision_empleado(
