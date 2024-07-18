@@ -161,13 +161,17 @@ public class UserController {
         List<String> lstPermisoVuelo = new ArrayList<>();
         List<String> lstPermisoAeropuerto = new ArrayList<>();
         List<String> lstPermisoDocumento = new ArrayList<>();
+        List<String> lstPermisosTrayecto = new ArrayList<>();
 
         //Separando permisos por paquetes
         for (String permiso: permisos) {
             if (permiso.contains("Avion")) {
                 lstPermisoAvion.add(permiso);
-            } else if (permiso.contains("Vuelo") || permiso.contains("Trayecto") || permiso.contains("Escala")) {
+            } else if (permiso.contains("Vuelo") || permiso.contains("Escala")) {
                 lstPermisoVuelo.add(permiso);
+            } 
+            else if ( permiso.contains("Trayecto")){
+                lstPermisosTrayecto.add(permiso);
             } else if (permiso.contains("Documento")) {
                 lstPermisoDocumento.add(permiso);
             } else if (permiso.contains("Aeropuerto")) {
@@ -175,7 +179,7 @@ public class UserController {
             }
         }
         // Definir las opciones del submenú de Gestión de Usuarios
-        String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
+        String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Trayecto", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
@@ -198,6 +202,10 @@ public class UserController {
 
                     case "Gestionar Vuelo":
                         generarVistaUser(lstPermisoVuelo);
+                        break;
+
+                    case "Gestionar Trayecto":
+                        generarVistaUser(lstPermisosTrayecto);
                         break;
 
                     case "Gestionar Aeropuerto":
