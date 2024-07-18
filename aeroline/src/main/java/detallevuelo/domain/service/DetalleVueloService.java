@@ -9,6 +9,6 @@ public interface DetalleVueloService {
     // Esto ya inluye otra tabla que es EMPLEADO-DETALLEVUELO
     DetalleVuelo consultarInfoTripulacion(int id_empleado);
     //DetalleVuelo asignarEmpleadoTripulacion(empleado Empleado);
-    DetalleVuelo editarEscalaVuelo(int id_escala);
+    DetalleVuelo editarEscalaVuelo(int id_vuelo);
     
 }

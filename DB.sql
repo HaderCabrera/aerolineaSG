@@ -238,3 +238,31 @@ SHOW TABLEs;
 -- WHERE
 --     RP.id_rolUsuario = ?;
 
+CREATE VIEW vista_detalle_tripulacion AS
+SELECT 
+    CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Empleado,
+    VU.id_vuelo AS Codec_vuelo,
+    TR.nombre AS Rol_Empleado,
+    AO.nombre AS Aeropuerto_Origen,
+    AD.nombre AS Aeropuerto_Destino,
+    VU.hora_salida AS Hora_Salida,
+    VU.hora_llegada AS Hora_Llegada
+FROM 
+    tripulacionRol AS TR
+INNER JOIN 
+    empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
+INNER JOIN 
+    tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado
+INNER JOIN 
+    detalle_vuelo AS DT ON TE.id_detalle_vuelo = DT.id_detalle_vuelo
+INNER JOIN 
+    escala AS ES ON DT.id_detalle_vuelo = ES.id_detalle_vuelo
+INNER JOIN 
+    vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
+INNER JOIN 
+    aeropuerto AS AO ON VU.aeropuerto_origen = AO.id_aeropuerto
+INNER JOIN 
+    aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto;
+
+
+SELECT * FROM vista_detalle_tripulacion WHERE Codec_vuelo = 1;
