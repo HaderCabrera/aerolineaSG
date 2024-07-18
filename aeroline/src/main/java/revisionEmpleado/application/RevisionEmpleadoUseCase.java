@@ -1,6 +1,7 @@
 package revisionEmpleado.application;
 
 import revisionEmpleado.domain.service.RevisionEmpleadoService;
+
 import revisionEmpleado.domain.entity.RevisionEmpleado;
 
 public class RevisionEmpleadoUseCase {
@@ -14,4 +15,5 @@ public class RevisionEmpleadoUseCase {
         Long confirmacion = revisionEmpleadoService.registrarRevisionEmpleado(revisionEmpleado);
         return confirmacion;
     }
+
 }

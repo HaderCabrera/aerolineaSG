@@ -5,7 +5,7 @@ import avion.domain.service.AvionService;
 
 
 public class AvionUseCase {
-    private AvionService avionService;
+    private final AvionService avionService;
 
     public AvionUseCase(avion.domain.service.AvionService avionService) {
         this.avionService = avionService;

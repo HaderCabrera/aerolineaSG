@@ -41,11 +41,12 @@ public class RevisionController {
             Long confirmacion = revisionEmpleadoController.registrarRevisionEmpleado(idRevision);
             System.out.println(confirmacion);
             if (confirmacion != 0) {
-                String mensaje = "Succesfully register!";
-                JOptionPane.showMessageDialog(null, mensaje, "Confirmation", JOptionPane.PLAIN_MESSAGE);
+                //JPnael CONFIRMACION
+                String mensaje = "Registros De Revisiòn Exitoso";
+                JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.PLAIN_MESSAGE);
+
             } else {
-                String mensaje = "Denied Connection!";
-                JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.WARNING_MESSAGE);
+               revisionUseCase.eliminarRevision(idRevision);
             }
         } 
     }

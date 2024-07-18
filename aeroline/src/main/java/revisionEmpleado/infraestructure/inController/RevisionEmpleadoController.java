@@ -3,8 +3,7 @@ package revisionEmpleado.infraestructure.inController;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,7 +31,7 @@ public class RevisionEmpleadoController {
 
         JPanel panel = new JPanel(new GridLayout(1, 1, 5, 1));
 
-        JLabel txtIdEmpleado = new JLabel("Id Revisión:");
+        JLabel txtIdEmpleado = new JLabel("Placa Empleado:");
         JTextField lblIdEmpleado = new JTextField();
         lblIdEmpleado.setFont(new Font("Monospaced", Font.BOLD, 12));
 
@@ -61,7 +60,6 @@ public class RevisionEmpleadoController {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(panel, "Error en SQL", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
 
         } 
         return revisionEmpleado;

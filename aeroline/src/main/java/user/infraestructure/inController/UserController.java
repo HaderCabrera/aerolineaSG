@@ -24,6 +24,10 @@ import revision.application.RevisionUseCase;
 import revision.domain.service.RevisionService;
 import revision.infraestructure.inController.RevisionController;
 import revision.infraestructure.outRepository.RevisionRepository;
+import tipoDocumento.application.TipoDocumentoUseCase;
+import tipoDocumento.domain.service.TipoDocumentoService;
+import tipoDocumento.infraestructure.inController.TipoDocumentoController;
+import tipoDocumento.infraestructure.outRepository.TipoDocumentoRepository;
 
 import java.awt.*;
 
@@ -158,7 +162,7 @@ public class UserController {
         for (String permiso: permisos) {
             if (permiso.contains("Avion")) {
                 lstPermisoAvion.add(permiso);
-            } else if (permiso.contains("Vuelo") || permiso.contains("Trayecto".toUpperCase()) || permiso.contains("Escala".toUpperCase())) {
+            } else if (permiso.contains("Vuelo") || permiso.contains("Trayecto") || permiso.contains("Escala")) {
                 lstPermisoVuelo.add(permiso);
             } else if (permiso.contains("Documento")) {
                 lstPermisoDocumento.add(permiso);
@@ -166,7 +170,7 @@ public class UserController {
                 lstPermisoAeropuerto.add(permiso);
             }
         }
-
+        System.out.println(lstPermisoVuelo.size());
         // Definir las opciones del submenú de Gestión de Usuarios
         String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
 
@@ -426,7 +430,10 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Registrar Tipo Documento":
-                System.out.println("SI LO TOMOA BIEN");
+                TipoDocumentoService tipoDocumentoService = new TipoDocumentoRepository();
+                TipoDocumentoUseCase tipoDocumentoUseCase = new TipoDocumentoUseCase(tipoDocumentoService);
+                TipoDocumentoController tipoDocumentoController = new TipoDocumentoController(tipoDocumentoUseCase);
+                tipoDocumentoController.crearTipoDocumento();
                 break;
             case "Actualizar Tipo Documento":
                 System.out.println("SI LO TOMOA BIEN");
