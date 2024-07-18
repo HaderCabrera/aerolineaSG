@@ -10,8 +10,8 @@ public class DetalleVueloUseCase {
         this.detalleVueloService = detalleVueloService;
     }
 
-     public DetalleVuelo consultarDetalleVuelo(int id_vuelo){
-        return  detalleVueloService.consultarDetalleVuelo(id_vuelo);
+     public DetalleVuelo consultarDetalleVuelo(String Numero_Vuelo){
+        return  detalleVueloService.consultarDetalleVuelo(Numero_Vuelo);
     }
 
     public DetalleVuelo consultarInfoTripulacion(int id_empleado){

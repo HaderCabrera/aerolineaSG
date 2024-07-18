@@ -18,8 +18,8 @@ import detallevuelo.domain.service.DetalleVueloService;
 public class DetalleVueloRepository implements DetalleVueloService {
     @Override
 
-    public DetalleVuelo consultarDetalleVuelo(int Codec_vuelo) {
-        String sql = "SELECT * FROM vista_detalle_tripulacion WHERE Codec_vuelo = ?;";
+    public DetalleVuelo consultarDetalleVuelo(String Numero_Vuelo) {
+        String sql = "SELECT * FROM vista_detalle_tripulacion WHERE Numero_Vuelo = ?;";
         DetalleVuelo detalleVuelo = null;
 
         
@@ -28,11 +28,11 @@ public class DetalleVueloRepository implements DetalleVueloService {
         try (Connection conexion = DatabaseConfig.getConnection();
                 PreparedStatement sentenciaPreparada = conexion.prepareStatement(sql)){
 
-            sentenciaPreparada.setInt(1, Codec_vuelo);
+            sentenciaPreparada.setString(1, Numero_Vuelo);
             try(ResultSet resultset = sentenciaPreparada.executeQuery()){
                 while(resultset.next()) {
                     detalleVuelo = new DetalleVuelo();
-                    detalleVuelo.setId_detalle_vuelo(resultset.getInt("Codec_vuelo"));
+                    detalleVuelo.setNumero_Vuelo(resultset.getString("Empleado"));
                     detalleVuelo.setEmpleado(resultset.getString("Empleado"));
                     detalleVuelo.setRolEmpleado(resultset.getString("Rol_Empleado"));
                     detalleVuelo.setAeropuertoDestino(resultset.getString("Aeropuerto_Origen"));

@@ -123,6 +123,8 @@ CREATE TABLE IF NOT EXISTS puesto (
     id_puesto INT PRIMARY KEY AUTO_INCREMENT,
     numero_puesto INT NOT NULL,
     id_estadoPuesto INT NOT NULL,
+    id_avion INT NOT NULL,
+    Foreign Key (id_avion) REFERENCES avion(id_avion)
     Foreign Key (id_estadoPuesto) REFERENCES estadoPuesto (id_estadoPuesto)
 );
 
