@@ -16,7 +16,7 @@ public class ClienteRepository implements ClienteService{
 
     @Override
     public Cliente consultarCliente(Long id_cliente) {
-        String sql = "SELECT id_cliente, documento, nombre1, nombre2, apellidos, fecha_nacimiento, email, id_tipo_documento FROM cliente WHERE id = ?";
+        String sql = "SELECT id_cliente, documento, nombre1, nombre2, apellidos, fecha_nacimiento, email, id_tipo_documento FROM cliente WHERE id_cliente = ?";
         Cliente cliente = null;
 
         try (Connection connection = DatabaseConfig.getConnection();
@@ -29,8 +29,8 @@ public class ClienteRepository implements ClienteService{
                     cliente.setId_cliente(resultSet.getLong("id_cliente"));
                     cliente.setDocumento(resultSet.getLong("documento"));
                     cliente.setNombre1(resultSet.getString("nombre1"));
-                    cliente.setNombre1(resultSet.getString("nombre1"));
-                    cliente.setNombre1(resultSet.getString("apellidos"));
+                    cliente.setNombre2(resultSet.getString("nombre2"));
+                    cliente.setApellidos(resultSet.getString("apellidos"));
                     cliente.setFecha_nacimiento(resultSet.getString("fecha_nacimiento"));
                     cliente.setEmail(resultSet.getString("email"));
                     cliente.setId_tipo_documento(resultSet.getLong("id_tipo_documento"));

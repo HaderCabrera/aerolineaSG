@@ -16,6 +16,10 @@ import avion.application.AvionUseCase;
 import avion.domain.service.AvionService;
 import avion.infraestructure.inController.AvionController;
 import avion.infraestructure.outRepository.AvionRepository;
+import cliente.application.ClienteUseCase;
+import cliente.domain.service.ClienteService;
+import cliente.infraestructure.inController.ClienteController;
+import cliente.infraestructure.outRepository.ClienteRepository;
 import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.service.DetalleVueloService;
 import detallevuelo.infraestructure.inController.DetallevueloController;
@@ -170,7 +174,6 @@ public class UserController {
                 lstPermisoAeropuerto.add(permiso);
             }
         }
-        System.out.println(lstPermisoVuelo.size());
         // Definir las opciones del submenú de Gestión de Usuarios
         String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
 
@@ -452,7 +455,10 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Consultar Informacion Cliente":
-                System.out.println("SI LO TOMOA BIEN");
+                ClienteService clienteService = new ClienteRepository();
+                ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
+                ClienteController clienteController = new ClienteController(clienteUseCase);
+                clienteController.consultarCliente();
                 break;
             case "Actualizar Informacion Cliente":
                 System.out.println("SI LO TOMOA BIEN");

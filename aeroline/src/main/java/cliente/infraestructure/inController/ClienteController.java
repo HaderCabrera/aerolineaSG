@@ -36,7 +36,7 @@ public class ClienteController {
         JTextField lblIdCliente = new JTextField();
         lblIdCliente.setFont(new Font("Monospaced", Font.BOLD, 12));
 
-        panel.setPreferredSize(new Dimension(250, 60));
+        panel.setPreferredSize(new Dimension(250, 30));
 
         //VALIDACIONES DE ENTERO
         lblIdCliente.addKeyListener(new KeyAdapter() {
@@ -75,39 +75,59 @@ public class ClienteController {
     }
 
     public void mostrarDatosCliente(Cliente cliente){
-
+        System.out.println("ENTRE A IMPRESION");
         JPanel panel = new JPanel(new GridLayout(8, 2, 10, 5));
 
         // Crear etiquetas y agregarlas al panel
         JLabel lblIdCliente = new JLabel("Id Cliente:");
-        panel.add(lblIdCliente);
         JLabel txtIdCliente = new JLabel(String.valueOf(cliente.getId_cliente()));
-        panel.add(txtIdCliente);
 
         JLabel lblDocumento = new JLabel("Documento:");
-        panel.add(lblDocumento);    
         JLabel txtDocumento = new JLabel(String.valueOf(cliente.getDocumento()));
-        panel.add(txtDocumento);
-
+       
         JLabel lblNombre1 = new JLabel("Nombre 1:");
-        panel.add(lblNombre1);    
         JLabel txtNombre1 = new JLabel(cliente.getNombre1());
-        panel.add(txtNombre1);
 
         JLabel lblNombre2 = new JLabel("Nombre 2:");
-        panel.add(lblNombre2);    
         JLabel txtNombre2 = new JLabel(cliente.getNombre2());
-        panel.add(txtNombre2);
 
         JLabel lblApellidos = new JLabel("Apellidos:");
-        panel.add(lblApellidos);    
         JLabel txtApellidos = new JLabel(cliente.getApellidos());
-        panel.add(txtApellidos);
 
-        // JLabel lblApellidos = new JLabel("Apellidos:");
-        // panel.add(lblApellidos);    
-        // JLabel txtApellidos = new JLabel(cliente.getApellidos());
-        // panel.add(txtApellidos);
+        JLabel lblFechaNacimiento = new JLabel("Fecha De Nacimiento:");
+        JLabel txtFechaNacimiento = new JLabel(cliente.getFecha_nacimiento());
+
+        JLabel lblEmail = new JLabel("Email:");
+        JLabel txtEmail = new JLabel(cliente.getEmail());
+
+        JLabel lblIdTipoDocumento = new JLabel("Documento:");
+        JLabel txtIdTipoDocumento = new JLabel(String.valueOf(cliente.getDocumento()));
+
+        panel.add(lblIdCliente);
+        panel.add(txtIdCliente);
+        panel.add(lblDocumento);  
+        panel.add(txtDocumento);
+        panel.add(lblNombre1); 
+        panel.add(txtNombre1);  
+        panel.add(lblNombre2);   
+        panel.add(txtNombre2);
+        panel.add(lblApellidos); 
+        panel.add(txtApellidos);
+        panel.add(lblFechaNacimiento); 
+        panel.add(txtFechaNacimiento);
+        panel.add(lblEmail);
+        panel.add(txtEmail);  
+        panel.add(lblIdTipoDocumento); 
+        panel.add(txtIdTipoDocumento);
+
+        // Mostrar el panel en un JOptionPane
+        JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.PLAIN_MESSAGE
+        );
 
     }
 }
