@@ -13,20 +13,32 @@ FROM tripulacionRol AS TR
 INNER JOIN empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
 INNER JOIN tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado;
 
-SELECT CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Empleado,
-TR.nombre AS Rol_Empleado,
-TR.nombre AS Rol_Empleado,
-AO.aeropuerto_origen AS Aeropueto_Origen,
-AD.aeropuerto_destino AS aeropuerto_destino,
-VU.hora_salida AS hora_salida,
-VU.hora_llegada AS Hora_Llega
-FROM tripulacionRol AS TR
-INNER JOIN empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
-INNER JOIN tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado
-INNER JOIN detalle_vuelo AS DT ON TE.id_detalle_vuelo = DT.id_detalle_vuelo
-INNER JOIN escala AS  ES ON DT.id_detalle_vuelo = ES.id_detalle_vuelo
-INNER JOIN vuelo AS AO ON ES.id_vuelo = AO.id_vuelo
-INNER JOIN vuelo AS AD ON ES.id_vuelo = AD.id_vuelo;
+SELECT 
+    CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Empleado,
+    TR.nombre AS Rol_Empleado,
+    AO.nombre AS Aeropuerto_Origen,
+    AD.nombre AS Aeropuerto_Destino,
+    VU.hora_salida AS Hora_Salida,
+    VU.hora_llegada AS Hora_Llegada
+FROM 
+    tripulacionRol AS TR
+INNER JOIN 
+    empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
+INNER JOIN 
+    tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado
+INNER JOIN 
+    detalle_vuelo AS DT ON TE.id_detalle_vuelo = DT.id_detalle_vuelo
+INNER JOIN 
+    escala AS ES ON DT.id_detalle_vuelo = ES.id_detalle_vuelo
+INNER JOIN 
+    vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
+INNER JOIN 
+    aeropuerto AS AO ON VU.aeropuerto_origen = AO.id_aeropuerto
+INNER JOIN 
+    aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto
+WHERE DT.id_detalle_vuelo = ?;
+
+
 
 
 
@@ -68,22 +80,27 @@ INSERT INTO rol_permiso(id_rolUsuario, id_permisosUsuarios) VALUES
 INSERT INTO usuario (nombre_usuario, pass, id_rolUsuario)
 VALUES ('hader', 'hader123', 1),('tecnico', 'tecnico123', 4),('ventas', 'ventas123', 3),('cliente', 'cliente123', 2);
 
+SELECT * FROM usuario;
+
 -- Insertar datos en estadoAvion
 INSERT INTO estadoAvion (nombre) VALUES ('Disponible'), ('En Mantenimiento'), ('En Vuelo');
 SELECT * FROM modelo;
 -- Supongamos que el id_manufactura que deseas referenciar es 1 (debe existir en la tabla manufactura)
 -- Insertar datos de aviones en la tabla modelo
+INSERT INTO manufactura (nombre, direccion, telefono, email, sitio_web)
+VALUES
+('Boeing Company', '100 N Riverside Plaza, Chicago, IL 60606, USA', '+1-312-544-2000', 'info@boeing.com', 'https://www.boeing.com'),
+('Airbus SAS', '1 Rond-Point Maurice Bellonte, 31707 Blagnac Cedex, France', '+33-5-61-93-33-33', 'contact@airbus.com', 'https://www.airbus.com'),
+('Bombardier Aerospace', '400 Côte-Vertu Road West, Dorval, Quebec H4S 1Y9, Canada', '+1-514-855-5000', 'info@aero.bombardier.com', 'https://www.bombardier.com');
+
+
 INSERT INTO modelo (nombre, id_manufactura) VALUES ('Boeing 737', 1);
 INSERT INTO modelo (nombre, id_manufactura) VALUES ('Airbus A320', 2);
 INSERT INTO modelo (nombre, id_manufactura) VALUES ('Embraer E190', 3);
 
 
 -- Insertar datos en la tabla manufactura
-INSERT INTO manufactura (nombre, direccion, telefono, email, sitio_web)
-VALUES
-('Boeing Company', '100 N Riverside Plaza, Chicago, IL 60606, USA', '+1-312-544-2000', 'info@boeing.com', 'https://www.boeing.com'),
-('Airbus SAS', '1 Rond-Point Maurice Bellonte, 31707 Blagnac Cedex, France', '+33-5-61-93-33-33', 'contact@airbus.com', 'https://www.airbus.com'),
-('Bombardier Aerospace', '400 Côte-Vertu Road West, Dorval, Quebec H4S 1Y9, Canada', '+1-514-855-5000', 'info@aero.bombardier.com', 'https://www.bombardier.com');
+
 
 -- REVISAR ID DE LA TABLA MODELO DADO QUE Y AVION DADO QUE ESTA PASANDO ALGO CON EL AUTOINCREMT
 -- Insertar datos en la tabla avion

@@ -4,6 +4,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -64,8 +67,9 @@ public class DetallevueloController {
 
 
         // Añadir componentes Al window
-
+        
         panel.add(codigoVueloLabel);
+        panel.add(codigoVueloField);
 
 
         // Capta la informacion al moento de dicir si
@@ -84,11 +88,33 @@ public class DetallevueloController {
             
             String codigo_vuelo = codigoVueloField.getText();
             try{
-                   detallevuelo.setId_detalle_vuelo(Integer.parseInt(codigo_vuelo));
-            }catch(Exception e){
+                int id_detalle_vuelo = Integer.parseInt(codigo_vuelo);
+                DetalleVuelo detalvuelo = detalleVueloUseCase.consultarDetalleVuelo(id_detalle_vuelo);
 
+                // Crear el panel de detalles
+                JPanel detailsPanel = new JPanel(new GridLayout(6, 2, 5, 5));
+                detailsPanel.add(new JLabel("Empleado:"));
+                detailsPanel.add(new JLabel(detalvuelo.getEmpleado()));
+                detailsPanel.add(new JLabel("Rol Empleado:"));
+                detailsPanel.add(new JLabel(detalvuelo.getRolEmpleado()));
+                detailsPanel.add(new JLabel("Aeropuerto Origen:"));
+                detailsPanel.add(new JLabel(detalvuelo.getAeropuertoOrigen()));
+                detailsPanel.add(new JLabel("Aeropuerto Destino:"));
+                detailsPanel.add(new JLabel(detalvuelo.getAeropuertoDestino()));
+                detailsPanel.add(new JLabel("Hora Salida:"));
+                detailsPanel.add(new JLabel(detalvuelo.getHoraSalida()));
+                detailsPanel.add(new JLabel("Hora Llegada:"));
+                detailsPanel.add(new JLabel(detalvuelo.getHoraLlegada()));
+
+                // Mostrar el panel de detalles en un JOptionPane
+                JOptionPane.showMessageDialog(null, detailsPanel, "Detalle del Vuelo", JOptionPane.INFORMATION_MESSAGE);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(panel, "Error al consultar el detalle del vuelo", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+
+        
+
 
 
         
