@@ -8,6 +8,8 @@ public class DetalleVueloRepository implements DetalleVueloService {
     @Override
     public DetalleVuelo consultarDetalleVuelo(int id_vuelo){
 
+        
+
         return null;
         
     }
