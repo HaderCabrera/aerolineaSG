@@ -29,16 +29,24 @@ public class RevisionController {
     
     public void registrarRevision(){
         Revision revision = solicitarDatosRegistro();
-        Long confirmacion = revisionUseCase.registrarRevision(revision);
+        Long idRevision = revisionUseCase.registrarRevision(revision);
         
         //Logica para registrar la revision a un empleado
-        if (confirmacion != 0) {
+        if (idRevision != 0) {
             //PENDIENTE LOGICA DE REGISTRAR EN ENTIDAD revision_empleado
             RevisionEmpleadoService revisionEmpleadoService = new RevisionEmpleadoRepository();
             RevisionEmpleadoUseCase revisionEmpleadoUseCase = new RevisionEmpleadoUseCase(revisionEmpleadoService);
             RevisionEmpleadoController revisionEmpleadoController = new RevisionEmpleadoController(revisionEmpleadoUseCase);
             //falta terminar
-            revisionEmpleadoController.registrarRevisionEmpleado(null);
+            Long confirmacion = revisionEmpleadoController.registrarRevisionEmpleado(idRevision);
+            System.out.println(confirmacion);
+            if (confirmacion != 0) {
+                String mensaje = "Succesfully register!";
+                JOptionPane.showMessageDialog(null, mensaje, "Confirmation", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                String mensaje = "Denied Connection!";
+                JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.WARNING_MESSAGE);
+            }
         } 
     }
 

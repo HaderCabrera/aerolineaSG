@@ -10,7 +10,8 @@ public class RevisionEmpleadoUseCase {
         this.revisionEmpleadoService = revisionEmpleadoService;
     }
     
-    public void registrarRevisionEmpleado(RevisionEmpleado revisionEmpleado){
-        revisionEmpleadoService.registrarRevisionEmpleado(revisionEmpleado);
+    public Long registrarRevisionEmpleado(RevisionEmpleado revisionEmpleado){
+        Long confirmacion = revisionEmpleadoService.registrarRevisionEmpleado(revisionEmpleado);
+        return confirmacion;
     }
 }

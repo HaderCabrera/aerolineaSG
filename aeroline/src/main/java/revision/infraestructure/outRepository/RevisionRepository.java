@@ -16,9 +16,9 @@ public class RevisionRepository implements RevisionService {
 
     @Override
     public Long registrarRevision(Revision revision) {
-                String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip) VALUES \n" + //
-                            "(?, ?, ?);\n" + //
-                            "";
+        String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip) VALUES \n" + //
+                     "(?, ?, ?);\n" + //
+                     "";
 
         try (Connection connection = DatabaseConfig.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql,
