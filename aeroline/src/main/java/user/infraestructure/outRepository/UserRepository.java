@@ -64,7 +64,6 @@ public class UserRepository implements UserService{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(permisos.size());
         return permisos;
     }
 

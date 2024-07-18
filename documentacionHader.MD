@@ -18,4 +18,6 @@
     1. Realizar insert en la tabla tipo_documentos para poder crear un Cliente
     2. Realizar un insert de un cliente para poder consultar.
     3. Agregar servicio **Consultar Información de Cliente**
-2. Registr
+
+# Caso de Uso 7: Registrar Cliente
+1. Agregar servicio **Registrar Cliente**
