@@ -4,17 +4,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConfig {
+    // COMANDO PARA QUITAR EL COMENTARIO : ctrl + k + u
+
+
+    // RAILWAY 
+
+
+    private static final String URL = "jdbc:mysql://roundhouse.proxy.rlwy.net:41600/railway";
+    private static final String USER = "root";
+    private static final String PASSWORD = "FtjNcJYULtcbURPVLBrmAReMgZcdLjAK";
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
     
-private static final String URL = "jdbc:mysql://roundhouse.proxy.rlwy.net:41600/railway";
-private static final String USER = "root";
-private static final String PASSWORD = "FtjNcJYULtcbURPVLBrmAReMgZcdLjAK";
-
-public static Connection getConnection() throws SQLException {
-    return DriverManager.getConnection(URL, USER, PASSWORD);
-}
-
-  
-
-
-
 }
