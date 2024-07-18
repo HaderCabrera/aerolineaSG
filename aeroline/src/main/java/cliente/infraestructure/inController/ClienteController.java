@@ -3,7 +3,7 @@ package cliente.infraestructure.inController;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Panel;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -104,10 +104,10 @@ public class ClienteController {
         JLabel txtApellidos = new JLabel(cliente.getApellidos());
         panel.add(txtApellidos);
 
-        // JLabel lblApellidos = new JLabel("Apellidos:");
-        // panel.add(lblApellidos);    
-        // JLabel txtApellidos = new JLabel(cliente.getApellidos());
-        // panel.add(txtApellidos);
+        JLabel lblApellidos = new JLabel("Apellidos:");
+        panel.add(lblApellidos);    
+        JLabel txtApellidos = new JLabel(cliente.getApellidos());
+        panel.add(txtApellidos);
 
     }
 }

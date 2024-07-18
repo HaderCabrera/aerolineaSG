@@ -10,7 +10,6 @@ public class ClienteUseCase {
         this.clienteService = clienteService;
     }
 
-
     public Cliente consultarCliente(Long id_cliente){
         Cliente cliente = clienteService.consultarCliente(id_cliente);
         return cliente;
