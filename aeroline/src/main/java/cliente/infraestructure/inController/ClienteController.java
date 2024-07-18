@@ -104,10 +104,10 @@ public class ClienteController {
         JLabel txtApellidos = new JLabel(cliente.getApellidos());
         panel.add(txtApellidos);
 
-        JLabel lblApellidos = new JLabel("Apellidos:");
-        panel.add(lblApellidos);    
-        JLabel txtApellidos = new JLabel(cliente.getApellidos());
-        panel.add(txtApellidos);
+        // JLabel lblApellidos = new JLabel("Apellidos:");
+        // panel.add(lblApellidos);    
+        // JLabel txtApellidos = new JLabel(cliente.getApellidos());
+        // panel.add(txtApellidos);
 
     }
 }
