@@ -62,6 +62,8 @@ INSERT INTO permisosUsuarios (nombre_permiso) VALUES
 ('Consultar Informacion De Aeropuerto'),('Eliminar Trayecto'),('Actualizar Informacion De Escala'),
 ('Añadir Pasajero'), ('Seleccionar Asiento'), ('Registrar cliente');
 
+29 -> permiso ID Agente Ventas<- 03
+
 INSERT INTO rolUsuario (nombre_rol) VALUES
 ('Administrador'), ('Cliente'), ('Agente De Ventas'),('Tecnico De Mantenimiento');
 
@@ -69,9 +71,10 @@ INSERT INTO rolUsuario (nombre_rol) VALUES
 INSERT INTO rol_permiso(id_rolUsuario, id_permisosUsuarios) VALUES
 (1, 1),(1, 5),(1, 2),(1, 7),(1, 42),(1, 4),(1, 3),(1, 8),(1, 9),(1, 43),(1, 13),
 (1, 14 ),(1, 6),(1, 16),(1, 44),(1, 10),(1, 17),(1, 18),(1, 19),(1, 20),(1, 23),(1, 24),(1, 25),(1, 26),
-(3, 6),(3, 16),(3, 20),(3, 21),(3, 22),(3, 45),(3, 46),(3, 38),(3, 47),(3, 30),(3, 37), (3, 26),
+(3, 6),(3, 16),(3, 20),(3, 21),(3, 22),(3, 45),(3, 46),(3, 38),(3, 47),(3, 30),(3, 37), (3, 26), (3, 29)
 (4, 32),(4, 33),(4, 34),(4, 35),
 (2, 21),(2, 22),(2, 45),(2, 46),(2, 27),(2, 38);
+
 
 -- Insertar datos en usuario
 INSERT INTO usuario (nombre_usuario, pass, id_rolUsuario)
@@ -124,4 +127,14 @@ INSERT INTO empleado (id_empleado, nombre1, nombre2, apellidos, id_tripulacionRo
 ('E004', 'Cristian', 'Celis', 'Brown', 5, 4),
 ('E005', 'James', 'Rodriguez', 'Jones', 2, 5);
 
+
+-- Insertar tres registros en la tabla tipoDocumento
+INSERT INTO tipoDocumento (nombreDoc) VALUES
+    ('Documento de Identidad'),
+    ('Pasaporte'),
+    ('Licencia de Conducir');
+
+-- Insertar un registro en la tabla cliente
+INSERT INTO cliente (documento, nombre1, nombre2, apellidos, fecha_nacimiento, email, id_tipo_documento)
+VALUES (12345678, 'Juan', 'Carlos', 'Gómez Pérez', '1990-05-15', 'juan@gmail.com', 1);
 

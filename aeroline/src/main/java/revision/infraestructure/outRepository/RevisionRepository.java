@@ -16,9 +16,9 @@ public class RevisionRepository implements RevisionService {
 
     @Override
     public Long registrarRevision(Revision revision) {
-                String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip) VALUES \n" + //
-                            "(?, ?, ?);\n" + //
-                            "";
+        String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip) VALUES \n" + //
+                     "(?, ?, ?);\n" + //
+                     "";
 
         try (Connection connection = DatabaseConfig.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql,
@@ -31,12 +31,7 @@ public class RevisionRepository implements RevisionService {
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    Long idRevision = generatedKeys.getLong(1);
-
-                    //Confirmacion de registro
-                    //String mensaje = "Registro Exitoso!";
-                    //JOptionPane.showMessageDialog(null, mensaje, "Confirm", JOptionPane.INFORMATION_MESSAGE);
-                    
+                    Long idRevision = generatedKeys.getLong(1);  
                     return idRevision;
                 } 
             }
@@ -51,4 +46,19 @@ public class RevisionRepository implements RevisionService {
         return 0L;
     }
 
+	@Override
+	public Boolean eliminarRevision(Long IdRevision) {
+        String sql = "DELETE FROM revision WHERE IdRevision = ?;";
+        try (Connection connection = DatabaseConfig.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, IdRevision);
+            statement.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return false;
+	}
 }

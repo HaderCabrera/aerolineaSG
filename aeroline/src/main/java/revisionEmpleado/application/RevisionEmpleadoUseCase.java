@@ -1,6 +1,7 @@
 package revisionEmpleado.application;
 
 import revisionEmpleado.domain.service.RevisionEmpleadoService;
+
 import revisionEmpleado.domain.entity.RevisionEmpleado;
 
 public class RevisionEmpleadoUseCase {
@@ -10,7 +11,9 @@ public class RevisionEmpleadoUseCase {
         this.revisionEmpleadoService = revisionEmpleadoService;
     }
     
-    public void registrarRevisionEmpleado(RevisionEmpleado revisionEmpleado){
-        revisionEmpleadoService.registrarRevisionEmpleado(revisionEmpleado);
+    public Long registrarRevisionEmpleado(RevisionEmpleado revisionEmpleado){
+        Long confirmacion = revisionEmpleadoService.registrarRevisionEmpleado(revisionEmpleado);
+        return confirmacion;
     }
+
 }
