@@ -19,7 +19,7 @@ public class DetalleVueloRepository implements DetalleVueloService {
     @Override
 
     public DetalleVuelo consultarDetalleVuelo(String Numero_Vuelo) {
-        String sql = "SELECT * FROM vista_detalle_tripulacion WHERE Numero_Vuelo = ?;";
+        String sql = "SELECT * FROM vista_tripulacion_vuelo WHERE Numero_Vuelo = ?;";
         DetalleVuelo detalleVuelo = null;
 
         

@@ -204,6 +204,6 @@ INSERT INTO escala (id_vuelo, id_detalle_vuelo) VALUES
 INSERT INTO tripulacionvuelo_empleado (id_empleado, id_detalle_vuelo) VALUES
 ('E001', 1),
 ('E002', 2);
-SELECT * FROM vista_detalle_tripulacion WHERE Numero_Vuelo = "VU123";
+SELECT * FROM vista_tripulacion_vuelo WHERE Numero_Vuelo = "VU123";
 SELECT * FROM vista_detalle_tripulacion;
 SELECT * FROM vuelo;
