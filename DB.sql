@@ -75,6 +75,16 @@ CREATE TABLE IF NOT EXISTS estadoAvion (
     id_estado INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULl
 );
+CREATE TABLE IF NOT EXISTS avion (
+    id_avion INT PRIMARY KEY AUTO_INCREMENT,
+    placa_identificacion VARCHAR(30) NOT NULL,
+    capacidad INT not NULL,
+    fabricacion_fecha VARCHAR(12) NOT NULL,
+    id_estado INT NOT NULL,
+    id_modelo INT NOT NULL,
+    Foreign Key (id_estado) REFERENCES estadoAvion (id_estado),
+    Foreign Key (id_modelo) REFERENCES modelo (id_modelo)
+);
 
 CREATE TABLE IF NOT EXISTS revision (
     id_revision INT PRIMARY KEY AUTO_INCREMENT,
@@ -92,16 +102,7 @@ CREATE TABLE IF NOT EXISTS revision_empleado(
     PRIMARY KEY(id_revision, id_empleado)
 );
 
-CREATE TABLE IF NOT EXISTS avion (
-    id_avion INT PRIMARY KEY AUTO_INCREMENT,
-    placa_identificacion VARCHAR(30) NOT NULL,
-    capacidad INT not NULL,
-    fabricacion_fecha VARCHAR(12) NOT NULL,
-    id_estado INT NOT NULL,
-    id_modelo INT NOT NULL,
-    Foreign Key (id_estado) REFERENCES estadoAvion (id_estado),
-    Foreign Key (id_modelo) REFERENCES modelo (id_modelo)
-);
+
 
 CREATE TABLE IF NOT EXISTS vuelo (
     id_vuelo INT AUTO_INCREMENT PRIMARY KEY,
@@ -112,17 +113,6 @@ CREATE TABLE IF NOT EXISTS vuelo (
     hora_llegada VARCHAR(12) NOT NULL,
     FOREIGN KEY (aeropuerto_origen) REFERENCES aeropuerto (id_aeropuerto),
     FOREIGN KEY (aeropuerto_destino) REFERENCES aeropuerto (id_aeropuerto)
-);
-/*
- La tabla de escalas contiene información sobre las escalas que hace un vuelo. Incluye el ID del vuelo, el ID del aeropuerto donde se realiza la escala, y las horas de llegada y salida de la escala.
- vuelo_id: Este campo es una clave foránea que referencia a la tabla de Vuelos, indicando a qué vuelo pertenece la escala.
- aeropuerto_id: Este campo es una clave foránea que referencia a la tabla de Aeropuertos, indicando en qué aeropuerto se realiza la escala.
- */
-CREATE TABLE IF NOT EXISTS escala(
-    id_vuelo INT,
-    id_detalle_vuelo INT NOT NULL,
-    Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
-    Foreign Key (id_detalle_vuelo) REFERENCES detalle_vuelo(id_detalle_vuelo)
 );
 
 CREATE TABLE IF NOT EXISTS estadoPuesto (
@@ -135,10 +125,23 @@ CREATE TABLE IF NOT EXISTS puesto (
     id_estadoPuesto INT NOT NULL,
     Foreign Key (id_estadoPuesto) REFERENCES estadoPuesto (id_estadoPuesto)
 );
+
 CREATE TABLE IF NOT EXISTS detalle_vuelo (
     id_detalle_vuelo INT PRIMARY KEY AUTO_INCREMENT,
     id_puesto INT NOT NULL,
     Foreign Key (id_puesto) REFERENCES puesto (id_puesto)
+);
+
+/*
+ La tabla de escalas contiene información sobre las escalas que hace un vuelo. Incluye el ID del vuelo, el ID del aeropuerto donde se realiza la escala, y las horas de llegada y salida de la escala.
+ vuelo_id: Este campo es una clave foránea que referencia a la tabla de Vuelos, indicando a qué vuelo pertenece la escala.
+ aeropuerto_id: Este campo es una clave foránea que referencia a la tabla de Aeropuertos, indicando en qué aeropuerto se realiza la escala.
+ */
+CREATE TABLE IF NOT EXISTS escala(
+    id_vuelo INT,
+    id_detalle_vuelo INT NOT NULL,
+    Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
+    Foreign Key (id_detalle_vuelo) REFERENCES detalle_vuelo(id_detalle_vuelo)
 );
 
 CREATE TABLE IF NOT EXISTS tripulacionvuelo_empleado (
