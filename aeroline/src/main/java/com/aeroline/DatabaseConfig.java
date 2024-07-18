@@ -8,7 +8,7 @@ public class DatabaseConfig {
 
 
     // RAILWAY 
-    /*  
+
 
 
 
@@ -20,18 +20,17 @@ public class DatabaseConfig {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
     
-    */
-    
+   
 
     // MYSQL 
 
-    private static final String URL = "jjdbc:mysql://127.0.0.1:3306/railway";
-    private static final String USER = "campus2023";
-    private static final String PASSWORD = "campus2023";
+    // private static final String URL = "jjdbc:mysql://127.0.0.1:3306/railway";
+    // private static final String USER = "campus2023";
+    // private static final String PASSWORD = "campus2023";
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
+    // public static Connection getConnection() throws SQLException {
+    //     return DriverManager.getConnection(URL, USER, PASSWORD);
+    // }
 
 
 }

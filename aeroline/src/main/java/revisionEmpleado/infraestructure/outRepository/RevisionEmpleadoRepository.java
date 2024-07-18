@@ -17,11 +17,11 @@ public class RevisionEmpleadoRepository implements RevisionEmpleadoService{
 
     @Override
     public Long registrarRevisionEmpleado(RevisionEmpleado revisionEmpleado) {
-                String sql = "-- Insertar datos en la tabla revision_empleado\n" + //
-                                        "INSERT INTO revision_empleado (id_revision, id_empleado)\n" + //
-                                        "VALUES\n" + //
-                                        "(?, ?);\n" + //
-                                        "";
+                String sql =
+                            "INSERT INTO revision_empleado (id_revision, id_empleado)\n" + //
+                            "VALUES\n" + //
+                            "(?, ?);\n" + //
+                            "";
 
         try (Connection connection = DatabaseConfig.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql,
@@ -34,11 +34,7 @@ public class RevisionEmpleadoRepository implements RevisionEmpleadoService{
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    System.out.println("ENTRE");
                     Long idRevision = generatedKeys.getLong(1);
-
-                    String mensaje = "Registro Exitoso!";
-                    JOptionPane.showMessageDialog(null, mensaje, "Confirm", JOptionPane.INFORMATION_MESSAGE);
                     return idRevision;
                 } 
             }

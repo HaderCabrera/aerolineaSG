@@ -45,7 +45,7 @@ public class UserRepository implements UserService{
     public List<String> getPermisos(int id_rol) {
         List<String> permisos = new ArrayList<>();
 
-        String sql = "SELECT distinct PU.nombre_permiso" + " " +
+        String sql = "SELECT  DISTINCT PU.nombre_permiso" + " " +
                         "FROM permisosUsuarios AS PU" + " " +
                         "INNER JOIN rol_permiso AS RP ON PU.id_permisosUsuarios = RP.id_permisosUsuarios" + " " +
                         "WHERE RP.id_rolUsuario = ?;";

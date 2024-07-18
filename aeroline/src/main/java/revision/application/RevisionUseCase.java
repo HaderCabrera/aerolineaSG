@@ -14,4 +14,9 @@ public class RevisionUseCase {
         Long confirmacion = revisionService.registrarRevision(revision);
         return confirmacion;
     }
+
+    public Boolean eliminarRevision(Long IdRevision){
+        Boolean confirmacion = revisionService.eliminarRevision(IdRevision);
+        return confirmacion;
+    }
 }
