@@ -361,14 +361,15 @@ public class UserController {
                 break;
 
             case "Consultar Tripulacion De Trayecto":
-                DetalleVueloService detalleVueloService = new DetalleVueloRepository();
-                DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
-                DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
-                detallevueloController.consultarDetalleVuelo();
+                
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
             case "Consultar Informacion De Trayecto":
+                DetalleVueloService detalleVueloService = new DetalleVueloRepository();
+                DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
+                DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
+                detallevueloController.consultarDetalleVuelo();
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
