@@ -4,6 +4,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 
@@ -34,6 +36,32 @@ public class DetallevueloController {
         codigoVueloField.setEditable(false);
         
         panel.setPreferredSize(new Dimension(450, 120));
+
+        //VALIDACIONES DE ENTERO
+        codigoVueloField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                    JOptionPane.showMessageDialog(panel, "Campo solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
+                    e.consume(); // Ignorar la tecla no numérica
+                }
+            }
+        });
+
+        //VALIDACIONES DE ENTERO
+        codigoVueloField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                    JOptionPane.showMessageDialog(panel, "Campo solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
+                    e.consume(); // Ignorar la tecla no numérica
+                }
+            }
+        });
+
+
 
         // Añadir componentes Al window
 

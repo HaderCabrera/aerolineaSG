@@ -95,11 +95,11 @@ Foreign Key (id_avion) REFERENCES avion (id_avion)
 );
 
 CREATE TABLE IF NOT EXISTS revision_empleado(
+    id_revision_empleado INT PRIMARY KEY AUTO_INCREMENT,
 	id_revision INT NOT NULL,
     id_empleado VARCHAR(20) NOT NULL,
     FOREIGN KEY (id_revision) REFERENCES revision(id_revision),
-	FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),  
-    PRIMARY KEY(id_revision, id_empleado)
+	FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
 );
 
 
