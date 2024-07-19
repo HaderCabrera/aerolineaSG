@@ -39,6 +39,17 @@ public class AvionController {
 
     }
 
+    public void consultarAvionByPlaca(){
+        String placa = solicitarPlacaAvion();
+        Avion avion = avionUseCase.consultarAvionByPlaca(placa);
+        if (avion != null) {
+            mostrarDatosAvion(avion);
+
+        }  else {
+            JOptionPane.showMessageDialog(null, "Avión no encontrado!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
+        }     
+    }
+
     public Avion solicitarDatosRegistro() {
 
         Avion avion = new Avion();
@@ -160,4 +171,75 @@ public class AvionController {
         return avion;
     }
 
+    public String  solicitarPlacaAvion(){
+        JPanel panel = new JPanel(new GridLayout(1, 1, 5, 1));
+
+        JLabel txtPlacaAvion = new JLabel("Placa Avión:");
+        JTextField lblPlacaAvion = new JTextField();
+        lblPlacaAvion.setFont(new Font("Monospaced", Font.BOLD, 12));
+
+        panel.setPreferredSize(new Dimension(250, 30));
+    
+        //Agreganmos elementos al panel
+        panel.add(txtPlacaAvion);
+        panel.add(lblPlacaAvion);
+
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.OK_CANCEL_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        //Tratar datos recolectados
+        if (option == JOptionPane.OK_OPTION) {
+            String placa = lblPlacaAvion.getText();
+            return placa;        
+
+        } else {
+            JOptionPane.showMessageDialog(panel, "Consulta cancelada", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+
+    public void mostrarDatosAvion(Avion avion){
+        JPanel panel = new JPanel(new GridLayout(5, 2, 10, 5));
+
+        JLabel txtPlaca = new JLabel("Placa:");
+        JLabel txtPlacaValor = new JLabel(avion.getPlaca_identificacion());
+
+        JLabel txtCapacidad = new JLabel("Documento:");
+        JLabel txtCapacidadValor = new JLabel(String.valueOf(avion.getCapacidad()));
+
+        JLabel txtFecha = new JLabel("Fecha Fabricación:");
+        JLabel txtFechaValor = new JLabel(avion.getFabricacion_fecha());
+
+        JLabel txtModelo = new JLabel("Modelo:");
+        JLabel txtModeloValor = new JLabel(avion.getModelo());
+
+        JLabel txtEstado = new JLabel("Estado:");
+        JLabel txtEstadoValor = new JLabel(avion.getEstado());
+
+        panel.add(txtPlaca);
+        panel.add(txtPlacaValor);
+        panel.add(txtCapacidad);
+        panel.add(txtCapacidadValor);
+        panel.add(txtFecha);
+        panel.add(txtFechaValor);
+        panel.add(txtModelo);
+        panel.add(txtModeloValor);
+        panel.add(txtEstado);
+        panel.add(txtEstadoValor);
+
+        // Mostrar el panel en un JOptionPane
+        JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.PLAIN_MESSAGE
+        );
+    }
 }

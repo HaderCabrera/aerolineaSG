@@ -17,5 +17,9 @@ public class AvionUseCase {
         seAgrego = avionService.registrarAvion(avion);
         return seAgrego;
     }
+    public Avion consultarAvionByPlaca(String placa){
+        Avion avion = avionService.consultarAvionByPlaca(placa);
+        return avion;
+    }
 
 }

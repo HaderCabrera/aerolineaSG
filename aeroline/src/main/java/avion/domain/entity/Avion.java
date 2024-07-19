@@ -7,16 +7,20 @@ public class Avion {
     private String fabricacion_fecha;
     private int id_estado;
     private int id_modelo;
+    private String modelo;
+    private String estado;
     public Avion() {
     }
     public Avion(int id_avion, String placa_identificacion, int capacidad, String fabricacion_fecha, int id_estado,
-            int id_modelo) {
+            int id_modelo, String modelo, String estado) {
         this.id_avion = id_avion;
         this.placa_identificacion = placa_identificacion;
         this.capacidad = capacidad;
         this.fabricacion_fecha = fabricacion_fecha;
         this.id_estado = id_estado;
         this.id_modelo = id_modelo;
+        this.modelo = modelo;
+        this.estado = estado;
     }
     public int getId_avion() {
         return id_avion;
@@ -54,6 +58,18 @@ public class Avion {
     public void setId_modelo(int id_modelo) {
         this.id_modelo = id_modelo;
     }
-
+    public String getModelo() {
+        return modelo;
+    }
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+    public String getEstado() {
+        return estado;
+    }
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
     
 }

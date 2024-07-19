@@ -75,7 +75,7 @@ public class ClienteController {
     }
 
     public void mostrarDatosCliente(Cliente cliente){
-        System.out.println("ENTRE A IMPRESION");
+
         JPanel panel = new JPanel(new GridLayout(8, 2, 10, 5));
 
         // Crear etiquetas y agregarlas al panel
