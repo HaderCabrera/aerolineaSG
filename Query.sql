@@ -59,18 +59,18 @@ INSERT INTO permisosUsuarios (nombre_permiso) VALUES
 
 INSERT INTO rolUsuario (nombre_rol) VALUES
 ('Administrador'), ('Cliente'), ('Agente De Ventas'),('Tecnico De Mantenimiento');
-
+INSERT INTO usuario (nombre_usuario, pass, id_rolUsuario)
+VALUES ('hader', 'hader123', 1),('tecnico', 'tecnico123', 4),('ventas', 'ventas123', 3),('cliente', 'cliente123', 2);
 -- Insertar datos en rol_permiso
 INSERT INTO rol_permiso(id_rolUsuario, id_permisosUsuarios) VALUES
-(1, 1),(1, 5),(1, 2),(1, 7),(1, 42),(1, 4),(1, 3),(1, 8),(1, 9),(1, 43),(1, 13),(1,11)
+(1, 1),(1, 5),(1, 2),(1, 7),(1, 42),(1, 4),(1, 3),(1, 8),(1, 9),(1, 43),(1, 13),(1,11),
 (1, 14 ),(1, 6),(1, 16),(1, 44),(1, 10),(1, 17),(1, 18),(1, 19),(1, 20),(1, 23),(1, 24),(1, 25),(1, 26),
-(3, 6),(3, 16),(3, 20),(3, 21),(3, 22),(3, 45),(3, 46),(3, 38),(3, 47),(3, 30),(3, 37), (3, 26), (3, 29)
+(3, 6),(3, 16),(3, 20),(3, 21),(3, 22),(3, 45),(3, 46),(3, 38),(3, 47),(3, 30),(3, 37), (3, 26), (3, 29),
 (4, 32),(4, 33),(4, 34),(4, 35),
 (2, 21),(2, 22),(2, 45),(2, 46),(2, 27),(2, 38);
 
 -- Insertar datos en usuario
-INSERT INTO usuario (nombre_usuario, pass, id_rolUsuario)
-VALUES ('hader', 'hader123', 1),('tecnico', 'tecnico123', 4),('ventas', 'ventas123', 3),('cliente', 'cliente123', 2);
+
 
 SELECT * FROM usuario;
 
@@ -93,7 +93,7 @@ INSERT INTO modelo (nombre, id_manufactura) VALUES ('Embraer E190', 3);
 
 -- Insertar datos en la tabla manufactura
 
-
+SELECT * FROM avion;
 -- Insertar datos en la tabla avion
 INSERT INTO avion (placa_identificacion, capacidad, fabricacion_fecha, id_estado, id_modelo)
 VALUES
@@ -110,6 +110,7 @@ INSERT INTO tripulacionRol (nombre) VALUES
 
 INSERT INTO aerolinea (nombreAeroline) VALUES ('American Airlines'),
 ('Delta Air Lines'),('United Airlines'),('Southwest Airlines'),('Lufthansa');
+
 
 INSERT INTO empleado (id_empleado, nombre1, nombre2, apellidos, id_tripulacionRoles, id_aerolineas) VALUES 
 ('E001', 'Santiago', 'Sandoval', 'Smith', 1, 1),
@@ -151,7 +152,7 @@ INSERT INTO puertaSalidaAbordaje (nombre, id_aeropuerto) VALUES
 
 
 -- INSERCIONES VUELO
-
+SELECT * FROM vuelo;
 INSERT INTO vuelo (numero_vuelo, aeropuerto_origen, aeropuerto_destino, hora_salida, hora_llegada)
 VALUES ('VU123', 1, 2, '08:00 AM', '10:00 AM');
 
@@ -167,30 +168,16 @@ INSERT INTO estadoPuesto (nombre_estado_puesto) VALUES
 SELECT * FROM `vuelo`;
 -- INSERCIONES PUESTO
 
--- Suponiendo que tienes valores específicos para los campos
-INSERT INTO puesto (numero_puesto, id_estadoPuesto, id_avion) VALUES
+
+INSERT INTO puesto (id_puesto, id_estadoPuesto, numero_puesto) VALUES
 (1, 1, 3),  
 (2, 1, 6);  
 
--- DELETE FROM puesto;
--- ALTER TABLE puesto
--- ADD COLUMN id_avion INT,
--- ADD FOREIGN KEY (id_avion) REFERENCES avion(id_avion);
-
-INSERT INTO detalle_vuelo (id_puesto) VALUES
-(3),
-(4);
-
--- Suponiendo que tienes valores específicos para id_vuelo y id_detalle_vuelo
-INSERT INTO escala (id_vuelo, id_detalle_vuelo) VALUES
-(1, 1),  -- Ejemplo: Asignar id_vuelo 1 y id_detalle_vuelo 1 a la primera escala
-(2, 2);  -- Ejemplo: Asignar id_vuelo 2 y id_detalle_vuelo 2 a la segunda escala
 
 
--- Suponiendo que los datos se insertan en el orden id_empleado, nombre, id_empleado, id_detalle_vuelo
-INSERT INTO tripulacionvuelo_empleado (id_empleado, id_detalle_vuelo) VALUES
-('E001', 1),
-('E002', 2);
+INSERT INTO tripulacion(id_vuelo, id_empleado) VALUES
+(1,'E001'),
+(2,'E002');
 SELECT * FROM vista_tripulacion_vuelo WHERE Numero_Vuelo = "VU123";
 SELECT * FROM vista_detalle_tripulacion;
 SELECT * FROM vuelo;

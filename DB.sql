@@ -1,4 +1,5 @@
 DROP DATABASE IF EXISTS railway;
+
 CREATE DATABASE railway;
 USE railway;
 
