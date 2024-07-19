@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,6 +12,9 @@ import javax.swing.JTextField;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 import revision.application.RevisionUseCase;
 import revision.domain.entity.Revision;
@@ -19,6 +22,11 @@ import revisionEmpleado.domain.service.RevisionEmpleadoService;
 import revisionEmpleado.application.RevisionEmpleadoUseCase;
 import revisionEmpleado.infraestructure.inController.RevisionEmpleadoController;
 import revisionEmpleado.infraestructure.outRepository.RevisionEmpleadoRepository;
+import revisionEstado.application.RevisionEstadoUseCase;
+import revisionEstado.domain.entity.RevisionEstado;
+import revisionEstado.domain.service.RevisionEstadoService;
+import revisionEstado.infraestructure.inController.RevisionEstadoController;
+import revisionEstado.infraestructure.outRepository.RevisionEstadoRepository;
 
 public class RevisionController {
     private final RevisionUseCase revisionUseCase;
@@ -51,12 +59,24 @@ public class RevisionController {
         } 
     }
 
+    public void consultarRevision(){
+        String placa_avion = solicitarPlacaAvion();
+        List<Revision> lstRevisiones = revisionUseCase.consultarRevision(placa_avion);
+        if (lstRevisiones.size() > 0) {
+            mostrarHistorialRevisiones(lstRevisiones);
+        } else {
+            JOptionPane.showMessageDialog(null, "Avión sin registros!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
+
     public Revision solicitarDatosRegistro(){
         /*Varibales */
         Revision revision = new Revision();
+        List<String> lstEstados = new ArrayList<>();
 
         //Crear los componentes
-        JPanel panel = new JPanel(new GridLayout(3, 2, 5, 1));
+        JPanel panel = new JPanel(new GridLayout(4, 2, 5, 1));
 
         JLabel fechaLabel = new JLabel("Fecha De Revisión:");
         JTextField fechaField = new JTextField();
@@ -70,7 +90,23 @@ public class RevisionController {
         JTextField descripcionField = new JTextField();
         descripcionField.setFont(new Font("Monospaced", Font.BOLD, 13));
 
+        JLabel lblEstado = new JLabel("Estado:");
+        //LLAMADO A HEXAGONAL DE ENTIDAD REVISION_ESTADO
+        RevisionEstadoService revisionEstadoService = new RevisionEstadoRepository();
+        RevisionEstadoUseCase revisionEstadoUseCase = new RevisionEstadoUseCase(revisionEstadoService);
+        RevisionEstadoController revisionEstadoController = new RevisionEstadoController(revisionEstadoUseCase);
+        List<RevisionEstado> lstRevisionEstados = revisionEstadoController.listarEstados();
+        System.out.println(lstRevisionEstados.size());
+        String[] opcionesTgs;
+        //USANDO CONSUMER
+        Consumer<RevisionEstado> getEstado = revisionEstado -> lstEstados.add(revisionEstado.getEstado());
+        lstRevisionEstados.forEach(getEstado);
+
+        opcionesTgs = lstEstados.toArray(new String[0]);
+        JComboBox<String> opTgsComboBox = new JComboBox<>(opcionesTgs);
+
         panel.setPreferredSize(new Dimension(450, 120));
+
 
         //VALIDACIONES DE ENTERO
         idField.addKeyListener(new KeyAdapter() {
@@ -107,6 +143,8 @@ public class RevisionController {
         panel.add(fechaField);
         panel.add(descripcionLabel);
         panel.add(descripcionField);
+        panel.add(lblEstado);
+        panel.add(opTgsComboBox);
 
         // Mostrar el panel en un JOptionPane
         int option = JOptionPane.showConfirmDialog(
@@ -123,11 +161,18 @@ public class RevisionController {
             String fecha_revision = fechaField.getText();
             String id_revision = idField.getText();
             String descrip = descripcionField.getText();
+            String estado = opTgsComboBox.getSelectedItem().toString();
 
             try {
                 revision.setFecha_revision(fecha_revision);
                 revision.setId_avion(Integer.parseInt(id_revision));
                 revision.setDescrip(descrip);
+                lstRevisionEstados.forEach(revisionEstado -> {
+                    if (revisionEstado.getEstado().equals(estado)) {
+                        System.out.println("ESOTOY ENCONTRADO LA LLAVE OK" + revisionEstado.getId_estado());
+                        revision.setId_estado(revisionEstado.getId_estado());
+                    }
+                });
                 
 
             } catch (Exception e) {
@@ -138,6 +183,44 @@ public class RevisionController {
             System.out.println("Registro de avión cancelado.");
         }
         return revision;
+    }
+
+    public String solicitarPlacaAvion(){
+        /*Varibales */
+        String placa = "";
+
+        //Crear los componentes
+        JPanel panel = new JPanel(new GridLayout(1, 2, 5, 1));
+
+        JLabel lblPlaca = new JLabel("Placa Avión:");
+        JTextField txtPlaca = new JTextField();
+        txtPlaca.setFont(new Font("Monospaced", Font.BOLD, 12));
+
+        panel.setPreferredSize(new Dimension(250, 30));
+
+        // Añadir los componentes al panel
+        panel.add(lblPlaca);
+        panel.add(txtPlaca);
+
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.OK_CANCEL_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        // Manejar la entrada del usuario
+        if (option == JOptionPane.OK_OPTION) {
+            placa = txtPlaca.getText();
+        } 
+        return placa;
+    }
+
+    public void  mostrarHistorialRevisiones(List<Revision> lstRevisiones){
+        //FALTA LOGICA DE IMPRIMIR LA LISTA DE REVISIONES
+    
     }
 }
 

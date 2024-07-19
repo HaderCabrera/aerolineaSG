@@ -16,4 +16,9 @@ public class AeropuertoUseCase {
         Boolean confirmacion = aeropuertoService.registrarAeropuerto(aeropuerto);
         return confirmacion;
     }
+
+    public Aeropuerto consultarAeropuerto(Long id_aeropuerto){
+        Aeropuerto aeropuerto = aeropuertoService.consultarAeropuerto(id_aeropuerto);
+        return aeropuerto;
+    }
 }

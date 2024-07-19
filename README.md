@@ -29,3 +29,4 @@ tripulación.
 ### Registrar conexiones de cada entidad a la espera de ser llamadas.
 
 
+

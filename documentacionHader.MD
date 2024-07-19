@@ -30,4 +30,12 @@
 2. Crear arquitectura hexagonal para la entidad aeropuerto
     1. Agregar servicio **Registrar Aeropuerto**
     2. Gestionar entidad **Ciudad** para disponer del servicio **Listar ciudades** y poder agregarla a la vista de registro.
-    3. 
+
+# Caso de Uso 11: Consultar Información de Aeropuerto.
+1. Agregar servicio **Consultar informacion de Aeropuerto** a entiedad aeropuerto
+    1. implementar procedimiento en SQL.
+
+# Caso de Uso 12: Consultar Historial de Revisiones de Avión
+1. Agregar servicio **Consultar Historial de revision de Avion**
+    1. implementar procedimiento en SQL.
+
