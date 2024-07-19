@@ -494,7 +494,7 @@ public class UserController {
                 revisionController.registrarRevision();
                 break;
             case "Historico De Revisiones En Avion":
-                revisionController.consultarRevision();
+                revisionController.listarRevisionesByPlaca();
                 break;
             case "Actualizar Informacion Revision":
                 System.out.println("SI LO TOMOA BIEN");
