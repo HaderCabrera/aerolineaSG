@@ -2,12 +2,14 @@ package avion.infraestructure.outRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.aeroline.DatabaseConfig;
 
 import avion.domain.entity.Avion;
 import avion.domain.service.AvionService;
+
 
 public class AvionRepository implements AvionService{
 
@@ -34,6 +36,33 @@ public class AvionRepository implements AvionService{
         }
         
         return true;
+    }
+
+    @Override
+    public Avion consultarAvionByPlaca(String placa) {
+        String sql = " CALL ObtenerDatosAvion(?);";
+        Avion avion = null;
+
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, placa);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+
+                    avion = new Avion();
+                    avion.setPlaca_identificacion(resultSet.getString("placa_identificacion"));
+                    avion.setCapacidad(resultSet.getInt("capacidad"));
+                    avion.setFabricacion_fecha(resultSet.getString("fabricacion_fecha"));
+                    avion.setEstado(resultSet.getString("estado"));
+                    avion.setModelo(resultSet.getString("modelo"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return avion;
     }
 
 }

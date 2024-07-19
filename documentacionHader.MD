@@ -19,5 +19,12 @@
     2. Realizar un insert de un cliente para poder consultar.
     3. Agregar servicio **Consultar Información de Cliente**
 
-# Caso de Uso 7: Registrar Cliente
-1. Agregar servicio **Registrar Cliente**
+**Dejo registro de cliente a Eliezer ya que hace parte de gestionar trayecto**
+
+# Caso de Uso 8: Consultar Información de Avión
+1. Agregar servicio de **Consultar Informacion de Avion** a entidad Avion.
+    1. Creacion de procedimiento para obtener datos.
+
+# Caso de Uso 10: Registrar Aeropuerto
+1. Hacer Insert de SQL en tablas **Pais** y **Ciudad**
+1. Crear arquitectura hexagonal para la entidad aeropuerto

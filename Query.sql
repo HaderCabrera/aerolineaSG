@@ -39,15 +39,6 @@ INNER JOIN
 INNER JOIN 
     aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto;
 
-SELECT * FROM vista_tripulacion_vuelo;
-
-SELECT * FROM vuelo;
-
-
-
-
---
-SELECT * FROM permisosUsuarios;
 
 INSERT INTO permisosUsuarios (nombre_permiso) VALUES
 ('Registrar Avion'),('Consultar Informacion De Avion'),('Eliminar Avion'),('Actualizar Informacion De Avion'),
@@ -161,8 +152,6 @@ INSERT INTO puertaSalidaAbordaje (nombre, id_aeropuerto) VALUES
 ('Gate B2', 2);
 
 
-
-
 -- INSERCIONES VUELO
 
 INSERT INTO vuelo (numero_vuelo, aeropuerto_origen, aeropuerto_destino, hora_salida, hora_llegada)
@@ -207,3 +196,29 @@ INSERT INTO tripulacionvuelo_empleado (id_empleado, id_detalle_vuelo) VALUES
 SELECT * FROM vista_detalle_tripulacion WHERE Numero_Vuelo = "VU123";
 SELECT * FROM vista_detalle_tripulacion;
 SELECT * FROM vuelo;
+
+--PROCEDIMIENTO PARA OBTENER DATOS DE AVION
+DELIMITER $$
+CREATE PROCEDURE ObtenerDatosAvion(placaIdentificacion VARCHAR(30))
+BEGIN
+    SELECT A.id_avion, A.placa_identificacion, A.capacidad, A.fabricacion_fecha, E.nombre AS estado, M.nombre AS modelo
+    FROM avion AS A
+    INNER JOIN estadoAvion AS E ON A.id_estado = E.id_estado
+    INNER JOIN modelo AS M ON A.id_modelo = M.id_modelo
+    WHERE A.placa_identificacion = placaIdentificacion;
+END $$
+DELIMITER ;
+
+
+INSERT INTO pais (id_pais, nombre) VALUES ('US', 'Estados Unidos'), ('CA', 'Canadá'),
+ ('MX', 'México'), ('BR', 'Brasil'), ('AR', 'Argentina'), ('CO', 'Colombia'),('PE', 'Perú'),
+('VE', 'Venezuela'), ('CL', 'Chile') ,('EC', 'Ecuador');
+
+-- Inserción de datos en la tabla ciudad
+INSERT INTO ciudad (id_ciudad, nombre, id_pais) VALUES
+('NYC', 'Nueva York', 'US'), ('TOR', 'Toronto', 'CA'),
+('CDMX', 'Ciudad de México', 'MX'), ('SAO', 'São Paulo', 'BR'),
+('BA', 'Buenos Aires', 'AR'), ('BOG', 'Bogotá', 'CO'),
+('LIM', 'Lima', 'PE'), ('CAR', 'Caracas', 'VE'), ('SCL', 'Santiago', 'CL'),
+ ('GUQ', 'Guayaquil', 'EC');
+

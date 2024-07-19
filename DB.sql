@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS avion (
     Foreign Key (id_modelo) REFERENCES modelo (id_modelo)
 );
 
+
 CREATE TABLE IF NOT EXISTS revision (
     id_revision INT PRIMARY KEY AUTO_INCREMENT,
     fecha_revision VARCHAR(12) NOT NULL,

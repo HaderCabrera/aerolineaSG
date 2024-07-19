@@ -351,16 +351,17 @@ public class UserController {
    }
 
     public void ejecutarPermiso(String permiso){
+        AvionService avionService = new AvionRepository();
+        AvionUseCase avionUseCase = new AvionUseCase(avionService);
+        AvionController avionController = new AvionController(avionUseCase);
+
         switch (permiso) {
             case "Registrar Avion":
-                AvionService avionService = new AvionRepository();
-                AvionUseCase avionUseCase = new AvionUseCase(avionService);
-                AvionController avionController = new AvionController(avionUseCase);
                 avionController.registrarAvion();
                 break;
 
             case "Consultar Informacion De Avion":
-                System.out.println("SI LO TOMOA BIEN"); 
+                avionController.consultarAvionByPlaca(); 
                 break;
 
             case "Actualizar Informacion De Avion":
@@ -405,7 +406,7 @@ public class UserController {
                 break;
 
             case "Consultar Informacion De Aeronave":
-                System.out.println("SI LO TOMOA BIEN");
+                //ES LO MISMO QUE CONSULTAR INFORMACION DE AVION
                 break;
 
             case "Actualizar Informacion De Aeropuerto":
