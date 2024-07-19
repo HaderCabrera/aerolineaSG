@@ -14,6 +14,9 @@ tripulación.
 
 ![](./img/modelorelacional.jpg)
 
+## Implementacion de CONSUMER
+![](./img/consumer.png)
+
 ## Shedule
 
 ### Definicion de entidades/servicios.
