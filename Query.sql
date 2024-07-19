@@ -62,12 +62,11 @@ INSERT INTO rolUsuario (nombre_rol) VALUES
 
 -- Insertar datos en rol_permiso
 INSERT INTO rol_permiso(id_rolUsuario, id_permisosUsuarios) VALUES
-(1, 1),(1, 5),(1, 2),(1, 7),(1, 42),(1, 4),(1, 3),(1, 8),(1, 9),(1, 43),(1, 13),
+(1, 1),(1, 5),(1, 2),(1, 7),(1, 42),(1, 4),(1, 3),(1, 8),(1, 9),(1, 43),(1, 13),(1,11)
 (1, 14 ),(1, 6),(1, 16),(1, 44),(1, 10),(1, 17),(1, 18),(1, 19),(1, 20),(1, 23),(1, 24),(1, 25),(1, 26),
 (3, 6),(3, 16),(3, 20),(3, 21),(3, 22),(3, 45),(3, 46),(3, 38),(3, 47),(3, 30),(3, 37), (3, 26), (3, 29)
 (4, 32),(4, 33),(4, 34),(4, 35),
 (2, 21),(2, 22),(2, 45),(2, 46),(2, 27),(2, 38);
-
 
 -- Insertar datos en usuario
 INSERT INTO usuario (nombre_usuario, pass, id_rolUsuario)
@@ -221,4 +220,13 @@ INSERT INTO ciudad (id_ciudad, nombre, id_pais) VALUES
 ('BA', 'Buenos Aires', 'AR'), ('BOG', 'Bogotá', 'CO'),
 ('LIM', 'Lima', 'PE'), ('CAR', 'Caracas', 'VE'), ('SCL', 'Santiago', 'CL'),
  ('GUQ', 'Guayaquil', 'EC');
+
+-- Procedimiento para botener ciuades
+DELIMITER $$
+CREATE PROCEDURE ObtenerCiudades()
+BEGIN
+    SELECT nombre
+    FROM ciudad;
+END $$
+DELIMITER ;
 

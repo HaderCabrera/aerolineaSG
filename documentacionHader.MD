@@ -27,4 +27,7 @@
 
 # Caso de Uso 10: Registrar Aeropuerto
 1. Hacer Insert de SQL en tablas **Pais** y **Ciudad**
-1. Crear arquitectura hexagonal para la entidad aeropuerto
+2. Crear arquitectura hexagonal para la entidad aeropuerto
+    1. Agregar servicio **Registrar Aeropuerto**
+    2. Gestionar entidad **Ciudad** para disponer del servicio **Listar ciudades** y poder agregarla a la vista de registro.
+    3. 

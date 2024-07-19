@@ -12,6 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import aeropuerto.application.AeropuertoUseCase;
+import aeropuerto.domain.service.AeropuertoService;
+import aeropuerto.infraestructure.inController.AeropuertoController;
+import aeropuerto.infraestructure.outRepository.AeropuertoRepository;
 import avion.application.AvionUseCase;
 import avion.domain.service.AvionService;
 import avion.infraestructure.inController.AvionController;
@@ -351,9 +355,15 @@ public class UserController {
    }
 
     public void ejecutarPermiso(String permiso){
+        //LLAMADO A HEXAGONAL AVION
         AvionService avionService = new AvionRepository();
         AvionUseCase avionUseCase = new AvionUseCase(avionService);
         AvionController avionController = new AvionController(avionUseCase);
+
+        //LLAMADO A HEXAGONAL AEROPUERTO
+        AeropuertoService aeropuertoService = new AeropuertoRepository();
+        AeropuertoUseCase aeropuertoUseCase = new AeropuertoUseCase(aeropuertoService);
+        AeropuertoController aeropuertoController = new AeropuertoController(aeropuertoUseCase);
 
         switch (permiso) {
             case "Registrar Avion":
@@ -402,7 +412,7 @@ public class UserController {
                 break;
 
             case "Registrar Aeropuerto":
-                System.out.println("SI LO TOMOA BIEN");
+                aeropuertoController.registrarAeropuerto();
                 break;
 
             case "Consultar Informacion De Aeronave":
