@@ -23,9 +23,9 @@ public class RevisionUseCase {
         return confirmacion;
     }
 
-    public List<Revision> consultarRevision(String placa_avion) {
+    public List<Revision> listarRevisionesByPlaca(String placa_avion) {
         List<Revision> lstRevisiones = new ArrayList<>();
-        lstRevisiones = revisionService.consultarRevision(placa_avion);
+        lstRevisiones = revisionService.listarRevisionesByPlaca(placa_avion);
         return lstRevisiones;
     }
 }

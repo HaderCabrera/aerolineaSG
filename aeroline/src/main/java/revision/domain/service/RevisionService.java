@@ -7,5 +7,5 @@ import revision.domain.entity.Revision;
 public interface RevisionService {
     Long registrarRevision(Revision revision);
     Boolean eliminarRevision(Long IdRevision);
-    List<Revision> consultarRevision(String placa_avion);
+    List<Revision> listarRevisionesByPlaca(String placa_avion);
 }

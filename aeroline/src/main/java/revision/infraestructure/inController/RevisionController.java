@@ -1,19 +1,27 @@
 package revision.infraestructure.inController;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Panel;
 
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import java.util.function.Consumer;
 
 import revision.application.RevisionUseCase;
@@ -59,9 +67,9 @@ public class RevisionController {
         } 
     }
 
-    public void consultarRevision(){
+    public void listarRevisionesByPlaca(){
         String placa_avion = solicitarPlacaAvion();
-        List<Revision> lstRevisiones = revisionUseCase.consultarRevision(placa_avion);
+        List<Revision> lstRevisiones = revisionUseCase.listarRevisionesByPlaca(placa_avion);
         if (lstRevisiones.size() > 0) {
             mostrarHistorialRevisiones(lstRevisiones);
         } else {
@@ -91,13 +99,14 @@ public class RevisionController {
         descripcionField.setFont(new Font("Monospaced", Font.BOLD, 13));
 
         JLabel lblEstado = new JLabel("Estado:");
+
         //LLAMADO A HEXAGONAL DE ENTIDAD REVISION_ESTADO
         RevisionEstadoService revisionEstadoService = new RevisionEstadoRepository();
         RevisionEstadoUseCase revisionEstadoUseCase = new RevisionEstadoUseCase(revisionEstadoService);
         RevisionEstadoController revisionEstadoController = new RevisionEstadoController(revisionEstadoUseCase);
         List<RevisionEstado> lstRevisionEstados = revisionEstadoController.listarEstados();
-        System.out.println(lstRevisionEstados.size());
         String[] opcionesTgs;
+
         //USANDO CONSUMER
         Consumer<RevisionEstado> getEstado = revisionEstado -> lstEstados.add(revisionEstado.getEstado());
         lstRevisionEstados.forEach(getEstado);
@@ -169,7 +178,6 @@ public class RevisionController {
                 revision.setDescrip(descrip);
                 lstRevisionEstados.forEach(revisionEstado -> {
                     if (revisionEstado.getEstado().equals(estado)) {
-                        System.out.println("ESOTOY ENCONTRADO LA LLAVE OK" + revisionEstado.getId_estado());
                         revision.setId_estado(revisionEstado.getId_estado());
                     }
                 });
@@ -219,8 +227,43 @@ public class RevisionController {
     }
 
     public void  mostrarHistorialRevisiones(List<Revision> lstRevisiones){
-        //FALTA LOGICA DE IMPRIMIR LA LISTA DE REVISIONES
-    
+        //DEFINIAR LAS FILAS DE LA TABLA
+        Vector<Vector<Object>> revisiones = new Vector<>();
+
+        //CONSUMIR LA LISTA DE REVISIONES Y AGREGARLA AL VECTOR
+        Consumer<Revision> getDatos = revisionFila -> {
+            Vector<Object> fila = new Vector<>();
+            fila.add(revisionFila.getId_avion());
+            fila.add(revisionFila.getFecha_revision());
+            fila.add(revisionFila.getEstado());
+            fila.add(revisionFila.getDescrip());
+            revisiones.add(fila);
+        };
+        lstRevisiones.forEach(getDatos);
+
+        //DEFINO ENCABEZADO
+        Vector<Object> encabezado = new Vector<>();
+        encabezado.add("Id Avión");
+        encabezado.add("Fecha De Revisión");
+        encabezado.add("Estado");
+        encabezado.add("Descripción");
+        
+        DefaultTableModel modelo = new DefaultTableModel(revisiones, encabezado);
+        JTable tabla = new JTable(modelo);
+        tabla.setPreferredScrollableViewportSize(new Dimension(800, 100));
+        tabla.setBackground(Color.LIGHT_GRAY);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JScrollPane scrollPane = new JScrollPane(tabla);
+        panel.add(scrollPane);
+        JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
     }
 }
 

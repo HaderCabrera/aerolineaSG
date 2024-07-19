@@ -66,7 +66,7 @@ public class RevisionRepository implements RevisionService {
 	}
 
     @Override
-    public List<Revision> consultarRevision(String placa_avion) {
+    public List<Revision> listarRevisionesByPlaca(String placa_avion) {
 
         Revision revision = null;
         List<Revision> lstRevisiones = new ArrayList<>();
