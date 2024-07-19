@@ -86,12 +86,18 @@ CREATE TABLE IF NOT EXISTS avion (
     Foreign Key (id_modelo) REFERENCES modelo (id_modelo)
 );
 
+CREATE TABLE IF NOT EXISTS estado_revision(
+	id_estado INT PRIMARY KEY AUTO_INCREMENT,
+    estado VARCHAR(50) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS revision (
     id_revision INT PRIMARY KEY AUTO_INCREMENT,
     fecha_revision VARCHAR(12) NOT NULL,
     id_avion INT NOT NULL,
     descrip TEXT NOT NULL,
+    id_estado_revision INT NOT NULL,
+    FOREIGN KEY (id_estado_revision) REFERENCES estado_revision(id_estado);
     Foreign Key (id_avion) REFERENCES avion (id_avion)
 );
 
@@ -102,7 +108,6 @@ CREATE TABLE IF NOT EXISTS revision_empleado(
     FOREIGN KEY (id_revision) REFERENCES revision(id_revision),
 	FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
 );
-
 
 
 CREATE TABLE IF NOT EXISTS vuelo (

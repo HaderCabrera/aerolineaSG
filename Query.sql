@@ -230,3 +230,28 @@ BEGIN
 END $$
 DELIMITER ;
 
+--procedimiento para obtener datos de ciudad
+DELIMITER $$
+CREATE PROCEDURE ObtenerDatosAeropuerto(idAeropuerto INT)
+BEGIN
+    SELECT A.nombre, C.nombre
+    FROM aeropuerto AS A
+    INNER JOIN ciudad AS C ON A.id_ciudad = C.id_ciudad
+    WHERE A.id_aeropuerto = idAeropuerto;
+END $$
+DELIMITER ;
+
+--PROCEDIMIENTO PARA SACAR INFORMACION DE REVISIONES
+DELIMITER $$
+CREATE PROCEDURE ObtenerHistorialRevisiones(placa VARCHAR(30))
+BEGIN
+    SELECT R.id_revision, R.fecha_revision, R.descrip, R.id_avion, ER.estado
+    FROM revision AS R
+    INNER JOIN avion AS A ON R.id_avion = A.id_avion
+    INNER JOIN estado_revision AS ER ON R.id_estado_revision = ER.id_estado
+    WHERE A.placa_identificacion = placa;
+END $$
+DELIMITER ;
+
+INSERT INTO estado_revision (estado)
+VALUES ('Pendiente'), ('En Progreso'), ('Completado');

@@ -44,7 +44,6 @@ public class AvionController {
         Avion avion = avionUseCase.consultarAvionByPlaca(placa);
         if (avion != null) {
             mostrarDatosAvion(avion);
-
         }  else {
             JOptionPane.showMessageDialog(null, "Avión no encontrado!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
         }     

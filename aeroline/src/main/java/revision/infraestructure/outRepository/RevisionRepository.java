@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -16,8 +18,8 @@ public class RevisionRepository implements RevisionService {
 
     @Override
     public Long registrarRevision(Revision revision) {
-        String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip) VALUES \n" + //
-                     "(?, ?, ?);\n" + //
+        String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip, id_estado_revision) VALUES \n" + //
+                     "(?, ?, ?, ?);\n" + //
                      "";
 
         try (Connection connection = DatabaseConfig.getConnection();
@@ -27,6 +29,7 @@ public class RevisionRepository implements RevisionService {
             statement.setString(1, revision.getFecha_revision());
             statement.setInt(2, revision.getId_avion());
             statement.setString(3, revision.getDescrip());
+            statement.setLong(4, revision.getId_estado());
             statement.executeUpdate();
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -61,4 +64,33 @@ public class RevisionRepository implements RevisionService {
         }
 		return false;
 	}
+
+    @Override
+    public List<Revision> consultarRevision(String placa_avion) {
+
+        Revision revision = null;
+        List<Revision> lstRevisiones = new ArrayList<>();
+        String sql = "CALL ObtenerHistorialRevisiones(?);";
+
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, placa_avion);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    revision = new Revision();
+                    revision.setId_avion(Integer.parseInt(resultSet.getString("id_avion"))); 
+                    revision.setFecha_revision(resultSet.getString("fecha_revision"));
+                    revision.setDescrip(resultSet.getString("descrip"));
+                    revision.setEstado(resultSet.getString("estado"));
+                    revision.setEstado(resultSet.getString("estado"));
+                    lstRevisiones.add(revision);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lstRevisiones;
+    }
 }

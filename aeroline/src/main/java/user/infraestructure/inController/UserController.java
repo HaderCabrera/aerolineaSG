@@ -365,6 +365,11 @@ public class UserController {
         AeropuertoUseCase aeropuertoUseCase = new AeropuertoUseCase(aeropuertoService);
         AeropuertoController aeropuertoController = new AeropuertoController(aeropuertoUseCase);
 
+        //LLAMADO A HEXAGONAL REVISION
+        RevisionService revisionService = new RevisionRepository();
+        RevisionUseCase revisionUseCase = new RevisionUseCase(revisionService);
+        RevisionController revisionController = new RevisionController(revisionUseCase);
+
         switch (permiso) {
             case "Registrar Avion":
                 avionController.registrarAvion();
@@ -420,7 +425,7 @@ public class UserController {
                 break;
 
             case "Actualizar Informacion De Aeropuerto":
-                System.out.println("SI LO TOMOA BIEN");
+
                 break;
 
             case "Eliminar Aeropuerto":
@@ -486,13 +491,10 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Registrar Revision Mantenimiento":
-                RevisionService revisionService = new RevisionRepository();
-                RevisionUseCase revisionUseCase = new RevisionUseCase(revisionService);
-                RevisionController revisionController = new RevisionController(revisionUseCase);
                 revisionController.registrarRevision();
                 break;
             case "Historico De Revisiones En Avion":
-                System.out.println("SI LO TOMOA BIEN");
+                revisionController.consultarRevision();
                 break;
             case "Actualizar Informacion Revision":
                 System.out.println("SI LO TOMOA BIEN");
@@ -519,7 +521,7 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Consultar Informacion De Aeropuerto":
-                System.out.println("SI LO TOMOA BIEN");
+                aeropuertoController.consultarAeropuerto();
                 break;
             case "Eliminar Trayecto":
                 System.out.println("SI LO TOMOA BIEN");

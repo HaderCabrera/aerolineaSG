@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
 import aeropuerto.application.AeropuertoUseCase;
 import aeropuerto.domain.entity.Aeropuerto;
 import ciudad.application.CiudadUseCase;
@@ -38,11 +37,21 @@ public class AeropuertoController {
         } else  JOptionPane.showMessageDialog(null, "Error al registrar", "Denied", JOptionPane.WARNING_MESSAGE);
     }
 
+    public void consultarAeropuerto(){
+        Long id_aeropuerto = solicitarIdAeropuerto();
+        Aeropuerto aeropuertoFind = aeropuertoUseCase.consultarAeropuerto(id_aeropuerto);
+        if (aeropuertoFind != null) {
+            mostrarDatosAeropuerto(aeropuertoFind);
+        } else {
+            JOptionPane.showMessageDialog(null, "Aeropuerto no encontrado!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
     public Aeropuerto solicitarDatosRegistro(){
         /*Varibales */
         Aeropuerto aeropuerto = new Aeropuerto();
         List<Ciudad> lstCiudades = new ArrayList<>();
-        String[] opcionesTgs;
 
         //Crear los componentes
         JPanel panel = new JPanel(new GridLayout(2, 2, 5, 1));
@@ -59,7 +68,8 @@ public class AeropuertoController {
         CiudadController ciudadController = new CiudadController(ciudadUseCase);
         List<String> lstNombreCiudades = new ArrayList<>();
         lstCiudades = ciudadController.listarCiudades();
-
+        String[] opcionesTgs;
+        
         //USANDO CONSUMER
         Consumer<Ciudad> getNombre = ciudad -> lstNombreCiudades.add(ciudad.getNombre());
         lstCiudades.forEach(getNombre);
@@ -106,6 +116,63 @@ public class AeropuertoController {
             System.out.println("Registro de avión cancelado.");
         }
         return aeropuerto;
+    }
+
+    public Long  solicitarIdAeropuerto(){
+        JPanel panel = new JPanel(new GridLayout(1, 1, 5, 1));
+
+        JLabel txtIdAeropuerto = new JLabel("Id Aeropuerto:");
+        JTextField lblIdAeropuerto = new JTextField();
+        lblIdAeropuerto.setFont(new Font("Monospaced", Font.BOLD, 12));
+
+        panel.setPreferredSize(new Dimension(250, 30));
+    
+        //Agreganmos elementos al panel
+        panel.add(txtIdAeropuerto);
+        panel.add(lblIdAeropuerto);
+
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.OK_CANCEL_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        //Tratar datos recolectados
+        if (option == JOptionPane.OK_OPTION) {
+            Long id = Long.parseLong(lblIdAeropuerto.getText());
+            return id;        
+
+        } else {
+            JOptionPane.showMessageDialog(panel, "Consulta cancelada", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+
+    public void mostrarDatosAeropuerto(Aeropuerto aeropuerto){
+        JPanel panel = new JPanel(new GridLayout(2, 2, 10, 5));
+
+        JLabel lblNombre = new JLabel("Aeropuerto:");
+        JLabel lblNombreValor = new JLabel(aeropuerto.getNombre());
+
+        JLabel lblCiudad = new JLabel("Ciudad:");
+        JLabel lblCiudadValor = new JLabel(aeropuerto.getCiudad());
+
+        panel.add(lblNombre);
+        panel.add(lblNombreValor);
+        panel.add(lblCiudad);
+        panel.add(lblCiudadValor);
+
+        // Mostrar el panel en un JOptionPane
+        JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.PLAIN_MESSAGE
+        );
     }
 }
 
