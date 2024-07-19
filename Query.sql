@@ -207,3 +207,10 @@ INSERT INTO tripulacionvuelo_empleado (id_empleado, id_detalle_vuelo) VALUES
 SELECT * FROM vista_tripulacion_vuelo WHERE Numero_Vuelo = "VU123";
 SELECT * FROM vista_detalle_tripulacion;
 SELECT * FROM vuelo;
+
+
+select * from vuelo;
+
+update vuelo 
+SET  numero_vuelo = "VU123"
+where id_vuelo = 2;
