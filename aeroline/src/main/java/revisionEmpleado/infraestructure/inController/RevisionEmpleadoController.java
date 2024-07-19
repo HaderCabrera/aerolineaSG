@@ -22,8 +22,12 @@ public class RevisionEmpleadoController {
 
     public Long registrarRevisionEmpleado(Long idRevision){
         RevisionEmpleado revisionEmpleadoOk = solicitarDatosRegistro(idRevision);
-        Long confirmacion2 = revisionEmpleadoUseCase.registrarRevisionEmpleado(revisionEmpleadoOk);
-        return confirmacion2;
+        if (revisionEmpleadoOk == null){
+            return null;
+        } else {
+            Long confirmacion2 = revisionEmpleadoUseCase.registrarRevisionEmpleado(revisionEmpleadoOk);
+            return confirmacion2;
+        }
     }
 
     public RevisionEmpleado solicitarDatosRegistro(Long IdRevision){
@@ -35,7 +39,7 @@ public class RevisionEmpleadoController {
         JTextField lblIdEmpleado = new JTextField();
         lblIdEmpleado.setFont(new Font("Monospaced", Font.BOLD, 12));
 
-        panel.setPreferredSize(new Dimension(250, 60));
+        panel.setPreferredSize(new Dimension(250, 30));
 
         //Agreganmos elementos al panel
         panel.add(txtIdEmpleado);
@@ -61,7 +65,9 @@ public class RevisionEmpleadoController {
                 JOptionPane.showMessageDialog(panel, "Error en SQL", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
-        } 
+        } else {
+            return null;
+        }
         return revisionEmpleado;
     }
 }

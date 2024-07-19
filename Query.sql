@@ -94,13 +94,12 @@ INSERT INTO modelo (nombre, id_manufactura) VALUES ('Embraer E190', 3);
 -- Insertar datos en la tabla manufactura
 
 
--- REVISAR ID DE LA TABLA MODELO DADO QUE Y AVION DADO QUE ESTA PASANDO ALGO CON EL AUTOINCREMT
 -- Insertar datos en la tabla avion
 INSERT INTO avion (placa_identificacion, capacidad, fabricacion_fecha, id_estado, id_modelo)
 VALUES
-('ABC123', 180, '2023-01-15', 1, 2),   -- Avión Boeing 737 en estado activo
-('XYZ456', 220, '2022-11-20', 1, 3),   -- Avión Airbus A320 en estado activo
-('DEF789', 100, '2023-03-05', 1, 4);   -- Avión Embraer E190 en estado activo
+('A1', 180, '2021-01-15', 1, 1),   -- Avión Boeing 737 en estado activo
+('B1', 220, '2020-11-20', 1, 2),   -- Avión Airbus A320 en estado activo
+('C1', 100, '2022-03-05', 1, 3);   -- Avión Embraer E190 en estado activo
 
 INSERT INTO tripulacionRol (nombre) VALUES 
 ('Piloto'),

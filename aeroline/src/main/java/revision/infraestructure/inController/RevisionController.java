@@ -5,10 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Panel;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -55,16 +54,17 @@ public class RevisionController {
             RevisionEmpleadoController revisionEmpleadoController = new RevisionEmpleadoController(revisionEmpleadoUseCase);
             //falta terminar
             Long confirmacion = revisionEmpleadoController.registrarRevisionEmpleado(idRevision);
-            System.out.println(confirmacion);
-            if (confirmacion != 0) {
-                //JPnael CONFIRMACION
-                String mensaje = "Registros De Revisiòn Exitoso";
-                JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.PLAIN_MESSAGE);
+
+            if (confirmacion != null) {
+                JOptionPane.showMessageDialog(null, "Registros De Revisiòn Exitoso", "Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
-               revisionUseCase.eliminarRevision(idRevision);
+                revisionUseCase.eliminarRevision(idRevision);
+                // JOptionPane.showMessageDialog(null, "No se ha podido asignar revision a Empleado", "Denied", JOptionPane.INFORMATION_MESSAGE);
             }
-        } 
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha sido posible registrar Revision", "Denied", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     public void listarRevisionesByPlaca(){
@@ -262,7 +262,7 @@ public class RevisionController {
             panel, 
             "Airline, Hight All  The Time!", 
             JOptionPane.CLOSED_OPTION, 
-            JOptionPane.QUESTION_MESSAGE
+            JOptionPane.PLAIN_MESSAGE
         );
     }
 }

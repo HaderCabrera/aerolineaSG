@@ -18,9 +18,9 @@ public class RevisionRepository implements RevisionService {
 
     @Override
     public Long registrarRevision(Revision revision) {
-        String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip, id_estado_revision) VALUES \n" + //
-                     "(?, ?, ?, ?);\n" + //
-                     "";
+    String sql = "INSERT INTO revision (fecha_revision, id_avion, descrip, id_estado_revision) VALUES \n" + //
+                    "(?, ?, ?, ?);\n" + //
+                    "";
 
         try (Connection connection = DatabaseConfig.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql,
@@ -51,7 +51,7 @@ public class RevisionRepository implements RevisionService {
 
 	@Override
 	public Boolean eliminarRevision(Long IdRevision) {
-        String sql = "DELETE FROM revision WHERE IdRevision = ?;";
+        String sql = "DELETE FROM revision WHERE id_revision = ?;";
         try (Connection connection = DatabaseConfig.getConnection();
         PreparedStatement statement = connection.prepareStatement(sql)) {
 
