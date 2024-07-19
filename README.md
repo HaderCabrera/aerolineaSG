@@ -14,6 +14,9 @@ tripulación.
 
 ![](./img/modelorelacional.jpg)
 
+## Implementacion de CONSUMER
+![](./img/consumer.png)
+
 ## Shedule
 
 ### Definicion de entidades/servicios.
@@ -24,5 +27,6 @@ tripulación.
 ### Empezar a gestionar casos de uso.
 
 ### Registrar conexiones de cada entidad a la espera de ser llamadas.
+
 
 

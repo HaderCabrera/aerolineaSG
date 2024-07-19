@@ -18,4 +18,24 @@
     1. Realizar insert en la tabla tipo_documentos para poder crear un Cliente
     2. Realizar un insert de un cliente para poder consultar.
     3. Agregar servicio **Consultar Información de Cliente**
-2. Registr
+
+**Dejo registro de cliente a Eliezer ya que hace parte de gestionar trayecto**
+
+# Caso de Uso 8: Consultar Información de Avión
+1. Agregar servicio de **Consultar Informacion de Avion** a entidad Avion.
+    1. Creacion de procedimiento para obtener datos.
+
+# Caso de Uso 10: Registrar Aeropuerto
+1. Hacer Insert de SQL en tablas **Pais** y **Ciudad**
+2. Crear arquitectura hexagonal para la entidad aeropuerto
+    1. Agregar servicio **Registrar Aeropuerto**
+    2. Gestionar entidad **Ciudad** para disponer del servicio **Listar ciudades** y poder agregarla a la vista de registro.
+
+# Caso de Uso 11: Consultar Información de Aeropuerto.
+1. Agregar servicio **Consultar informacion de Aeropuerto** a entiedad aeropuerto
+    1. implementar procedimiento en SQL.
+
+# Caso de Uso 12: Consultar Historial de Revisiones de Avión
+1. Agregar servicio **Consultar Historial de revision de Avion**
+    1. implementar procedimiento en SQL.
+

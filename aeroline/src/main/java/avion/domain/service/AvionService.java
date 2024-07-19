@@ -4,4 +4,5 @@ import avion.domain.entity.Avion;
 
 public interface AvionService {
     boolean registrarAvion(Avion avion);
+    Avion consultarAvionByPlaca(String placa);
 }

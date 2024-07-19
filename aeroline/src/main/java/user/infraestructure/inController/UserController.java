@@ -12,10 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import aeropuerto.application.AeropuertoUseCase;
+import aeropuerto.domain.service.AeropuertoService;
+import aeropuerto.infraestructure.inController.AeropuertoController;
+import aeropuerto.infraestructure.outRepository.AeropuertoRepository;
 import avion.application.AvionUseCase;
 import avion.domain.service.AvionService;
 import avion.infraestructure.inController.AvionController;
 import avion.infraestructure.outRepository.AvionRepository;
+import cliente.application.ClienteUseCase;
+import cliente.domain.service.ClienteService;
+import cliente.infraestructure.inController.ClienteController;
+import cliente.infraestructure.outRepository.ClienteRepository;
 import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.service.DetalleVueloService;
 import detallevuelo.infraestructure.inController.DetallevueloController;
@@ -157,22 +165,25 @@ public class UserController {
         List<String> lstPermisoVuelo = new ArrayList<>();
         List<String> lstPermisoAeropuerto = new ArrayList<>();
         List<String> lstPermisoDocumento = new ArrayList<>();
+        List<String> lstPermisosTrayecto = new ArrayList<>();
 
         //Separando permisos por paquetes
         for (String permiso: permisos) {
             if (permiso.contains("Avion")) {
                 lstPermisoAvion.add(permiso);
-            } else if (permiso.contains("Vuelo") || permiso.contains("Trayecto") || permiso.contains("Escala")) {
+            } else if (permiso.contains("Vuelo") || permiso.contains("Escala")) {
                 lstPermisoVuelo.add(permiso);
+            } 
+            else if ( permiso.contains("Trayecto")){
+                lstPermisosTrayecto.add(permiso);
             } else if (permiso.contains("Documento")) {
                 lstPermisoDocumento.add(permiso);
             } else if (permiso.contains("Aeropuerto")) {
                 lstPermisoAeropuerto.add(permiso);
             }
         }
-        System.out.println(lstPermisoVuelo.size());
         // Definir las opciones del submenú de Gestión de Usuarios
-        String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
+        String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Trayecto", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
@@ -195,6 +206,10 @@ public class UserController {
 
                     case "Gestionar Vuelo":
                         generarVistaUser(lstPermisoVuelo);
+                        break;
+
+                    case "Gestionar Trayecto":
+                        generarVistaUser(lstPermisosTrayecto);
                         break;
 
                     case "Gestionar Aeropuerto":
@@ -340,16 +355,28 @@ public class UserController {
    }
 
     public void ejecutarPermiso(String permiso){
+        //LLAMADO A HEXAGONAL AVION
+        AvionService avionService = new AvionRepository();
+        AvionUseCase avionUseCase = new AvionUseCase(avionService);
+        AvionController avionController = new AvionController(avionUseCase);
+
+        //LLAMADO A HEXAGONAL AEROPUERTO
+        AeropuertoService aeropuertoService = new AeropuertoRepository();
+        AeropuertoUseCase aeropuertoUseCase = new AeropuertoUseCase(aeropuertoService);
+        AeropuertoController aeropuertoController = new AeropuertoController(aeropuertoUseCase);
+
+        //LLAMADO A HEXAGONAL REVISION
+        RevisionService revisionService = new RevisionRepository();
+        RevisionUseCase revisionUseCase = new RevisionUseCase(revisionService);
+        RevisionController revisionController = new RevisionController(revisionUseCase);
+
         switch (permiso) {
             case "Registrar Avion":
-                AvionService avionService = new AvionRepository();
-                AvionUseCase avionUseCase = new AvionUseCase(avionService);
-                AvionController avionController = new AvionController(avionUseCase);
                 avionController.registrarAvion();
                 break;
 
             case "Consultar Informacion De Avion":
-                System.out.println("SI LO TOMOA BIEN"); 
+                avionController.consultarAvionByPlaca(); 
                 break;
 
             case "Actualizar Informacion De Avion":
@@ -390,15 +417,15 @@ public class UserController {
                 break;
 
             case "Registrar Aeropuerto":
-                System.out.println("SI LO TOMOA BIEN");
+                aeropuertoController.registrarAeropuerto();
                 break;
 
             case "Consultar Informacion De Aeronave":
-                System.out.println("SI LO TOMOA BIEN");
+                //ES LO MISMO QUE CONSULTAR INFORMACION DE AVION
                 break;
 
             case "Actualizar Informacion De Aeropuerto":
-                System.out.println("SI LO TOMOA BIEN");
+
                 break;
 
             case "Eliminar Aeropuerto":
@@ -452,7 +479,10 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Consultar Informacion Cliente":
-                System.out.println("SI LO TOMOA BIEN");
+                ClienteService clienteService = new ClienteRepository();
+                ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
+                ClienteController clienteController = new ClienteController(clienteUseCase);
+                clienteController.consultarCliente();
                 break;
             case "Actualizar Informacion Cliente":
                 System.out.println("SI LO TOMOA BIEN");
@@ -461,13 +491,10 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Registrar Revision Mantenimiento":
-                RevisionService revisionService = new RevisionRepository();
-                RevisionUseCase revisionUseCase = new RevisionUseCase(revisionService);
-                RevisionController revisionController = new RevisionController(revisionUseCase);
                 revisionController.registrarRevision();
                 break;
             case "Historico De Revisiones En Avion":
-                System.out.println("SI LO TOMOA BIEN");
+                revisionController.listarRevisionesByPlaca();
                 break;
             case "Actualizar Informacion Revision":
                 System.out.println("SI LO TOMOA BIEN");
@@ -494,7 +521,7 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Consultar Informacion De Aeropuerto":
-                System.out.println("SI LO TOMOA BIEN");
+                aeropuertoController.consultarAeropuerto();
                 break;
             case "Eliminar Trayecto":
                 System.out.println("SI LO TOMOA BIEN");

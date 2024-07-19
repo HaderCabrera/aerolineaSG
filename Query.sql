@@ -39,15 +39,6 @@ INNER JOIN
 INNER JOIN 
     aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto;
 
-SELECT * FROM vista_tripulacion_vuelo;
-
-SELECT * FROM vuelo;
-
-
-
-
---
-SELECT * FROM permisosUsuarios;
 
 INSERT INTO permisosUsuarios (nombre_permiso) VALUES
 ('Registrar Avion'),('Consultar Informacion De Avion'),('Eliminar Avion'),('Actualizar Informacion De Avion'),
@@ -71,12 +62,11 @@ INSERT INTO rolUsuario (nombre_rol) VALUES
 
 -- Insertar datos en rol_permiso
 INSERT INTO rol_permiso(id_rolUsuario, id_permisosUsuarios) VALUES
-(1, 1),(1, 5),(1, 2),(1, 7),(1, 42),(1, 4),(1, 3),(1, 8),(1, 9),(1, 43),(1, 13),
+(1, 1),(1, 5),(1, 2),(1, 7),(1, 42),(1, 4),(1, 3),(1, 8),(1, 9),(1, 43),(1, 13),(1,11)
 (1, 14 ),(1, 6),(1, 16),(1, 44),(1, 10),(1, 17),(1, 18),(1, 19),(1, 20),(1, 23),(1, 24),(1, 25),(1, 26),
 (3, 6),(3, 16),(3, 20),(3, 21),(3, 22),(3, 45),(3, 46),(3, 38),(3, 47),(3, 30),(3, 37), (3, 26), (3, 29)
 (4, 32),(4, 33),(4, 34),(4, 35),
 (2, 21),(2, 22),(2, 45),(2, 46),(2, 27),(2, 38);
-
 
 -- Insertar datos en usuario
 INSERT INTO usuario (nombre_usuario, pass, id_rolUsuario)
@@ -104,13 +94,12 @@ INSERT INTO modelo (nombre, id_manufactura) VALUES ('Embraer E190', 3);
 -- Insertar datos en la tabla manufactura
 
 
--- REVISAR ID DE LA TABLA MODELO DADO QUE Y AVION DADO QUE ESTA PASANDO ALGO CON EL AUTOINCREMT
 -- Insertar datos en la tabla avion
 INSERT INTO avion (placa_identificacion, capacidad, fabricacion_fecha, id_estado, id_modelo)
 VALUES
-('ABC123', 180, '2023-01-15', 1, 2),   -- Avión Boeing 737 en estado activo
-('XYZ456', 220, '2022-11-20', 1, 3),   -- Avión Airbus A320 en estado activo
-('DEF789', 100, '2023-03-05', 1, 4);   -- Avión Embraer E190 en estado activo
+('A1', 180, '2021-01-15', 1, 1),   -- Avión Boeing 737 en estado activo
+('B1', 220, '2020-11-20', 1, 2),   -- Avión Airbus A320 en estado activo
+('C1', 100, '2022-03-05', 1, 3);   -- Avión Embraer E190 en estado activo
 
 INSERT INTO tripulacionRol (nombre) VALUES 
 ('Piloto'),
@@ -161,8 +150,6 @@ INSERT INTO puertaSalidaAbordaje (nombre, id_aeropuerto) VALUES
 ('Gate B2', 2);
 
 
-
-
 -- INSERCIONES VUELO
 
 INSERT INTO vuelo (numero_vuelo, aeropuerto_origen, aeropuerto_destino, hora_salida, hora_llegada)
@@ -209,8 +196,63 @@ SELECT * FROM vista_detalle_tripulacion;
 SELECT * FROM vuelo;
 
 
-select * from vuelo;
+--PROCEDIMIENTO PARA OBTENER DATOS DE AVION
+DELIMITER $$
+CREATE PROCEDURE ObtenerDatosAvion(placaIdentificacion VARCHAR(30))
+BEGIN
+    SELECT A.id_avion, A.placa_identificacion, A.capacidad, A.fabricacion_fecha, E.nombre AS estado, M.nombre AS modelo
+    FROM avion AS A
+    INNER JOIN estadoAvion AS E ON A.id_estado = E.id_estado
+    INNER JOIN modelo AS M ON A.id_modelo = M.id_modelo
+    WHERE A.placa_identificacion = placaIdentificacion;
+END $$
+DELIMITER ;
 
-update vuelo 
-SET  numero_vuelo = "VU123"
-where id_vuelo = 2;
+
+INSERT INTO pais (id_pais, nombre) VALUES ('US', 'Estados Unidos'), ('CA', 'Canadá'),
+ ('MX', 'México'), ('BR', 'Brasil'), ('AR', 'Argentina'), ('CO', 'Colombia'),('PE', 'Perú'),
+('VE', 'Venezuela'), ('CL', 'Chile') ,('EC', 'Ecuador');
+
+-- Inserción de datos en la tabla ciudad
+INSERT INTO ciudad (id_ciudad, nombre, id_pais) VALUES
+('NYC', 'Nueva York', 'US'), ('TOR', 'Toronto', 'CA'),
+('CDMX', 'Ciudad de México', 'MX'), ('SAO', 'São Paulo', 'BR'),
+('BA', 'Buenos Aires', 'AR'), ('BOG', 'Bogotá', 'CO'),
+('LIM', 'Lima', 'PE'), ('CAR', 'Caracas', 'VE'), ('SCL', 'Santiago', 'CL'),
+ ('GUQ', 'Guayaquil', 'EC');
+
+-- Procedimiento para botener ciuades
+DELIMITER $$
+CREATE PROCEDURE ObtenerCiudades()
+BEGIN
+    SELECT nombre
+    FROM ciudad;
+END $$
+DELIMITER ;
+
+--procedimiento para obtener datos de ciudad
+DELIMITER $$
+CREATE PROCEDURE ObtenerDatosAeropuerto(idAeropuerto INT)
+BEGIN
+    SELECT A.nombre, C.nombre
+    FROM aeropuerto AS A
+    INNER JOIN ciudad AS C ON A.id_ciudad = C.id_ciudad
+    WHERE A.id_aeropuerto = idAeropuerto;
+END $$
+DELIMITER ;
+
+--PROCEDIMIENTO PARA SACAR INFORMACION DE REVISIONES
+DELIMITER $$
+CREATE PROCEDURE ObtenerHistorialRevisiones(placa VARCHAR(30))
+BEGIN
+    SELECT R.id_revision, R.fecha_revision, R.descrip, R.id_avion, ER.estado
+    FROM revision AS R
+    INNER JOIN avion AS A ON R.id_avion = A.id_avion
+    INNER JOIN estado_revision AS ER ON R.id_estado_revision = ER.id_estado
+    WHERE A.placa_identificacion = placa;
+END $$
+DELIMITER ;
+
+INSERT INTO estado_revision (estado)
+VALUES ('Pendiente'), ('En Progreso'), ('Completado');
+

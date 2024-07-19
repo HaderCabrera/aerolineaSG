@@ -1,17 +1,27 @@
 package revision.infraestructure.inController;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
+import javax.swing.JComboBox;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+import java.util.function.Consumer;
 
 import revision.application.RevisionUseCase;
 import revision.domain.entity.Revision;
@@ -19,6 +29,11 @@ import revisionEmpleado.domain.service.RevisionEmpleadoService;
 import revisionEmpleado.application.RevisionEmpleadoUseCase;
 import revisionEmpleado.infraestructure.inController.RevisionEmpleadoController;
 import revisionEmpleado.infraestructure.outRepository.RevisionEmpleadoRepository;
+import revisionEstado.application.RevisionEstadoUseCase;
+import revisionEstado.domain.entity.RevisionEstado;
+import revisionEstado.domain.service.RevisionEstadoService;
+import revisionEstado.infraestructure.inController.RevisionEstadoController;
+import revisionEstado.infraestructure.outRepository.RevisionEstadoRepository;
 
 public class RevisionController {
     private final RevisionUseCase revisionUseCase;
@@ -39,24 +54,37 @@ public class RevisionController {
             RevisionEmpleadoController revisionEmpleadoController = new RevisionEmpleadoController(revisionEmpleadoUseCase);
             //falta terminar
             Long confirmacion = revisionEmpleadoController.registrarRevisionEmpleado(idRevision);
-            System.out.println(confirmacion);
-            if (confirmacion != 0) {
-                //JPnael CONFIRMACION
-                String mensaje = "Registros De Revisiòn Exitoso";
-                JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.PLAIN_MESSAGE);
+
+            if (confirmacion != null) {
+                JOptionPane.showMessageDialog(null, "Registros De Revisiòn Exitoso", "Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
-               revisionUseCase.eliminarRevision(idRevision);
+                revisionUseCase.eliminarRevision(idRevision);
+                // JOptionPane.showMessageDialog(null, "No se ha podido asignar revision a Empleado", "Denied", JOptionPane.INFORMATION_MESSAGE);
             }
-        } 
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha sido posible registrar Revision", "Denied", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void listarRevisionesByPlaca(){
+        String placa_avion = solicitarPlacaAvion();
+        List<Revision> lstRevisiones = revisionUseCase.listarRevisionesByPlaca(placa_avion);
+        if (lstRevisiones.size() > 0) {
+            mostrarHistorialRevisiones(lstRevisiones);
+        } else {
+            JOptionPane.showMessageDialog(null, "Avión sin registros!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 
     public Revision solicitarDatosRegistro(){
         /*Varibales */
         Revision revision = new Revision();
+        List<String> lstEstados = new ArrayList<>();
 
         //Crear los componentes
-        JPanel panel = new JPanel(new GridLayout(3, 2, 5, 1));
+        JPanel panel = new JPanel(new GridLayout(4, 2, 5, 1));
 
         JLabel fechaLabel = new JLabel("Fecha De Revisión:");
         JTextField fechaField = new JTextField();
@@ -70,7 +98,24 @@ public class RevisionController {
         JTextField descripcionField = new JTextField();
         descripcionField.setFont(new Font("Monospaced", Font.BOLD, 13));
 
+        JLabel lblEstado = new JLabel("Estado:");
+
+        //LLAMADO A HEXAGONAL DE ENTIDAD REVISION_ESTADO
+        RevisionEstadoService revisionEstadoService = new RevisionEstadoRepository();
+        RevisionEstadoUseCase revisionEstadoUseCase = new RevisionEstadoUseCase(revisionEstadoService);
+        RevisionEstadoController revisionEstadoController = new RevisionEstadoController(revisionEstadoUseCase);
+        List<RevisionEstado> lstRevisionEstados = revisionEstadoController.listarEstados();
+        String[] opcionesTgs;
+
+        //USANDO CONSUMER
+        Consumer<RevisionEstado> getEstado = revisionEstado -> lstEstados.add(revisionEstado.getEstado());
+        lstRevisionEstados.forEach(getEstado);
+
+        opcionesTgs = lstEstados.toArray(new String[0]);
+        JComboBox<String> opTgsComboBox = new JComboBox<>(opcionesTgs);
+
         panel.setPreferredSize(new Dimension(450, 120));
+
 
         //VALIDACIONES DE ENTERO
         idField.addKeyListener(new KeyAdapter() {
@@ -107,6 +152,8 @@ public class RevisionController {
         panel.add(fechaField);
         panel.add(descripcionLabel);
         panel.add(descripcionField);
+        panel.add(lblEstado);
+        panel.add(opTgsComboBox);
 
         // Mostrar el panel en un JOptionPane
         int option = JOptionPane.showConfirmDialog(
@@ -123,11 +170,17 @@ public class RevisionController {
             String fecha_revision = fechaField.getText();
             String id_revision = idField.getText();
             String descrip = descripcionField.getText();
+            String estado = opTgsComboBox.getSelectedItem().toString();
 
             try {
                 revision.setFecha_revision(fecha_revision);
                 revision.setId_avion(Integer.parseInt(id_revision));
                 revision.setDescrip(descrip);
+                lstRevisionEstados.forEach(revisionEstado -> {
+                    if (revisionEstado.getEstado().equals(estado)) {
+                        revision.setId_estado(revisionEstado.getId_estado());
+                    }
+                });
                 
 
             } catch (Exception e) {
@@ -139,4 +192,78 @@ public class RevisionController {
         }
         return revision;
     }
+
+    public String solicitarPlacaAvion(){
+        /*Varibales */
+        String placa = "";
+
+        //Crear los componentes
+        JPanel panel = new JPanel(new GridLayout(1, 2, 5, 1));
+
+        JLabel lblPlaca = new JLabel("Placa Avión:");
+        JTextField txtPlaca = new JTextField();
+        txtPlaca.setFont(new Font("Monospaced", Font.BOLD, 12));
+
+        panel.setPreferredSize(new Dimension(250, 30));
+
+        // Añadir los componentes al panel
+        panel.add(lblPlaca);
+        panel.add(txtPlaca);
+
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.OK_CANCEL_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        // Manejar la entrada del usuario
+        if (option == JOptionPane.OK_OPTION) {
+            placa = txtPlaca.getText();
+        } 
+        return placa;
+    }
+
+    public void  mostrarHistorialRevisiones(List<Revision> lstRevisiones){
+        //DEFINIAR LAS FILAS DE LA TABLA
+        Vector<Vector<Object>> revisiones = new Vector<>();
+
+        //CONSUMIR LA LISTA DE REVISIONES Y AGREGARLA AL VECTOR
+        Consumer<Revision> getDatos = revisionFila -> {
+            Vector<Object> fila = new Vector<>();
+            fila.add(revisionFila.getId_avion());
+            fila.add(revisionFila.getFecha_revision());
+            fila.add(revisionFila.getEstado());
+            fila.add(revisionFila.getDescrip());
+            revisiones.add(fila);
+        };
+        lstRevisiones.forEach(getDatos);
+
+        //DEFINO ENCABEZADO
+        Vector<Object> encabezado = new Vector<>();
+        encabezado.add("Id Avión");
+        encabezado.add("Fecha De Revisión");
+        encabezado.add("Estado");
+        encabezado.add("Descripción");
+        
+        DefaultTableModel modelo = new DefaultTableModel(revisiones, encabezado);
+        JTable tabla = new JTable(modelo);
+        tabla.setPreferredScrollableViewportSize(new Dimension(800, 100));
+        tabla.setBackground(Color.LIGHT_GRAY);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JScrollPane scrollPane = new JScrollPane(tabla);
+        panel.add(scrollPane);
+        JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.PLAIN_MESSAGE
+        );
+    }
 }
+

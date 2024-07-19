@@ -13,6 +13,6 @@ public class Main {
         UserUseCase userUseCase = new UserUseCase(userService);
         UserController userController = new UserController(userUseCase);
         userController.start();
-     
+    
     }
 }
