@@ -1,16 +1,18 @@
 package detallevuelo.infraestructure.inController;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-
+import javax.swing.SwingConstants;
 
 // import java.awt.event.KeyAdapter;
 // import java.awt.event.KeyEvent;
 
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.entity.DetalleVuelo;
@@ -38,32 +40,20 @@ public class DetallevueloController {
         codigoVueloField.setFont(new Font("Monospaced", Font.BOLD, 12));
         
         panel.setPreferredSize(new Dimension(450, 120));
-        /*      
+      
         //VALIDACIONES DE ENTERO
-        codigoVueloField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
-                    JOptionPane.showMessageDialog(panel, "Campo solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
-                    e.consume(); // Ignorar la tecla no numérica
-                }
-            }
-        });
+        // codigoVueloField.addKeyListener(new KeyAdapter() {
+        //     @Override
+        //     public void keyTyped(KeyEvent e) {
+        //         char c = e.getKeyChar();
+        //         if (c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+        //             JOptionPane.showMessageDialog(panel, "sin espacios", "Error", JOptionPane.ERROR_MESSAGE);
+        //             e.consume(); // Ignorar la tecla no numérica
+        //         }
+        //     }
+        // });
 
-        //VALIDACIONES DE ENTERO
-        codigoVueloField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
-                    JOptionPane.showMessageDialog(panel, "Campo solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
-                    e.consume(); // Ignorar la tecla no numérica
-                }
-            }
-        });
-
-        */
+        
 
         // Añadir componentes Al window
         
@@ -89,29 +79,93 @@ public class DetallevueloController {
             try{
               
                 DetalleVuelo detalvuelo = detalleVueloUseCase.consultarDetalleVuelo(codigo_vuelo);
-
+                JButton delateButton = new JButton("Delate");
+                JButton actualizar = new JButton("Refresh");
+                delateButton.setPreferredSize(new Dimension(100, 30));
+                // Function <String, JLabel> createLabel = (String dato) -> {
+                // JLabel label =  new JLabel(dato);
+                // return label; };
                 // Crear el panel de detalles
-                JPanel detailsPanel = new JPanel(new GridLayout(6, 2, 5, 5));
-                detailsPanel.add(new JLabel("Empleado:"));
-                detailsPanel.add(new JLabel(detalvuelo.getEmpleado()));
-                detailsPanel.add(new JLabel("Numero_Vuelo:"));
-                detailsPanel.add(new JLabel(detalvuelo.getNumero_Vuelo()));
-                detailsPanel.add(new JLabel("Rol Empleado:"));
-                detailsPanel.add(new JLabel(detalvuelo.getRolEmpleado()));
-                detailsPanel.add(new JLabel("Aeropuerto Origen:"));
-                detailsPanel.add(new JLabel(detalvuelo.getAeropuertoOrigen()));
-                detailsPanel.add(new JLabel("Aeropuerto Destino:"));
-                detailsPanel.add(new JLabel(detalvuelo.getAeropuertoDestino()));
-                detailsPanel.add(new JLabel("Hora Salida:"));
-                detailsPanel.add(new JLabel(detalvuelo.getHoraSalida()));
-                detailsPanel.add(new JLabel("Hora Llegada:"));
-                detailsPanel.add(new JLabel(detalvuelo.getHoraLlegada()));
+                JPanel detailsPanel = new JPanel(new GridLayout(2, 8, 10, 5));
+
+                String[] headers = {
+                    "Empleado", "Numero_Vuelo", "Rol Empleado",
+                    "Aeropuerto Origen", "Aeropuerto Destino", "Hora Salida",
+                    "Hora Llegada"
+                };
+                
+                // Añadir las etiquetas de cabecera
+                for (String header : headers) {
+                    JLabel label = new JLabel(header);
+                    label.setPreferredSize(new Dimension(500, 3)); 
+                    label.setBorder(BorderFactory.createLineBorder(Color.BLACK)); 
+                    label.setFont(new Font("Monospaced", Font.BOLD, 12));
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    detailsPanel.add(label);
+                }
+                detailsPanel.add(actualizar);
+        
+                // Valores a mostrar
+                String[] values = {
+                    detalvuelo.getEmpleado(),
+                    detalvuelo.getNumero_Vuelo(),
+                    detalvuelo.getRolEmpleado(),
+                    detalvuelo.getAeropuertoOrigen(),
+                    detalvuelo.getAeropuertoDestino(),
+                    detalvuelo.getHoraSalida(),
+                    detalvuelo.getHoraLlegada()
+                };
+
+                for (String value : values) {
+                    JLabel label = new JLabel(value);
+                    label.setPreferredSize(new Dimension(500, 3)); 
+                    label.setBorder(BorderFactory.createLineBorder(Color.BLACK)); 
+                    label.setFont(new Font("Arial", Font.PLAIN, 12));
+                    label.setHorizontalAlignment(SwingConstants.CENTER); 
+                    label.setHorizontalAlignment(SwingConstants.LEFT);
+                    detailsPanel.add(label);
+                     
+                }
+
+                detailsPanel.add(delateButton);
+                
+                detailsPanel.setPreferredSize(new Dimension(1500, 100));
+
+                
+                delateButton.addActionListener(new ActionListener() {
+                    
+                    // HACER CONSULTA EN JAVA ELIMIAR DELETE mySQL
+                    public void actionPerformed(ActionEvent e){
+                        int result = JOptionPane.showConfirmDialog(null,
+                        "¿Está seguro de que desea eliminar este elemento?", 
+                        "Confirmación de Eliminación", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.WARNING_MESSAGE);
+
+                        if (result== JOptionPane.YES_OPTION) {
+                            detalleVueloUseCase.eliminarDetalleVuelo(Integer.parseInt(detalvuelo.getNumero_Vuelo()));
+                            JOptionPane.showMessageDialog(panel, "Elemento eliminado.");
+                        }else if(result == JOptionPane.NO_OPTION){
+                            JOptionPane.showMessageDialog(null, "Eliminación cancelada.");
+                        }
+                    
+                        
+                        //detalleVueloUseCase.editarEscalaVuelo();
+                    }
+                });
+
+
+                
+                
 
                 // Mostrar el panel de detalles en un JOptionPane
                 JOptionPane.showMessageDialog(null, detailsPanel, "Detalle del Vuelo", JOptionPane.INFORMATION_MESSAGE);
             }catch(Exception e){
                 JOptionPane.showMessageDialog(panel, "Error al consultar el detalle del vuelo", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+
+            
         }
 
         

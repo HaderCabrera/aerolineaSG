@@ -1,10 +1,26 @@
 DROP DATABASE IF EXISTS railway;
 CREATE DATABASE railway;
 USE railway;
+
+-- TABLA @TIPO_DOCUMENTO
 CREATE TABLE IF NOT EXISTS tipoDocumento (
     id_tipo_documento INT PRIMARY KEY AUTO_INCREMENT,
     nombreDoc VARCHAR(50)
 );
+
+-- TABLA @ESTADO_PUESTO
+CREATE TABLE IF NOT EXISTS estadoPuesto (
+    id_estadoPuesto INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_estado_puesto VARCHAR(50) NOT NULL
+);
+-- TANLA @PUESTO
+CREATE TABLE IF NOT EXISTS puesto (
+    id_puesto INT PRIMARY KEY AUTO_INCREMENT,
+    id_estadoPuesto INT NOT NULL,
+    numero_puesto INT NOT NULL,
+    Foreign Key (id_estadoPuesto) REFERENCES estadoPuesto (id_estadoPuesto)
+);
+--TABLA @CLIENTE
 CREATE Table IF NOT EXISTS cliente (
     id_cliente INT PRIMARY KEY AUTO_INCREMENT,
     documento INT NOT NULL,
@@ -16,6 +32,65 @@ CREATE Table IF NOT EXISTS cliente (
     id_tipo_documento INT NOT NULL,
     Foreign Key (id_tipo_documento) REFERENCES tipoDocumento (id_tipo_documento)
 );
+
+
+
+-- TABLA @CLASES_TARIFA
+CREATE TABLE IF NOT EXISTS tipoClase (
+    id_tipoClase INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_Clase VARCHAR(50)
+);
+
+-- TABLA  @TARIFA 
+CREATE TABLE IF NOT EXISTS tarifa (
+    id_tarifa INT AUTO_INCREMENT PRIMARY KEY,
+    id_tipoClase INT NOT NULL,
+    precio_tarifa DECIMAL(10, 2) NOT NULL,
+    descripcion TEXT,
+    Foreign Key (id_tipoClase) REFERENCES tipoClase (id_tipoClase)
+);
+-- TABLA @TRAYECTO
+
+CREATE TABLE trayecto (
+    id_trayecto INT PRIMARY KEY AUTO_INCREMENT,
+    origen_trayecto VARCHAR(3) NOT NULL,
+    destino_trayecto VARCHAR(3) NOT NULL,
+    desc_trayecto VARCHAR(255),
+    distancia VARCHAR(10),
+    TiempoEstimado VARCHAR(12)
+);
+
+-- TABLA @TRAYECTO_x_TARIFA
+CREATE TABLE IF NOT EXISTS trayecto_x_tarifa(
+    id_trayecto INT NOT NULL,
+    id_tarifa INT NULL,
+    Foreign Key (id_trayecto) REFERENCES trayecto(id_trayecto),
+    Foreign Key (id_tarifa) REFERENCES tarifa(id_tarifa)
+);
+
+-- TABLA @ESTADO_RESERVA
+
+CREATE TABLE IF NOT EXISTS estadoReserva (
+    id_estadoReserva INT PRIMARY KEY AUTO_INCREMENT,
+    nombre_estado VARCHAR(50)
+);
+
+-- TABLA @RESERVA
+
+CREATE TABLE IF NOT EXISTS reserva (
+    id_reserva INT PRIMARY KEY AUTO_INCREMENT,
+    fecha_reserva VARCHAR(12) NOT NULL,
+    id_cliente INT NOT NULL,
+    id_estadoReserva INT NOT NULL,
+    id_puesto INT NOT NULL,
+    id_tarifa INT NOT NULL,
+    Foreign Key (id_tarifa) REFERENCES tarifa(id_tarifa),
+    Foreign Key (id_puesto) REFERENCES puesto(id_puesto),
+    Foreign Key (id_estadoReserva) REFERENCES estadoReserva (id_estadoReserva),
+    Foreign Key (id_cliente) REFERENCES cliente (id_cliente)
+);
+
+
 CREATE Table IF NOT EXISTS aerolinea (
     id_aerolineas INT PRIMARY KEY AUTO_INCREMENT,
     nombreAeroline VARCHAR(50) NOT NULL
@@ -97,7 +172,7 @@ CREATE TABLE IF NOT EXISTS revision (
     id_avion INT NOT NULL,
     descrip TEXT NOT NULL,
     id_estado_revision INT NOT NULL,
-    FOREIGN KEY (id_estado_revision) REFERENCES estado_revision(id_estado);
+    FOREIGN KEY (id_estado_revision) REFERENCES estado_revision(id_estado),
     Foreign Key (id_avion) REFERENCES avion (id_avion)
 );
 
@@ -121,91 +196,39 @@ CREATE TABLE IF NOT EXISTS vuelo (
     FOREIGN KEY (aeropuerto_destino) REFERENCES aeropuerto (id_aeropuerto)
 );
 
-CREATE TABLE IF NOT EXISTS estadoPuesto (
-    id_estadoPuesto INT PRIMARY KEY AUTO_INCREMENT,
-    nombre_estado_puesto VARCHAR(50) NOT NULL
-);
-CREATE TABLE IF NOT EXISTS puesto (
-    id_puesto INT PRIMARY KEY AUTO_INCREMENT,
-    numero_puesto INT NOT NULL,
-    id_estadoPuesto INT NOT NULL,
-    id_avion INT NOT NULL,
-    Foreign Key (id_avion) REFERENCES avion(id_avion)
-    Foreign Key (id_estadoPuesto) REFERENCES estadoPuesto (id_estadoPuesto)
-);
 
-CREATE TABLE IF NOT EXISTS detalle_vuelo (
-    id_detalle_vuelo INT PRIMARY KEY AUTO_INCREMENT,
-    id_puesto INT NOT NULL,
-    Foreign Key (id_puesto) REFERENCES puesto (id_puesto)
-);
 
-/*
- La tabla de escalas contiene información sobre las escalas que hace un vuelo. Incluye el ID del vuelo, el ID del aeropuerto donde se realiza la escala, y las horas de llegada y salida de la escala.
- vuelo_id: Este campo es una clave foránea que referencia a la tabla de Vuelos, indicando a qué vuelo pertenece la escala.
- aeropuerto_id: Este campo es una clave foránea que referencia a la tabla de Aeropuertos, indicando en qué aeropuerto se realiza la escala.
- */
 CREATE TABLE IF NOT EXISTS escala(
     id_vuelo INT,
-    id_detalle_vuelo INT NOT NULL,
+    id_trayecto INT NOT NULL,
     Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
-    Foreign Key (id_detalle_vuelo) REFERENCES detalle_vuelo(id_detalle_vuelo)
+    Foreign Key (id_trayecto) REFERENCES trayecto(id_trayecto)
 );
 
-CREATE TABLE IF NOT EXISTS tripulacionvuelo_empleado (
-    id_empleado VARCHAR(20) NOT NULL,
-    id_detalle_vuelo INT NOT NULL,
-    Foreign Key (id_empleado) REFERENCES empleado (id_empleado),
-    Foreign Key (id_detalle_vuelo) REFERENCES detalle_vuelo (id_detalle_vuelo)
-);
+-- TABLA @TRIPULACION
 
-
--- GESTION DE PAGOS Y METODOS DE PAGO
-CREATE TABLE IF NOT EXISTS tipoClase (
-    id_tipoClase INT PRIMARY KEY AUTO_INCREMENT,
-    nombre_Clase VARCHAR(50)
-);
---
-/*Las tarifas en los vuelos se refieren a los diferentes precios que las aerolíneas o proveedores de servicios de vuelo ofrecen para los asientos en una aeronave. Estas tarifas pueden variar según varios factores, como la clase del asiento, la antelación con la que se realiza la reserva, la temporada del año, la duración del vuelo, entre otros.*/
-CREATE TABLE IF NOT EXISTS tarifasVuelo (
-    id_tarifasVuelo INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS tripulacion(
     id_vuelo INT NOT NULL,
-    id_tipoClase INT NOT NULL,
-    -- Económica, Business, Primera Clase
-    precio_tarifa DECIMAL(10, 2) NOT NULL,
-    descripcion TEXT,
-    -- Fecha de fin de la tarifa
-    FOREIGN KEY (id_vuelo) REFERENCES vuelo (id_vuelo),
-    Foreign Key (id_tipoClase) REFERENCES tipoClase (id_tipoClase)
+    id_empleado VARCHAR(20) ,
+    Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
+    Foreign Key (id_empleado) REFERENCES empleado(id_empleado)
 );
--- GESTION DE RESERVAS Y CAPACIDAD
-CREATE TABLE IF NOT EXISTS estadoReserva (
-    id_estadoReserva INT PRIMARY KEY AUTO_INCREMENT,
-    nombre_estado VARCHAR(50)
-);
-CREATE TABLE IF NOT EXISTS reserva (
-    id_reserva INT PRIMARY KEY AUTO_INCREMENT,
-    fecha_reserva VARCHAR(12) NOT NULL,
-    id_vuelo INT NOT NULL,
-    id_cliente INT NOT NULL,
-    id_estadoReserva INT NOT NULL,
-    Foreign Key (id_vuelo) REFERENCES vuelo (id_vuelo),
-    Foreign Key (id_estadoReserva) REFERENCES estadoReserva (id_estadoReserva),
-    Foreign Key (id_cliente) REFERENCES cliente (id_cliente)
-);
+
+
 CREATE TABLE IF NOT EXISTS metodoPago (
     id_metodoPago INT PRIMARY KEY AUTO_INCREMENT,
     nombre_metodo VARCHAR(60) NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS pago (
     id_pago INT AUTO_INCREMENT PRIMARY KEY,
     id_reserva INT NOT NULL,
-    id_tarifasVuelo INT NOT NULL,
     fecha_pago VARCHAR(12) NOT NULL,
     total_pago DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (id_reserva) REFERENCES reserva (id_reserva),
-    FOREIGN KEY (id_tarifasVuelo) REFERENCES tarifasVuelo (id_tarifasVuelo)
+    FOREIGN KEY (id_reserva) REFERENCES reserva (id_reserva)
 );
+
+
 -- PODEMOS CREAR UNA VISTA QUE GENERE LA FACTURA
 CREATE TABLE factura_Neta (
     id_factura_Neta INT AUTO_INCREMENT PRIMARY KEY,
@@ -215,6 +238,8 @@ CREATE TABLE factura_Neta (
     FOREIGN KEY (id_metodoPago) REFERENCES metodoPago (id_metodoPago),
     Foreign Key (id_pago) REFERENCES pago (id_pago)
 );
+
+
 -- CREACION USERS AEREOPUERTO
 CREATE TABLE IF NOT EXISTS rolUsuario (
     id_rolUsuario INT PRIMARY KEY AUTO_INCREMENT,
@@ -246,31 +271,31 @@ SHOW TABLEs;
 -- WHERE
 --     RP.id_rolUsuario = ?;
 
-CREATE VIEW vista_detalle_tripulacion AS
-SELECT 
-    CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Empleado,
-    VU.id_vuelo AS Codec_vuelo,
-    TR.nombre AS Rol_Empleado,
-    AO.nombre AS Aeropuerto_Origen,
-    AD.nombre AS Aeropuerto_Destino,
-    VU.hora_salida AS Hora_Salida,
-    VU.hora_llegada AS Hora_Llegada
-FROM 
-    tripulacionRol AS TR
-INNER JOIN 
-    empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
-INNER JOIN 
-    tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado
-INNER JOIN 
-    detalle_vuelo AS DT ON TE.id_detalle_vuelo = DT.id_detalle_vuelo
-INNER JOIN 
-    escala AS ES ON DT.id_detalle_vuelo = ES.id_detalle_vuelo
-INNER JOIN 
-    vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
-INNER JOIN 
-    aeropuerto AS AO ON VU.aeropuerto_origen = AO.id_aeropuerto
-INNER JOIN 
-    aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto;
+-- CREATE VIEW vista_detalle_tripulacion AS
+-- SELECT 
+--     CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Empleado,
+--     VU.id_vuelo AS Codec_vuelo,
+--     TR.nombre AS Rol_Empleado,
+--     AO.nombre AS Aeropuerto_Origen,
+--     AD.nombre AS Aeropuerto_Destino,
+--     VU.hora_salida AS Hora_Salida,
+--     VU.hora_llegada AS Hora_Llegada
+-- FROM 
+--     tripulacionRol AS TR
+-- INNER JOIN 
+--     empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
+-- INNER JOIN 
+--     tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado
+-- INNER JOIN 
+--     detalle_vuelo AS DT ON TE.id_detalle_vuelo = DT.id_detalle_vuelo
+-- INNER JOIN 
+--     escala AS ES ON DT.id_detalle_vuelo = ES.id_detalle_vuelo
+-- INNER JOIN 
+--     vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
+-- INNER JOIN 
+--     aeropuerto AS AO ON VU.aeropuerto_origen = AO.id_aeropuerto
+-- INNER JOIN 
+--     aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto;
 
 
-SELECT * FROM vista_detalle_tripulacion WHERE Codec_vuelo = 1;
+-- SELECT * FROM vista_detalle_tripulacion WHERE Codec_vuelo = 1;

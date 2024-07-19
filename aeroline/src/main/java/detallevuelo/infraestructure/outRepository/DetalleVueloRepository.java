@@ -19,7 +19,7 @@ public class DetalleVueloRepository implements DetalleVueloService {
     @Override
 
     public DetalleVuelo consultarDetalleVuelo(String Numero_Vuelo) {
-        String sql = "SELECT * FROM vista_detalle_tripulacion WHERE Numero_Vuelo = ?;";
+        String sql = "SELECT * FROM vista_tripulacion_vuelo WHERE Numero_Vuelo = ?;";
         DetalleVuelo detalleVuelo = null;
 
         
@@ -32,8 +32,9 @@ public class DetalleVueloRepository implements DetalleVueloService {
             try(ResultSet resultset = sentenciaPreparada.executeQuery()){
                 while(resultset.next()) {
                     detalleVuelo = new DetalleVuelo();
-                    detalleVuelo.setNumero_Vuelo(resultset.getString("Empleado"));
+                    
                     detalleVuelo.setEmpleado(resultset.getString("Empleado"));
+                    detalleVuelo.setNumero_Vuelo(resultset.getString("Numero_Vuelo"));
                     detalleVuelo.setRolEmpleado(resultset.getString("Rol_Empleado"));
                     detalleVuelo.setAeropuertoDestino(resultset.getString("Aeropuerto_Origen"));
                     detalleVuelo.setAeropuertoOrigen(resultset.getString("Aeropuerto_Destino"));
@@ -57,6 +58,7 @@ public class DetalleVueloRepository implements DetalleVueloService {
 
     @Override
     public DetalleVuelo consultarInfoTripulacion(int id_empleado) {
+        
 
         return null;
     }
@@ -68,8 +70,7 @@ public class DetalleVueloRepository implements DetalleVueloService {
     }
 
     @Override
-    public void eliminarDetalleVuelo(int id_detalle_vuelo) {
-        // TODO Auto-generated method stub
-
+    public void eliminarDetalleVuelo(int id_vuelo) {
+        
     }
 }
