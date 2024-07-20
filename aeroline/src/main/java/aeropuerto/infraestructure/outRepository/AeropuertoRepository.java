@@ -9,14 +9,13 @@ import com.aeroline.DatabaseConfig;
 
 import aeropuerto.domain.entity.Aeropuerto;
 import aeropuerto.domain.service.AeropuertoService;
-import avion.domain.entity.Avion;
 
 public class AeropuertoRepository implements AeropuertoService {
 
     @Override
     public Boolean registrarAeropuerto(Aeropuerto aeropuerto) {
 
-       String  sql = "INSERT INTO aeropuerto (nombre, id_ciudad) VALUES (?, ?);";
+        String  sql = "INSERT INTO aeropuerto (nombre, id_ciudad) VALUES (?, ?);";
             try (Connection connection = DatabaseConfig.getConnection(); 
             PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 

@@ -370,6 +370,11 @@ public class UserController {
         RevisionUseCase revisionUseCase = new RevisionUseCase(revisionService);
         RevisionController revisionController = new RevisionController(revisionUseCase);
 
+        //LLAMADO EXAGONAL CLIENTE
+        ClienteService clienteService = new ClienteRepository();
+        ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
+        ClienteController clienteController = new ClienteController(clienteUseCase);
+        
         switch (permiso) {
             case "Registrar Avion":
                 avionController.registrarAvion();
@@ -479,13 +484,10 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Consultar Informacion Cliente":
-                ClienteService clienteService = new ClienteRepository();
-                ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
-                ClienteController clienteController = new ClienteController(clienteUseCase);
                 clienteController.consultarCliente();
                 break;
             case "Actualizar Informacion Cliente":
-                System.out.println("SI LO TOMOA BIEN");
+                clienteController.updateCliente();
                 break;
             case "Eliminar Cliente":
                 System.out.println("SI LO TOMOA BIEN");
