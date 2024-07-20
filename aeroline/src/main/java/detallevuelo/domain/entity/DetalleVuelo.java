@@ -2,70 +2,59 @@ package detallevuelo.domain.entity;
 
 
 public class DetalleVuelo {
-    private String empleado;
-    private String rolEmpleado;
-    private String Numero_Vuelo;
-    private String aeropuertoOrigen;
-    private String aeropuertoDestino;
-    private String horaSalida;
-    private String horaLlegada;
+    private int id_trayecto;
+    private String destino_trayecto;
+    private String origen_trayecto;
+    private String desc_trayecto;
+    private String distancia;
+    private String numero_vuelo;
     public DetalleVuelo(){
 
     }
-    public DetalleVuelo(String empleado, String rolEmpleado, String numero_Vuelo, String aeropuertoOrigen,
-            String aeropuertoDestino, String horaSalida, String horaLlegada) {
-        this.empleado = empleado;
-        this.rolEmpleado = rolEmpleado;
-        Numero_Vuelo = numero_Vuelo;
-        this.aeropuertoOrigen = aeropuertoOrigen;
-        this.aeropuertoDestino = aeropuertoDestino;
-        this.horaSalida = horaSalida;
-        this.horaLlegada = horaLlegada;
+    public DetalleVuelo(int id_trayecto, String destino_trayecto, String origen_trayecto, String desc_trayecto,
+            String distancia, String numero_vuelo) {
+        this.id_trayecto = id_trayecto;
+        this.destino_trayecto = destino_trayecto;
+        this.origen_trayecto = origen_trayecto;
+        this.desc_trayecto = desc_trayecto;
+        this.distancia = distancia;
+        this.numero_vuelo = numero_vuelo;
     }
-    public String getEmpleado() {
-        return empleado;
+    public int getId_trayecto() {
+        return id_trayecto;
     }
-    public void setEmpleado(String empleado) {
-        this.empleado = empleado;
+    public void setId_trayecto(int id_trayecto) {
+        this.id_trayecto = id_trayecto;
     }
-    public String getRolEmpleado() {
-        return rolEmpleado;
+    public String getDestino_trayecto() {
+        return destino_trayecto;
     }
-    public void setRolEmpleado(String rolEmpleado) {
-        this.rolEmpleado = rolEmpleado;
+    public void setDestino_trayecto(String destino_trayecto) {
+        this.destino_trayecto = destino_trayecto;
     }
-    public String getNumero_Vuelo() {
-        return Numero_Vuelo;
+    public String getOrigen_trayecto() {
+        return origen_trayecto;
     }
-    public void setNumero_Vuelo(String numero_Vuelo) {
-        Numero_Vuelo = numero_Vuelo;
+    public void setOrigen_trayecto(String origen_trayecto) {
+        this.origen_trayecto = origen_trayecto;
     }
-    public String getAeropuertoOrigen() {
-        return aeropuertoOrigen;
+    public String getDesc_trayecto() {
+        return desc_trayecto;
     }
-    public void setAeropuertoOrigen(String aeropuertoOrigen) {
-        this.aeropuertoOrigen = aeropuertoOrigen;
+    public void setDesc_trayecto(String desc_trayecto) {
+        this.desc_trayecto = desc_trayecto;
     }
-    public String getAeropuertoDestino() {
-        return aeropuertoDestino;
+    public String getDistancia() {
+        return distancia;
     }
-    public void setAeropuertoDestino(String aeropuertoDestino) {
-        this.aeropuertoDestino = aeropuertoDestino;
+    public void setDistancia(String distancia) {
+        this.distancia = distancia;
     }
-    public String getHoraSalida() {
-        return horaSalida;
+    public String getNumero_vuelo() {
+        return numero_vuelo;
     }
-    public void setHoraSalida(String horaSalida) {
-        this.horaSalida = horaSalida;
+    public void setNumero_vuelo(String numero_vuelo) {
+        this.numero_vuelo = numero_vuelo;
     }
-    public String getHoraLlegada() {
-        return horaLlegada;
-    }
-    public void setHoraLlegada(String horaLlegada) {
-        this.horaLlegada = horaLlegada;
-    }
-
     
-    
-
 }

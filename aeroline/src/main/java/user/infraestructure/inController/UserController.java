@@ -400,7 +400,7 @@ public class UserController {
                 DetalleVueloService detalleVueloService = new DetalleVueloRepository();
                 DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
                 DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
-                detallevueloController.consultarDetalleVuelo();
+                detallevueloController.consultarTrayecto();
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 

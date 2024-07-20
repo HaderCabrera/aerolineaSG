@@ -26,7 +26,7 @@ public class DetallevueloController {
     }
 
     
-    public DetalleVuelo consultarDetalleVuelo(){
+    public DetalleVuelo consultarTrayecto(){
 
     
 
@@ -77,21 +77,24 @@ public class DetallevueloController {
             
             String codigo_vuelo = codigoVueloField.getText();
             try{
-              
-                DetalleVuelo detalvuelo = detalleVueloUseCase.consultarDetalleVuelo(codigo_vuelo);
+                int codigoTrayecto = Integer.parseInt(codigo_vuelo);
+                DetalleVuelo detalvuelo = detalleVueloUseCase.consultarTrayecto(codigoTrayecto);
                 JButton delateButton = new JButton("Delate");
+                delateButton.setBounds(50,100,80,30);
+                delateButton.setBackground(Color.yellow);   
                 JButton actualizar = new JButton("Refresh");
+                actualizar.setBounds(100,100,80,30);
+                actualizar.setBackground(Color.green);   
                 delateButton.setPreferredSize(new Dimension(100, 30));
                 // Function <String, JLabel> createLabel = (String dato) -> {
                 // JLabel label =  new JLabel(dato);
                 // return label; };
                 // Crear el panel de detalles
-                JPanel detailsPanel = new JPanel(new GridLayout(2, 8, 10, 5));
+                JPanel detailsPanel = new JPanel(new GridLayout(2, 7, 10, 5));
 
                 String[] headers = {
-                    "Empleado", "Numero_Vuelo", "Rol Empleado",
-                    "Aeropuerto Origen", "Aeropuerto Destino", "Hora Salida",
-                    "Hora Llegada"
+                    "ID_trayecto", "origen_trayecto", "destino_trayecto",
+                    "desc_trayecto", "distancia", "numero_vuelo"
                 };
                 
                 // Añadir las etiquetas de cabecera
@@ -107,13 +110,12 @@ public class DetallevueloController {
         
                 // Valores a mostrar
                 String[] values = {
-                    detalvuelo.getEmpleado(),
-                    detalvuelo.getNumero_Vuelo(),
-                    detalvuelo.getRolEmpleado(),
-                    detalvuelo.getAeropuertoOrigen(),
-                    detalvuelo.getAeropuertoDestino(),
-                    detalvuelo.getHoraSalida(),
-                    detalvuelo.getHoraLlegada()
+                    Integer.toString(detalvuelo.getId_trayecto()),
+                    detalvuelo.getOrigen_trayecto(),
+                    detalvuelo.getDestino_trayecto(),
+                    detalvuelo.getDesc_trayecto(),
+                    detalvuelo.getDistancia(),
+                    detalvuelo.getNumero_vuelo()
                 };
 
                 for (String value : values) {
@@ -143,7 +145,7 @@ public class DetallevueloController {
                         JOptionPane.WARNING_MESSAGE);
 
                         if (result== JOptionPane.YES_OPTION) {
-                            detalleVueloUseCase.eliminarDetalleVuelo(Integer.parseInt(detalvuelo.getNumero_Vuelo()));
+                            detalleVueloUseCase.eliminarTrayecto(detalvuelo.getId_trayecto());;
                             JOptionPane.showMessageDialog(panel, "Elemento eliminado.");
                         }else if(result == JOptionPane.NO_OPTION){
                             JOptionPane.showMessageDialog(null, "Eliminación cancelada.");

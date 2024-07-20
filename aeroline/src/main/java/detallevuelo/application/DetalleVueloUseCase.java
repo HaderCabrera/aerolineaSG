@@ -2,6 +2,7 @@ package detallevuelo.application;
 
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
+import empleado.domain.entity.empleado;
 
 public class DetalleVueloUseCase {
     private DetalleVueloService detalleVueloService;
@@ -10,23 +11,18 @@ public class DetalleVueloUseCase {
         this.detalleVueloService = detalleVueloService;
     }
 
-     public DetalleVuelo consultarDetalleVuelo(String Numero_Vuelo){
-        return  detalleVueloService.consultarDetalleVuelo(Numero_Vuelo);
+    public DetalleVuelo consultarTrayecto(int Numero_Vuelo){
+        return detalleVueloService.consultarTrayecto(Numero_Vuelo);
     }
-
-    public DetalleVuelo consultarInfoTripulacion(int id_empleado){
-        return detalleVueloService.consultarInfoTripulacion(id_empleado);
-    }
-    public DetalleVuelo editarEscalaVuelo(int id_escala){
-        return detalleVueloService.editarEscalaVuelo(id_escala);
-    }
-
-    public void eliminarDetalleVuelo(int id_vuelo){
-        detalleVueloService.eliminarDetalleVuelo(id_vuelo);
-    }
-
     
+    public void eliminarTrayecto(int id_trayecto){
+        detalleVueloService.eliminarTrayecto(id_trayecto);
+    }
 
-    
-
+    public DetalleVuelo asignarTripulacionTrayecto(empleado empleado){
+       return detalleVueloService.asignarTripulacionTrayecto(empleado);
+    }
+    public DetalleVuelo actualizarTrayecto(int id_trayecto){
+        return detalleVueloService.actualizarTrayecto(id_trayecto);
+    }
 }

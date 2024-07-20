@@ -246,9 +246,7 @@ SELECT  TR.id_trayecto AS ID_trayecto,
         TR.destino_trayecto,
         TR.desc_trayecto,
         TR.distancia,
-        TR.TiempoEstimado,
-        VU.numero_vuelo,
-        VU.id_vuelo
+        VU.numero_vuelo
 FROM trayecto AS TR
 INNER JOIN escala AS ES ON TR.id_trayecto = ES.id_trayecto
 INNER JOIN vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
@@ -258,3 +256,6 @@ DELIMITER ;
 
 CALL abstraerTrayecto_Escalas(1);
 -- CONSULAR ESCALAS DE UN TRAYECTO ES OTRA CONSULTA QUE PUEDO IR EN EL MISMO JPANEL
+
+SELECT * FROM empleado;
+
