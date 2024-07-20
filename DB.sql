@@ -123,6 +123,8 @@ CREATE TABLE IF NOT EXISTS puertaSalidaAbordaje (
     Foreign Key (id_aeropuerto) REFERENCES aeropuerto (id_aeropuerto)
 );
 -- crear ticket
+
+-- TABLE @EMPLEADO
 CREATE TABLE IF NOT EXISTS empleado (
     id_empleado VARCHAR(20) PRIMARY KEY,
     nombre1 VARCHAR(40) NOT NULL,
@@ -185,10 +187,10 @@ CREATE TABLE IF NOT EXISTS revision_empleado(
 	FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
 );
 
-
+-- TABLA @VUELO
 CREATE TABLE IF NOT EXISTS vuelo (
     id_vuelo INT AUTO_INCREMENT PRIMARY KEY,
-    numero_vuelo VARCHAR(20) NOT NULL UNIQUE,
+    numero_vuelo VARCHAR(20) NOT NULL,
     aeropuerto_origen INT NOT NULL,
     aeropuerto_destino INT NOT NULL,
     hora_salida VARCHAR(12) NOT NULL,
@@ -197,8 +199,7 @@ CREATE TABLE IF NOT EXISTS vuelo (
     FOREIGN KEY (aeropuerto_destino) REFERENCES aeropuerto (id_aeropuerto)
 );
 
-
-
+-- TABLA @ESCALA
 CREATE TABLE IF NOT EXISTS escala(
     id_vuelo INT,
     id_trayecto INT NOT NULL,
@@ -272,31 +273,4 @@ SHOW TABLEs;
 -- WHERE
 --     RP.id_rolUsuario = ?;
 
--- CREATE VIEW vista_detalle_tripulacion AS
--- SELECT 
---     CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Empleado,
---     VU.id_vuelo AS Codec_vuelo,
---     TR.nombre AS Rol_Empleado,
---     AO.nombre AS Aeropuerto_Origen,
---     AD.nombre AS Aeropuerto_Destino,
---     VU.hora_salida AS Hora_Salida,
---     VU.hora_llegada AS Hora_Llegada
--- FROM 
---     tripulacionRol AS TR
--- INNER JOIN 
---     empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
--- INNER JOIN 
---     tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado
--- INNER JOIN 
---     detalle_vuelo AS DT ON TE.id_detalle_vuelo = DT.id_detalle_vuelo
--- INNER JOIN 
---     escala AS ES ON DT.id_detalle_vuelo = ES.id_detalle_vuelo
--- INNER JOIN 
---     vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
--- INNER JOIN 
---     aeropuerto AS AO ON VU.aeropuerto_origen = AO.id_aeropuerto
--- INNER JOIN 
---     aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto;
 
-
--- SELECT * FROM vista_detalle_tripulacion WHERE Codec_vuelo = 1;
