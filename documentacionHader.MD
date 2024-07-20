@@ -39,3 +39,5 @@
 1. Agregar servicio **Consultar Historial de revision de Avion**
     1. implementar procedimiento en SQL.
 
+# Caso de Uso 13: Actualizar Información de Cliente
+2. Crear servicio en entidad Cliente **Actualizar Información de Cliente**

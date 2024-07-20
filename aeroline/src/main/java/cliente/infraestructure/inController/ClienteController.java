@@ -6,7 +6,11 @@ import java.awt.GridLayout;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,6 +18,16 @@ import javax.swing.JTextField;
 
 import cliente.application.ClienteUseCase;
 import cliente.domain.entity.Cliente;
+import revisionEstado.application.RevisionEstadoUseCase;
+import revisionEstado.domain.entity.RevisionEstado;
+import revisionEstado.domain.service.RevisionEstadoService;
+import revisionEstado.infraestructure.inController.RevisionEstadoController;
+import revisionEstado.infraestructure.outRepository.RevisionEstadoRepository;
+import tipoDocumento.application.TipoDocumentoUseCase;
+import tipoDocumento.domain.entity.TipoDocumento;
+import tipoDocumento.domain.service.TipoDocumentoService;
+import tipoDocumento.infraestructure.inController.TipoDocumentoController;
+import tipoDocumento.infraestructure.outRepository.TipoDocumentoRepository;
 
 public class ClienteController {
     private final ClienteUseCase clienteUseCase;
@@ -26,6 +40,12 @@ public class ClienteController {
         Long idCliente = obtenerDatosConsulta();
         Cliente cliente = clienteUseCase.consultarCliente(idCliente);
         mostrarDatosCliente(cliente);
+    }
+
+    public void updateCliente() {
+        Long idCliente = obtenerDatosConsulta();
+        Cliente cliente = clienteUseCase.consultarCliente(idCliente);
+        Cliente clienteUpdate = obtenerClienteModificado(cliente);
     }
 
     public Long obtenerDatosConsulta(){
@@ -129,5 +149,83 @@ public class ClienteController {
             JOptionPane.PLAIN_MESSAGE
         );
 
+    }
+
+    public Cliente obtenerClienteModificado(Cliente cliente){
+        JPanel panel = new JPanel(new GridLayout(8, 2, 10, 5));
+
+        // Crear etiquetas y agregarlas al panel
+        JLabel lblDocumento = new JLabel("Documento:");
+        JTextField txtDocumento = new JTextField();
+        txtDocumento.setText(String.valueOf(cliente.getDocumento()));
+    
+        JLabel lblNombre1 = new JLabel("Nombre 1:");
+        JTextField txtNombre1 = new JTextField();
+        txtNombre1.setText(cliente.getNombre1());
+
+        JLabel lblNombre2 = new JLabel("Nombre 2:");
+        JTextField txtNombre2 = new JTextField();
+        txtNombre2.setText(cliente.getNombre2());
+
+        JLabel lblApellidos = new JLabel("Apellidos:");
+        JTextField txtApellidos = new JTextField();
+        txtApellidos.setText(cliente.getApellidos());
+
+        JLabel lblFecha = new JLabel("Fecha Nacimiento:");
+        JTextField txtFecha = new JTextField();
+        txtFecha.setText(cliente.getFecha_nacimiento());
+
+        JLabel lblEmail = new JLabel("Fecha Nacimiento:");
+        JTextField txtEmail = new JTextField();
+        txtEmail.setText(cliente.getEmail());
+
+        JLabel lblTipo = new JLabel("Tipo Documento:");
+
+
+
+
+        //GESTION PARA TIPO DE DOCUMENTPO
+        List<String> lstTipos = new ArrayList<>();
+
+        TipoDocumentoService tipoDocumentoService = new TipoDocumentoRepository();
+        TipoDocumentoUseCase tipoDocumentoUseCase = new TipoDocumentoUseCase(tipoDocumentoService);
+        TipoDocumentoController tipoDocumentoController = new TipoDocumentoController(tipoDocumentoUseCase);
+        
+        List<TipoDocumento> lstRevisionEstados = tipoDocumentoController.listarTipoDocumento();
+        String[] opcionesTgs;
+
+        //USANDO CONSUMER
+        Consumer<TipoDocumento> getTipo = tipoDocumento -> lstTipos.add(tipoDocumento.getNombreDoc());
+        lstRevisionEstados.forEach(getTipo);
+
+        opcionesTgs = lstTipos.toArray(new String[0]);
+        JComboBox<String> opTgsComboBox = new JComboBox<>(opcionesTgs);
+
+        ////////////////////////////////////////////////////////
+
+        panel.add(lblDocumento);
+        panel.add(txtDocumento);
+        panel.add(lblNombre1);  
+        panel.add(txtNombre1);
+        panel.add(lblNombre2); 
+        panel.add(txtNombre2);  
+        panel.add(lblApellidos); 
+        panel.add(txtApellidos);
+        panel.add(lblFecha); 
+        panel.add(txtFecha);
+        panel.add(lblEmail);
+        panel.add(txtEmail);  
+        panel.add(lblTipo); 
+        panel.add(opTgsComboBox);
+
+        // Mostrar el panel en un JOptionPane
+        JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.PLAIN_MESSAGE
+        );        
+        return null;
     }
 }

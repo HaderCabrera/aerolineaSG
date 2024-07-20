@@ -44,4 +44,10 @@ public class ClienteRepository implements ClienteService{
         return cliente;
     }
 
+    @Override
+    public Boolean updateCliente(Cliente cliente) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateCliente'");
+    }
+
 }
