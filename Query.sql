@@ -13,31 +13,6 @@ FROM tripulacionRol AS TR
 INNER JOIN empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
 INNER JOIN tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado;
 
-CREATE VIEW vista_tripulacion_vuelo AS
-SELECT 
-    CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Empleado,
-    TR.nombre AS Rol_Empleado,
-    VU.numero_vuelo AS Numero_Vuelo,
-    AO.nombre AS Aeropuerto_Origen,
-    AD.nombre AS Aeropuerto_Destino,
-    VU.hora_salida AS Hora_Salida,
-    VU.hora_llegada AS Hora_Llegada
-FROM 
-    tripulacionRol AS TR
-INNER JOIN 
-    empleado AS EM ON TR.id_tripulacionRoles = EM.id_tripulacionRoles
-INNER JOIN 
-    tripulacionvuelo_empleado AS TE ON EM.id_empleado = TE.id_empleado
-INNER JOIN 
-    detalle_vuelo AS DT ON TE.id_detalle_vuelo = DT.id_detalle_vuelo
-INNER JOIN 
-    escala AS ES ON DT.id_detalle_vuelo = ES.id_detalle_vuelo
-INNER JOIN 
-    vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
-INNER JOIN 
-    aeropuerto AS AO ON VU.aeropuerto_origen = AO.id_aeropuerto
-INNER JOIN 
-    aeropuerto AS AD ON VU.aeropuerto_destino = AD.id_aeropuerto;
 
 
 INSERT INTO permisosUsuarios (nombre_permiso) VALUES
@@ -243,3 +218,43 @@ DELIMITER ;
 INSERT INTO estado_revision (estado)
 VALUES ('Pendiente'), ('En Progreso'), ('Completado');
 
+SELECT * FROM vuelo;
+-- INSERCIONES A LA TABLA TRAYECTO
+
+INSERT INTO trayecto (origen_trayecto, destino_trayecto, desc_trayecto, distancia, TiempoEstimado)
+VALUES 
+('NYC', 'LAX', 'Vuelo directo de Nueva York a Los Ángeles', '2475', '05:30:00'),
+('ORD', 'MIA', 'Vuelo de Chicago a Miami', '1197', '02:45:00');
+-- INSERCIONES A LA TABLA ESCALA
+
+INSERT INTO escala (id_vuelo ,id_trayecto)
+VALUES
+(1 , 1),
+(2, 2),
+(2,1),
+(1,2);
+
+-- PROCEDIMIENTO PARA ABTRAER INFORMACION DE TRAYECTO
+-- LO CORRECTO ES DECIR CUANTOS VUELOS TIENE ASOCIADO UN TRAYECTO 
+-- NO UN VUELO A CUANTOS TRAYECTOS ESTA ASOCIADO
+-- Recordemos que el vuelo o los trayectos lo podemos hacer una lista
+DELIMITER $$
+CREATE PROCEDURE abstraerTrayecto_Escalas(numero_trayecto int)
+BEGIN
+SELECT  TR.id_trayecto AS ID_trayecto,
+        TR.origen_trayecto,
+        TR.destino_trayecto,
+        TR.desc_trayecto,
+        TR.distancia,
+        TR.TiempoEstimado,
+        VU.numero_vuelo,
+        VU.id_vuelo
+FROM trayecto AS TR
+INNER JOIN escala AS ES ON TR.id_trayecto = ES.id_trayecto
+INNER JOIN vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
+WHERE TR.id_trayecto = numero_trayecto;
+END$$
+DELIMITER ;
+
+CALL abstraerTrayecto_Escalas(1);
+-- CONSULAR ESCALAS DE UN TRAYECTO ES OTRA CONSULTA QUE PUEDO IR EN EL MISMO JPANEL
