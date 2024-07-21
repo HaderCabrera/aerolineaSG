@@ -8,69 +8,98 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 
+
 import com.aeroline.DatabaseConfig;
 
 
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
+import empleado.domain.entity.empleado;
 
 
 public class DetalleVueloRepository implements DetalleVueloService {
+
     @Override
+    public DetalleVuelo asignarTripulacionTrayecto(empleado empleado) {
+        
 
-    public DetalleVuelo consultarDetalleVuelo(String Numero_Vuelo) {
-        String sql = "SELECT * FROM vista_tripulacion_vuelo WHERE Numero_Vuelo = ?;";
+        return null;
+            
+    }
+
+    @Override
+    public DetalleVuelo consultarTracayecto(int id_trayecto) {
         DetalleVuelo detalleVuelo = null;
+        String query = "CALL abstraerTrayecto_Escalas(?);";
+        try (Connection conec = DatabaseConfig.getConnection();
+            PreparedStatement stm = conec.prepareStatement(query)){
+                
+                stm.setInt(1, id_trayecto);
 
-        
+                try(ResultSet resultset = stm.executeQuery()){
+                    if(resultset.next()) {
+                        detalleVuelo = new DetalleVuelo();
 
-        
-        try (Connection conexion = DatabaseConfig.getConnection();
-                PreparedStatement sentenciaPreparada = conexion.prepareStatement(sql)){
+                        detalleVuelo.setId_trayecto(resultset.getInt("ID_trayecto"));
+                        detalleVuelo.setDesc_trayecto(resultset.getString("desc_trayecto"));
+                        detalleVuelo.setOrigen_trayecto(resultset.getString("origen_trayecto"));
+                        detalleVuelo.setDistancia(resultset.getString("distancia"));
+                        detalleVuelo.setTimpoEstimado(resultset.getString("TiempoEstimado"));
 
-            sentenciaPreparada.setString(1, Numero_Vuelo);
-            try(ResultSet resultset = sentenciaPreparada.executeQuery()){
-                while(resultset.next()) {
-                    detalleVuelo = new DetalleVuelo();
-                    
-                    detalleVuelo.setEmpleado(resultset.getString("Empleado"));
-                    detalleVuelo.setNumero_Vuelo(resultset.getString("Numero_Vuelo"));
-                    detalleVuelo.setRolEmpleado(resultset.getString("Rol_Empleado"));
-                    detalleVuelo.setAeropuertoDestino(resultset.getString("Aeropuerto_Origen"));
-                    detalleVuelo.setAeropuertoOrigen(resultset.getString("Aeropuerto_Destino"));
-                    detalleVuelo.setHoraLlegada(resultset.getString("Hora_Salida"));
-                    detalleVuelo.setHoraSalida(resultset.getString("Hora_Llegada"));
-        
-
-
+                    }else return null;
                 }
 
+            }catch (SQLException e) { 
+                e.printStackTrace();
+                String mensaje = "Registro Fallido!"; 
+                JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.WARNING_MESSAGE);
             }
-           
-        } catch (SQLException e) {
-            e.printStackTrace();
-            String mensaje = "Consulta Fallida!";
-            JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.WARNING_MESSAGE);
-        }
+        
         return detalleVuelo;
-
     }
 
     @Override
-    public DetalleVuelo consultarInfoTripulacion(int id_empleado) {
+    public boolean editarTrayecto(DetalleVuelo trayecto) {
+        String query = "UPDATE trayecto\n" + //
+                        "SET origen_trayecto = ?, \n" + //
+                        "    destino_trayecto = ?,\n" + //
+                        "    desc_trayecto = ?,\n" + //
+                        "    distancia = ?\n" + //
+                        "    TiempoEstimado = ?\n" + //
+                        "WHERE id_trayecto = ?;";
+                try(Connection conec = DatabaseConfig.getConnection();
+                    PreparedStatement stm = conec.prepareStatement(query)){
+                        stm.setString(1, trayecto.getOrigen_trayecto());
+                        stm.setString(2, trayecto.getDestino_tracyecto());
+                        stm.setString(3, trayecto.getDesc_trayecto());
+                        stm.setString(4, trayecto.getDistancia());
+                        stm.setString(5, trayecto.getTimpoEstimado());
+                        stm.setInt(6, trayecto.getId_trayecto());
+
+
+                    }catch(SQLException e){
+                        e.printStackTrace();
+                        return false;
+                    }
+
+        return true;
+    }
+
+    @Override
+    public boolean eliminarTrayecto(int id_trayecto) {
+        String query = "DELETE FROM trayecto WHERE id_trayecto = ?;";
+        try(Connection conec = DatabaseConfig.getConnection();
+            PreparedStatement stm = conec.prepareStatement(query)){
+                stm.setInt(1, id_trayecto);
+                stm.executeUpdate();
+                return true;
+
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        return true;
         
-
-        return null;
     }
+    
 
-    @Override
-    public DetalleVuelo editarEscalaVuelo(int id_escala) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void eliminarDetalleVuelo(int id_vuelo) {
-        
-    }
 }

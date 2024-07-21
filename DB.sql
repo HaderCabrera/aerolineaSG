@@ -17,9 +17,11 @@ CREATE TABLE IF NOT EXISTS estadoPuesto (
 -- TANLA @PUESTO
 CREATE TABLE IF NOT EXISTS puesto (
     id_puesto INT PRIMARY KEY AUTO_INCREMENT,
+    id_avion INT NOT NULL,
     id_estadoPuesto INT NOT NULL,
     numero_puesto INT NOT NULL,
     Foreign Key (id_estadoPuesto) REFERENCES estadoPuesto (id_estadoPuesto)
+    Foreign Key (id_avion) REFERENCES avion(id_avion)
 );
 --TABLA @CLIENTE
 CREATE Table IF NOT EXISTS cliente (
@@ -65,8 +67,8 @@ CREATE TABLE trayecto (
 CREATE TABLE IF NOT EXISTS trayecto_x_tarifa(
     id_trayecto INT NOT NULL,
     id_tarifa INT NULL,
-    Foreign Key (id_trayecto) REFERENCES trayecto(id_trayecto),
-    Foreign Key (id_tarifa) REFERENCES tarifa(id_tarifa)
+    Foreign Key (id_trayecto) REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
+    Foreign Key (id_tarifa) REFERENCES tarifa(id_tarifa) 
 );
 
 -- TABLA @ESTADO_RESERVA
@@ -204,7 +206,7 @@ CREATE TABLE IF NOT EXISTS escala(
     id_vuelo INT,
     id_trayecto INT NOT NULL,
     Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
-    Foreign Key (id_trayecto) REFERENCES trayecto(id_trayecto)
+    Foreign Key (id_trayecto) REFERENCES trayecto(id_trayecto) ON DELETE CASCADE
 );
 
 -- TABLA @TRIPULACION

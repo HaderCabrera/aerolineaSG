@@ -41,20 +41,7 @@ public class DetallevueloController {
         
         panel.setPreferredSize(new Dimension(450, 120));
       
-        //VALIDACIONES DE ENTERO
-        // codigoVueloField.addKeyListener(new KeyAdapter() {
-        //     @Override
-        //     public void keyTyped(KeyEvent e) {
-        //         char c = e.getKeyChar();
-        //         if (c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
-        //             JOptionPane.showMessageDialog(panel, "sin espacios", "Error", JOptionPane.ERROR_MESSAGE);
-        //             e.consume(); // Ignorar la tecla no numérica
-        //         }
-        //     }
-        // });
-
-        
-
+    
         // Añadir componentes Al window
         
         panel.add(codigoVueloLabel);
@@ -77,21 +64,16 @@ public class DetallevueloController {
             
             String codigo_vuelo = codigoVueloField.getText();
             try{
-              
-                DetalleVuelo detalvuelo = detalleVueloUseCase.consultarDetalleVuelo(codigo_vuelo);
+                int id_trayecto = Integer.parseInt(codigo_vuelo);
+                DetalleVuelo trayecto = detalleVueloUseCase.consultarTrayecto(id_trayecto);
                 JButton delateButton = new JButton("Delate");
                 JButton actualizar = new JButton("Refresh");
                 delateButton.setPreferredSize(new Dimension(100, 30));
-                // Function <String, JLabel> createLabel = (String dato) -> {
-                // JLabel label =  new JLabel(dato);
-                // return label; };
-                // Crear el panel de detalles
                 JPanel detailsPanel = new JPanel(new GridLayout(2, 8, 10, 5));
 
                 String[] headers = {
-                    "Empleado", "Numero_Vuelo", "Rol Empleado",
-                    "Aeropuerto Origen", "Aeropuerto Destino", "Hora Salida",
-                    "Hora Llegada"
+                    "ID_trayecto", "origen_trayecto", "destino_trayecto",
+                    "descripcion", "distancia", "tiempo Estimado"
                 };
                 
                 // Añadir las etiquetas de cabecera
@@ -107,13 +89,7 @@ public class DetallevueloController {
         
                 // Valores a mostrar
                 String[] values = {
-                    detalvuelo.getEmpleado(),
-                    detalvuelo.getNumero_Vuelo(),
-                    detalvuelo.getRolEmpleado(),
-                    detalvuelo.getAeropuertoOrigen(),
-                    detalvuelo.getAeropuertoDestino(),
-                    detalvuelo.getHoraSalida(),
-                    detalvuelo.getHoraLlegada()
+                    
                 };
 
                 for (String value : values) {

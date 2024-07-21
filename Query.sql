@@ -239,6 +239,8 @@ VALUES
 -- LO CORRECTO ES DECIR CUANTOS VUELOS TIENE ASOCIADO UN TRAYECTO 
 -- NO UN VUELO A CUANTOS TRAYECTOS ESTA ASOCIADO
 -- Recordemos que el vuelo o los trayectos lo podemos hacer una lista
+DROP Procedure `abstraerTrayecto_Escalas`;
+
 DELIMITER $$
 CREATE PROCEDURE abstraerTrayecto_Escalas(numero_trayecto int)
 BEGIN
@@ -247,15 +249,32 @@ SELECT  TR.id_trayecto AS ID_trayecto,
         TR.destino_trayecto,
         TR.desc_trayecto,
         TR.distancia,
-        TR.TiempoEstimado,
-        VU.numero_vuelo,
-        VU.id_vuelo
+        TR.TiempoEstimado
 FROM trayecto AS TR
-INNER JOIN escala AS ES ON TR.id_trayecto = ES.id_trayecto
-INNER JOIN vuelo AS VU ON ES.id_vuelo = VU.id_vuelo
 WHERE TR.id_trayecto = numero_trayecto;
 END$$
 DELIMITER ;
 
 CALL abstraerTrayecto_Escalas(1);
+SHOW CREATE TABLE escala;
+
+ALTER TABLE escala DROP FOREIGN KEY escala_ibfk_2;
+ALTER TABLE escala 
+ADD CONSTRAINT escala_ibfk_2
+FOREIGN KEY (id_trayecto) REFERENCES trayecto(id_trayecto) 
+ON DELETE CASCADE;
+
 -- CONSULAR ESCALAS DE UN TRAYECTO ES OTRA CONSULTA QUE PUEDO IR EN EL MISMO JPANEL
+
+
+SHOW CREATE TABLE trayecto_x_tarifa;
+
+ALTER Table trayecto_x_tarifa DROP FOREIGN KEY trayecto_x_tarifa_ibfk_2;
+
+ALTER TABLE trayecto_x_tarifa 
+ADD CONSTRAINT trayecto_x_tarifa_ibfk_2
+FOREIGN KEY (id_trayecto) REFERENCES trayecto(id_trayecto) 
+ON DELETE CASCADE;
+
+
+DELETE FROM 
