@@ -65,7 +65,5 @@ public class DetalleVuelo {
         this.horaLlegada = horaLlegada;
     }
 
-    
-    
 
 }
