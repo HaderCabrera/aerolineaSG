@@ -56,8 +56,5 @@ public class DetalleVuelo {
     public void setTimpoEstimado(String timpoEstimado) {
         this.timpoEstimado = timpoEstimado;
     }
-    
-    
-    
 
 }
