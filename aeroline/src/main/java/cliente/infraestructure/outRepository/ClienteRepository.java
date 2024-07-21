@@ -44,4 +44,27 @@ public class ClienteRepository implements ClienteService{
         return cliente;
     }
 
+    @Override
+    public Boolean updateCliente(Cliente cliente) {
+        String sql = "UPDATE cliente SET documento = ?, nombre1 = ?, nombre2 = ?, apellidos = ?, fecha_nacimiento = ?, email = ?, id_tipo_documento = ?  WHERE id_cliente = ?";
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, cliente.getDocumento());
+            statement.setString(2, cliente.getNombre1());
+            statement.setString(3, cliente.getNombre2());
+            statement.setString(4, cliente.getApellidos());
+            statement.setString(5, cliente.getFecha_nacimiento());
+            statement.setString(6, cliente.getEmail());
+            statement.setLong(7, cliente.getId_tipo_documento());
+            statement.setLong(8, cliente.getId_cliente());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;        
+    }
+
 }

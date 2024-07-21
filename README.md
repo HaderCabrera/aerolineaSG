@@ -12,7 +12,7 @@ tripulación.
 
 ## Modelo relacional remasterizado.
 
-![](./img/modelorelacional.jpg)
+![](./img/DBRelational.png)
 
 ## Implementacion de CONSUMER
 ![](./img/consumer.png)

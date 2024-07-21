@@ -39,19 +39,58 @@ public class AeropuertoController {
 
     public void consultarAeropuerto(){
         Long id_aeropuerto = solicitarIdAeropuerto();
-        Aeropuerto aeropuertoFind = aeropuertoUseCase.consultarAeropuerto(id_aeropuerto);
-        if (aeropuertoFind != null) {
-            mostrarDatosAeropuerto(aeropuertoFind);
-        } else {
-            JOptionPane.showMessageDialog(null, "Aeropuerto no encontrado!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
-        }
+        if (id_aeropuerto != null) {
+                if (id_aeropuerto != 151841511L) {
+                    Aeropuerto aeropuertoFind = aeropuertoUseCase.consultarAeropuerto(id_aeropuerto);
+                    if (aeropuertoFind != null) {
+                        mostrarDatosAeropuerto(aeropuertoFind);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Aeropuerto no encontrado!", "Error De Consulta", JOptionPane.WARNING_MESSAGE);
+                    }  
+                }
+            } else JOptionPane.showMessageDialog(null, "Id incorrecto", "Error De Ingreso", JOptionPane.ERROR_MESSAGE);
 
+    }
+
+    public void updateAeropuerto(){
+        Long idAeropuerto = solicitarIdAeropuerto();
+        if (idAeropuerto != null) {
+            if (idAeropuerto != 151841511L) {
+                Aeropuerto aeropuerto = aeropuertoUseCase.consultarAeropuerto(idAeropuerto);
+                if (aeropuerto != null) {
+                    Aeropuerto aeropuertoUpdate = obtenerAeropuertoModificado(aeropuerto);
+                    if (aeropuerto.getCiudad() != "cancelado") {
+                        Boolean actualizacion = aeropuertoUseCase.updateAeropuerto(aeropuertoUpdate); 
+                        if (actualizacion) {
+                            JOptionPane.showMessageDialog(null, "Actualizaciòn Exitoso!", "Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Actualizaciòn Denegado!", "Denied", JOptionPane.ERROR_MESSAGE); 
+                        }
+                    } 
+                } else JOptionPane.showMessageDialog(null, "Aeropuerto No Encontrado!", "Denied", JOptionPane.WARNING_MESSAGE); 
+            } 
+        } else JOptionPane.showMessageDialog(null, "Datos de Ingreso Incorrectos!", "Error De Ingreso", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void eliminarAeropuertoById(){
+        Long idAeropuerto = solicitarIdAeropuerto();
+        if (idAeropuerto != null) {
+            if (idAeropuerto != 151841511L) {
+                Aeropuerto aeropuertoValidacion = aeropuertoUseCase.consultarAeropuerto(idAeropuerto);
+                System.out.println(aeropuertoValidacion);
+                if (aeropuertoValidacion != null) {
+                    Boolean eliminacion = aeropuertoUseCase.eliminarAeropuertoById(idAeropuerto);
+                    if (eliminacion) {
+                        JOptionPane.showMessageDialog(null, "Aeropuerto Eliminado con Exito!","Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
+                    } else JOptionPane.showMessageDialog(null, "Error Al Eliminar Aeropuerto","Denied", JOptionPane.ERROR_MESSAGE); 
+                } else JOptionPane.showMessageDialog(null, "Aeropuerto No Enconrado","Denied", JOptionPane.WARNING_MESSAGE); 
+            }
+        } else JOptionPane.showMessageDialog(null, "Error Al Ingresar Datos","Denied", JOptionPane.ERROR_MESSAGE);
     }
 
     public Aeropuerto solicitarDatosRegistro(){
         /*Varibales */
         Aeropuerto aeropuerto = new Aeropuerto();
-        List<Ciudad> lstCiudades = new ArrayList<>();
 
         //Crear los componentes
         JPanel panel = new JPanel(new GridLayout(2, 2, 5, 1));
@@ -63,6 +102,7 @@ public class AeropuertoController {
         JLabel idLabel = new JLabel("Ciudad:");
 
         //LLAMAR ENTIDAD CIUDAD PARA TOMAR CIUDADES
+        List<Ciudad> lstCiudades = new ArrayList<>();
         CiudadService ciudadService = new CiudadRepository();
         CiudadUseCase ciudadUseCase = new CiudadUseCase(ciudadService);
         CiudadController ciudadController = new CiudadController(ciudadUseCase);
@@ -139,16 +179,17 @@ public class AeropuertoController {
             JOptionPane.OK_CANCEL_OPTION, 
             JOptionPane.QUESTION_MESSAGE
         );
-
         //Tratar datos recolectados
         if (option == JOptionPane.OK_OPTION) {
-            Long id = Long.parseLong(lblIdAeropuerto.getText());
-            return id;        
-
+            try {
+                Long id = Long.parseLong(lblIdAeropuerto.getText());
+                return id;    
+            } catch (Exception e) {
+                return null; 
+            }
         } else {
-            JOptionPane.showMessageDialog(panel, "Consulta cancelada", "Error", JOptionPane.ERROR_MESSAGE);
+          return 151841511L;  
         }
-        return null;
     }
 
     public void mostrarDatosAeropuerto(Aeropuerto aeropuerto){
@@ -173,6 +214,63 @@ public class AeropuertoController {
             JOptionPane.CLOSED_OPTION, 
             JOptionPane.PLAIN_MESSAGE
         );
+    }
+
+    public Aeropuerto obtenerAeropuertoModificado(Aeropuerto aeropuerto){
+        JPanel panel = new JPanel(new GridLayout(2, 2, 10, 5));
+
+        JLabel lblNombre = new JLabel("Aeropuerto:");
+        JTextField lblNombreValor = new JTextField();
+        lblNombreValor.setText(aeropuerto.getNombre());
+
+        JLabel lblCiudad = new JLabel("Ciudad:");
+        //LLAMAR ENTIDAD CIUDAD PARA TOMAR CIUDADES
+        List<Ciudad> lstCiudades = new ArrayList<>();
+        CiudadService ciudadService = new CiudadRepository();
+        CiudadUseCase ciudadUseCase = new CiudadUseCase(ciudadService);
+        CiudadController ciudadController = new CiudadController(ciudadUseCase);
+        List<String> lstNombreCiudades = new ArrayList<>();
+        lstCiudades = ciudadController.listarCiudades();
+        String[] opcionesTgs;
+        
+        //USANDO CONSUMER
+        Consumer<Ciudad> getNombre = ciudad -> lstNombreCiudades.add(ciudad.getNombre());
+        lstCiudades.forEach(getNombre);
+
+        opcionesTgs = lstNombreCiudades.toArray(new String[0]);
+        JComboBox<String> opTgsComboBox = new JComboBox<>(opcionesTgs);
+
+        panel.add(lblNombre);
+        panel.add(lblNombreValor);
+        panel.add(lblCiudad);
+        panel.add(opTgsComboBox);
+
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.PLAIN_MESSAGE
+        );
+        if (option == JOptionPane.OK_OPTION) {
+
+            String ciudadN = opTgsComboBox.getSelectedItem().toString();
+            String nombre = lblNombreValor.getText();
+
+            try {
+                //USO DE FUNCIONES LAMDA PARA RECORRER LISTA DE OBJETOS
+                lstCiudades.forEach(ciudad -> {
+                    if (ciudad.getNombre().equals(ciudadN)) {
+                        aeropuerto.setId_ciudad(ciudad.getId_ciudad());
+                        aeropuerto.setNombre(nombre);
+                    }
+                });
+            } catch (Exception e) {
+                return null;
+            }
+        } else aeropuerto.setCiudad("cancelado");
+        return aeropuerto;
     }
 }
 

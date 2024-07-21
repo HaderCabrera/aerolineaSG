@@ -15,4 +15,8 @@ public class ClienteUseCase {
         return cliente;
     }
 
+    public Boolean updateCliente(Cliente cliente){
+        return clienteService.updateCliente(cliente);
+    }
+
 }   

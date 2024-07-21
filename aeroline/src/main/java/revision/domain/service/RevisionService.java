@@ -8,4 +8,6 @@ public interface RevisionService {
     Long registrarRevision(Revision revision);
     Boolean eliminarRevision(Long IdRevision);
     List<Revision> listarRevisionesByPlaca(String placa_avion);
+    Boolean updateRevisionById(Revision revision);
+    Revision consultarRevisionById(Long id_revision);
 }
