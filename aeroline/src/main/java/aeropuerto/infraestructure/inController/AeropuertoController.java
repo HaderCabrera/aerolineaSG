@@ -39,12 +39,16 @@ public class AeropuertoController {
 
     public void consultarAeropuerto(){
         Long id_aeropuerto = solicitarIdAeropuerto();
-        Aeropuerto aeropuertoFind = aeropuertoUseCase.consultarAeropuerto(id_aeropuerto);
-        if (aeropuertoFind != null) {
-            mostrarDatosAeropuerto(aeropuertoFind);
-        } else {
-            JOptionPane.showMessageDialog(null, "Aeropuerto no encontrado!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
-        }
+        if (id_aeropuerto != null) {
+                if (id_aeropuerto != 151841511L) {
+                    Aeropuerto aeropuertoFind = aeropuertoUseCase.consultarAeropuerto(id_aeropuerto);
+                    if (aeropuertoFind != null) {
+                        mostrarDatosAeropuerto(aeropuertoFind);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Aeropuerto no encontrado!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
+                    }  
+                }
+            } else JOptionPane.showMessageDialog(null, "Id incorrecto", "Error De Ingreso", JOptionPane.ERROR_MESSAGE);
 
     }
 
@@ -139,16 +143,17 @@ public class AeropuertoController {
             JOptionPane.OK_CANCEL_OPTION, 
             JOptionPane.QUESTION_MESSAGE
         );
-
         //Tratar datos recolectados
         if (option == JOptionPane.OK_OPTION) {
-            Long id = Long.parseLong(lblIdAeropuerto.getText());
-            return id;        
-
+            try {
+                Long id = Long.parseLong(lblIdAeropuerto.getText());
+                return id;    
+            } catch (Exception e) {
+                return null; 
+            }
         } else {
-            JOptionPane.showMessageDialog(panel, "Consulta cancelada", "Error", JOptionPane.ERROR_MESSAGE);
+          return 151841511L;  
         }
-        return null;
     }
 
     public void mostrarDatosAeropuerto(Aeropuerto aeropuerto){

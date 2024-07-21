@@ -22,12 +22,11 @@ public class TipoDocumentoController {
     
     public void crearTipoDocumento(){
         TipoDocumento tipoDocumento = solicitarDatosRegistro();
-
         if (tipoDocumento != null) {
-            tipoDocumentoUseCase.crearTipoDocumento(tipoDocumento);
-        } else {
-            JOptionPane.showMessageDialog(null, "Dato ingresado invalido!", "Denied", JOptionPane.WARNING_MESSAGE);
-        } 
+            if (tipoDocumento.getNombreDoc() != "cancelado") {
+                tipoDocumentoUseCase.crearTipoDocumento(tipoDocumento);
+            }
+        } else JOptionPane.showMessageDialog(null, "Error al Ingresar Datos!", "Denied", JOptionPane.ERROR_MESSAGE); 
     }
 
     public List<TipoDocumento> listarTipoDocumento(){
@@ -68,17 +67,14 @@ public class TipoDocumentoController {
                 } else {
                     return null;
                 }
-
-                
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(panel, "Error al obtener datos de registro", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
         } else {
-            return null;
+            tipoDocumento.setNombreDoc("cancelado");
         }
         return tipoDocumento;
     }
-
 
 }

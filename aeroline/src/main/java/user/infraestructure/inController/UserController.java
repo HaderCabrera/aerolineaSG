@@ -385,11 +385,11 @@ public class UserController {
                 break;
 
             case "Actualizar Informacion De Avion":
-                System.out.println("SI LO TOMOA BIEN");
+                avionController.updateAvion();
                 break;
 
             case "Eliminar Avion":
-                System.out.println("SI LO TOMOA BIEN");
+                avionController.eliminarAvionByPlaca();
                 break;
 
             case "Asignar Tripulacion A Trayecto":
