@@ -243,3 +243,4 @@ DELIMITER ;
 INSERT INTO estado_revision (estado)
 VALUES ('Pendiente'), ('En Progreso'), ('Completado');
 
+
