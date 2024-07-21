@@ -57,8 +57,8 @@ public class ClienteController {
                         } else {
                             JOptionPane.showMessageDialog(null, "Registro Denegado!", "Denied", JOptionPane.ERROR_MESSAGE); 
                         }
-                    }
-                } JOptionPane.showMessageDialog(null, "Cliente No Encontrado", "Denied", JOptionPane.WARNING_MESSAGE);  
+                    } 
+                } else JOptionPane.showMessageDialog(null, "Cliente No Encontrado", "Denied", JOptionPane.WARNING_MESSAGE);  
             } 
         } else JOptionPane.showMessageDialog(null, "Datos de Ingreso Incorrectos!", "Error De Ingreso", JOptionPane.ERROR_MESSAGE);
     } 
