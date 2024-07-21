@@ -53,20 +53,21 @@ public class AvionController {
         } else JOptionPane.showMessageDialog(null, "Error al Ingresar Datos!", "Denied", JOptionPane.ERROR_MESSAGE);
     }
 
-    public void consultarAvionByPlaca(){
+    public Avion consultarAvionByPlaca(){
         String placa = solicitarPlacaAvion();
         if (placa != null) {
-            System.out.println(placa.length());
             if (placa.length() > 0) {
                 Avion avion = avionUseCase.consultarAvionByPlaca(placa);
                 if (avion != null) {
                     mostrarDatosAvion(avion);
+                    return avion;
                 }  else {
-                    JOptionPane.showMessageDialog(null, "Avión no encontrado!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Avión no encontrado!", "Error De Consulta", JOptionPane.WARNING_MESSAGE);
                 }  
             }
 
         } else JOptionPane.showMessageDialog(null, "Error al ingresar Datos!", "Denied", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
 
     public void updateAvion(){
@@ -85,7 +86,7 @@ public class AvionController {
                         }
                     } else JOptionPane.showMessageDialog(null, "Error al ingresar Datos", "Denied", JOptionPane.ERROR_MESSAGE);
                 }  else {
-                    JOptionPane.showMessageDialog(null, "Avión no encontrado!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Avión no encontrado!", "Error De Consulta", JOptionPane.WARNING_MESSAGE);
                 } 
             }
         } else JOptionPane.showMessageDialog(null, "Error al ingresar Datos", "Denied", JOptionPane.ERROR_MESSAGE);
@@ -94,11 +95,16 @@ public class AvionController {
     public void eliminarAvionByPlaca(){
         String placa = solicitarPlacaAvion();
         if (placa != null) {
-            Boolean eliminacion = avionUseCase.eliminarAvionByPlaca(placa);
-            if (eliminacion) {
-                JOptionPane.showMessageDialog(null, "Avion Eliminado con Exito!","Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
-            } else JOptionPane.showMessageDialog(null, "Error Al Eliminar Aviòn","Denied", JOptionPane.ERROR_MESSAGE);
-        } else JOptionPane.showMessageDialog(null, "Error Al Ingresar Datos","Denied", JOptionPane.ERROR_MESSAGE);
+            if (placa.length() > 0 ) {
+                Avion avionValidacion = avionUseCase.consultarAvionByPlaca(placa);
+                if (avionValidacion != null) {
+                    Boolean eliminacion = avionUseCase.eliminarAvionByPlaca(placa);
+                    if (eliminacion) {
+                        JOptionPane.showMessageDialog(null, "Avion Eliminado con Exito!","Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
+                    } else JOptionPane.showMessageDialog(null, "Error Al Eliminar Aviòn","Denied", JOptionPane.ERROR_MESSAGE);
+                } else JOptionPane.showMessageDialog(null, "Avion No Encontrado","Denied", JOptionPane.WARNING_MESSAGE);   
+            }
+        }  else JOptionPane.showMessageDialog(null, "Error Al Ingresar Datos","Denied", JOptionPane.ERROR_MESSAGE);
     }   
 
     public Avion solicitarDatosRegistro() {

@@ -19,4 +19,13 @@ public class TipoDocumentoUseCase {
         List<TipoDocumento> lstTipoDocumentos = tipoDocumentoService.listarTipoDocumento();
         return lstTipoDocumentos;
     }
+    public Boolean updateTipoDocumento(TipoDocumento tipoDocumento){
+        return tipoDocumentoService.updateTipoDocumento(tipoDocumento);
+    }
+    public TipoDocumento consultarTipoDocumentoById(Long idTipoDocumento){
+        return tipoDocumentoService.consultarTipoDocumentoById(idTipoDocumento);
+    }
+    public Boolean eliminarTipoDocumentoById(Long idTipoDocumento){
+        return tipoDocumentoService.eliminarTipoDocumentoById(idTipoDocumento);
+    }
 }

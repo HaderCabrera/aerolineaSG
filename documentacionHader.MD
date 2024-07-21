@@ -39,7 +39,7 @@
 1. Agregar servicio **Consultar Historial de revision de Avion**
     1. implementar procedimiento en SQL.
 
-# Caso de Uso 13: Actualizar Información de Cliente
+# Caso de Uso 13(22): Actualizar Información de Cliente
 2. Crear servicio en entidad Cliente **Actualizar Información de Cliente** (USAMOS CONSUMER).
 
 # Caso de Uso 15: Actualizar Información de Avión
@@ -51,3 +51,23 @@
 
 # Caso de Uso 20: Actualizar Información de Aeropuerto
 1. Agregar servicio **Actualizar informacion de aeropuerto** a entidad aeropuerto.
+
+# Caso de Uso 21: Eliminar Aeropuerto (FALA ELIMINAR EN CASCADA O BUSCAR EL COMANDO)
+1. Agregar servicio **Eliminar Aeropuerto**
+
+# Caso de Uso 24: Actualizar Información de Revisión
+1. Agregar servicio **Consultar Revision By ID**
+2. Agregar servicio **Actualizar Revision**
+
+# Caso de Uso 25: Eliminar Revisión de Mantenimiento (FALA ELIMINAR EN CASCADA O BUSCAR EL COMANDO)
+1. Utilizar servicio **Eliminar revision de Mantenimiento**
+
+# Caso de Uso 35: Actualizar Tipo de Documento
+1. Agregar servicio **Consultar Tipo Documento**
+1. Agregar servicio **Actualizar tipo Documento** en entidad TipoDocumento
+
+# Caso de Uso 36: Eliminar Tipo de Documento
+1. Agregar servicio **Eliminar Tipo de Documento**
+
+# Caso de Uso 37: Consultar Tipo de Documento
+1. Hacer uso de servicio **Consultar tipo Documento**
