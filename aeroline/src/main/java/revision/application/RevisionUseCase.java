@@ -1,6 +1,5 @@
 package revision.application;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import revision.domain.entity.Revision;
@@ -14,18 +13,23 @@ public class RevisionUseCase {
     }
     
     public Long registrarRevision(Revision revision){
-        Long confirmacion = revisionService.registrarRevision(revision);
-        return confirmacion;
+        return revisionService.registrarRevision(revision);
     }
 
     public Boolean eliminarRevision(Long IdRevision){
-        Boolean confirmacion = revisionService.eliminarRevision(IdRevision);
-        return confirmacion;
+        return revisionService.eliminarRevision(IdRevision);
     }
 
     public List<Revision> listarRevisionesByPlaca(String placa_avion) {
-        List<Revision> lstRevisiones = new ArrayList<>();
-        lstRevisiones = revisionService.listarRevisionesByPlaca(placa_avion);
+        List<Revision> lstRevisiones = revisionService.listarRevisionesByPlaca(placa_avion);
         return lstRevisiones;
+    }
+
+    public Boolean updateRevisionById(Revision revision){
+        return revisionService.updateRevisionById(revision);
+    }
+
+    public Revision consultarRevisionById(Long id_revision){
+        return revisionService.consultarRevisionById(id_revision);
     }
 }

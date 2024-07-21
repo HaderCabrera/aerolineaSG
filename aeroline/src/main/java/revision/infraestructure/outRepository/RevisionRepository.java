@@ -93,4 +93,55 @@ public class RevisionRepository implements RevisionService {
         }
         return lstRevisiones;
     }
+
+    @Override
+    public Boolean updateRevisionById(Revision revision) {
+        String sql = "UPDATE revision\n" + //
+                        "SET fecha_revision = ?, \n" + //
+                        "    id_avion = ?,\n" + //
+                        "    descrip = ?,\n" + //
+                        "    id_estado_revision = ?\n" + //
+                        "WHERE id_revision = ?;";
+                        
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            
+            statement.setString(1, revision.getFecha_revision());
+            statement.setLong(2, revision.getId_avion());
+            statement.setString(3, revision.getDescrip());
+            statement.setLong(4, revision.getId_estado());
+            statement.setLong(5, revision.getId_revision());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;     
+    }
+
+    @Override
+    public Revision consultarRevisionById(Long id_revision) {
+        String sql = "SELECT id_revision, fecha_revision, id_avion, descrip, id_estado_revision FROM revision WHERE id_revision = ?;";
+        Revision revision = null;
+
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id_revision);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    revision = new Revision();
+                    revision.setId_revision(resultSet.getLong("id_revision"));
+                    revision.setFecha_revision(resultSet.getString("fecha_revision"));
+                    revision.setId_avion(resultSet.getInt("id_avion"));
+                    revision.setDescrip(resultSet.getString("descrip"));
+                    revision.setId_estado(resultSet.getLong("id_estado_revision"));
+                } else return null;
+            }
+
+        } catch (SQLException e) {
+            return null;
+        }
+        return revision;
+    }
 }

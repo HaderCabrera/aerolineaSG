@@ -73,21 +73,23 @@ public class UserController {
                     switch (opcion) {
                         case "Iniciar Sesión":
                             List<String> datosAcceso  = vistaInicioSesion();
-                            // Aquí puedes añadir la lógica para validar el usuario y la contraseña
-                            User usuarioValidado = userUseCase.findUserCase(datosAcceso.get(0), datosAcceso.get(1));
-
-                            if (usuarioValidado != null) {
-                                List<String> permisos = userUseCase.getPermisosCase(usuarioValidado.getId_rolUsuario());
-                                
-                                if (usuarioValidado.getId_rolUsuario() == 1) {
-                                    mostrarSubMenuPaquetesPermisosAdmin(permisos);
-                                }  else if (usuarioValidado.getId_rolUsuario() == 3){
-                                    mostrarSubMenuPaquetesPermisosVendedor(permisos);
-                                } else {
-                                    generarVistaUser(permisos);
-                                }
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Usuario No Registrado", "Not Connected", JOptionPane.WARNING_MESSAGE);
+                            if (datosAcceso != null) {
+                                if (!datosAcceso.get(0).equals("incorrecto")) {
+                                    User usuarioValidado = userUseCase.findUserCase(datosAcceso.get(0), datosAcceso.get(1));
+                                    if (usuarioValidado != null) {
+                                        List<String> permisos = userUseCase.getPermisosCase(usuarioValidado.getId_rolUsuario());
+                                        
+                                        if (usuarioValidado.getId_rolUsuario() == 1) {
+                                            mostrarSubMenuPaquetesPermisosAdmin(permisos);
+                                        }  else if (usuarioValidado.getId_rolUsuario() == 3){
+                                            mostrarSubMenuPaquetesPermisosVendedor(permisos);
+                                        } else {
+                                            generarVistaUser(permisos);
+                                        }
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Usuario No Registrado", "Not Connected", JOptionPane.WARNING_MESSAGE);
+                                    }    
+                                } else JOptionPane.showMessageDialog(null, "Datos Ingesados Incorrectos!", "Not Connected", JOptionPane.WARNING_MESSAGE);
                             }
                             break;
 
@@ -152,10 +154,13 @@ public class UserController {
         if (option == JOptionPane.OK_OPTION) {
             String usuario = userField.getText();
             String contraseña = new String(passField.getPassword());
-            datosAcceso.add(usuario);
-            datosAcceso.add(contraseña);
+            if (usuario.length() > 0 && contraseña.length() > 0) {
+                datosAcceso.add(usuario);
+                datosAcceso.add(contraseña);    
+            } else datosAcceso.add("incorrecto");
+
         } else {
-            System.out.println("Inicio de sesión cancelado.");
+            return null;
         }
         return datosAcceso;
     }
@@ -375,6 +380,11 @@ public class UserController {
         ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
         ClienteController clienteController = new ClienteController(clienteUseCase);
         
+        //LLAMADO HEXAGONAL TIPO DOCUMENTO
+        TipoDocumentoService tipoDocumentoService = new TipoDocumentoRepository();
+        TipoDocumentoUseCase tipoDocumentoUseCase = new TipoDocumentoUseCase(tipoDocumentoService);
+        TipoDocumentoController tipoDocumentoController = new TipoDocumentoController(tipoDocumentoUseCase);
+        
         switch (permiso) {
             case "Registrar Avion":
                 avionController.registrarAvion();
@@ -430,11 +440,11 @@ public class UserController {
                 break;
 
             case "Actualizar Informacion De Aeropuerto":
-
+                aeropuertoController.updateAeropuerto();
                 break;
 
             case "Eliminar Aeropuerto":
-                System.out.println("SI LO TOMOA BIEN");
+                aeropuertoController.eliminarAeropuertoById();
                 break;
 
             case "Consultar Informacion De Vuelo":
@@ -463,19 +473,16 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Registrar Tipo Documento":
-                TipoDocumentoService tipoDocumentoService = new TipoDocumentoRepository();
-                TipoDocumentoUseCase tipoDocumentoUseCase = new TipoDocumentoUseCase(tipoDocumentoService);
-                TipoDocumentoController tipoDocumentoController = new TipoDocumentoController(tipoDocumentoUseCase);
                 tipoDocumentoController.crearTipoDocumento();
                 break;
             case "Actualizar Tipo Documento":
-                System.out.println("SI LO TOMOA BIEN");
+                tipoDocumentoController.updateTipoDocumento();
                 break;
             case "Eliminar Tipo Documento":
-                System.out.println("SI LO TOMOA BIEN");
+                tipoDocumentoController.eliminarTipoDocumentoById();
                 break;
             case "Consultar Tipo Documento":
-                System.out.println("SI LO TOMOA BIEN");
+                tipoDocumentoController.consultarTipoDocumentoById();
                 break;
             case "Realizar Pago":
                 System.out.println("SI LO TOMOA BIEN");
@@ -499,10 +506,10 @@ public class UserController {
                 revisionController.listarRevisionesByPlaca();
                 break;
             case "Actualizar Informacion Revision":
-                System.out.println("SI LO TOMOA BIEN");
+                revisionController.updateRevisionById();
                 break;
             case "Eliminar Revision Mantenimiento":
-                System.out.println("SI LO TOMOA BIEN");
+                revisionController.eliminarRevisionById();
                 break;
             case "Modificar Estado Reserva":
                 System.out.println("SI LO TOMOA BIEN");

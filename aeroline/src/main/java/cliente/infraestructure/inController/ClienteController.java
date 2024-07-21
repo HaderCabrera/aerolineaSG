@@ -38,7 +38,7 @@ public class ClienteController {
                 Cliente cliente = clienteUseCase.consultarCliente(idCliente);
                 if (cliente != null) {
                     mostrarDatosCliente(cliente);   
-                } else JOptionPane.showMessageDialog(null, "Cliente No Encontrado!", "Denied", JOptionPane.ERROR_MESSAGE);  
+                } else JOptionPane.showMessageDialog(null, "Cliente No Encontrado!", "Denied", JOptionPane.WARNING_MESSAGE);  
             }
         } else JOptionPane.showMessageDialog(null, "Datos de Ingreso Invalidos!", "Denied", JOptionPane.ERROR_MESSAGE);
     }
@@ -50,13 +50,15 @@ public class ClienteController {
                 Cliente cliente = clienteUseCase.consultarCliente(idCliente);
                 if (cliente != null) {
                     Cliente clienteUpdate = obtenerClienteModificado(cliente);
-                    Boolean confirmacion = clienteUseCase.updateCliente(clienteUpdate);
-                    if (confirmacion) {
-                        JOptionPane.showMessageDialog(null, "Registro Exitoso!", "Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Registro Denegado!", "Denied", JOptionPane.ERROR_MESSAGE); 
+                    if (clienteUpdate.getEmail() != "cancelar") {
+                        Boolean confirmacion = clienteUseCase.updateCliente(clienteUpdate);
+                        if (confirmacion) {
+                            JOptionPane.showMessageDialog(null, "Registro Exitoso!", "Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Registro Denegado!", "Denied", JOptionPane.ERROR_MESSAGE); 
+                        }
                     }
-                } 
+                } JOptionPane.showMessageDialog(null, "Cliente No Encontrado", "Denied", JOptionPane.WARNING_MESSAGE);  
             } 
         } else JOptionPane.showMessageDialog(null, "Datos de Ingreso Incorrectos!", "Error De Ingreso", JOptionPane.ERROR_MESSAGE);
     } 
@@ -290,7 +292,7 @@ public class ClienteController {
                 System.out.println("Formatos invalidos, Try Again!" + e);
             }
         
-        } 
+        }else cliente.setEmail("cancelar");
         return cliente;
     }
 }

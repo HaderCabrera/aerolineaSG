@@ -21,4 +21,12 @@ public class AeropuertoUseCase {
         Aeropuerto aeropuerto = aeropuertoService.consultarAeropuerto(id_aeropuerto);
         return aeropuerto;
     }
+
+    public Boolean updateAeropuerto(Aeropuerto aeropuerto){
+        return aeropuertoService.updateAeropuerto(aeropuerto);
+    }
+
+    public Boolean eliminarAeropuertoById(Long id_aeropuerto){
+        return aeropuertoService.eliminarAeropuertoById(id_aeropuerto);
+    }
 }

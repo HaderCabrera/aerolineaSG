@@ -192,11 +192,11 @@ BEGIN
 END $$
 DELIMITER ;
 
---procedimiento para obtener datos de ciudad
+--procedimiento para obtener datos aeropuerto
 DELIMITER $$
 CREATE PROCEDURE ObtenerDatosAeropuerto(idAeropuerto INT)
 BEGIN
-    SELECT A.nombre, C.nombre
+    SELECT A.nombre AS aeropuerto, C.nombre AS ciudad, C.id_ciudad
     FROM aeropuerto AS A
     INNER JOIN ciudad AS C ON A.id_ciudad = C.id_ciudad
     WHERE A.id_aeropuerto = idAeropuerto;
