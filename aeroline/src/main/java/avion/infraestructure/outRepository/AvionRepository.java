@@ -51,6 +51,7 @@ public class AvionRepository implements AvionService{
                 if (resultSet.next()) {
 
                     avion = new Avion();
+                    avion.setId_avion(resultSet.getInt("id_avion"));
                     avion.setPlaca_identificacion(resultSet.getString("placa_identificacion"));
                     avion.setCapacidad(resultSet.getInt("capacidad"));
                     avion.setFabricacion_fecha(resultSet.getString("fabricacion_fecha"));
@@ -63,6 +64,43 @@ public class AvionRepository implements AvionService{
             e.printStackTrace();
         }
         return avion;
+    }
+
+    @Override
+    public Boolean updateAvion(Avion avion) {
+        String sql = "UPDATE avion SET placa_identificacion = ?, capacidad = ?, fabricacion_fecha = ?, id_estado = ?, id_modelo = ? WHERE id_avion = ?";
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, avion.getPlaca_identificacion());
+            statement.setLong(2, avion.getCapacidad());
+            statement.setString(3, avion.getFabricacion_fecha());
+            statement.setLong(4, avion.getId_estado());
+            statement.setLong(5, avion.getId_modelo());
+            statement.setLong(6, avion.getId_avion());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true; 
+    }
+
+    @Override
+    public Boolean eliminarAvionByPlaca(String placa) {
+        String sql = "DELETE FROM avion WHERE placa_identificacion = ?;";
+        try (Connection connection = DatabaseConfig.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, placa);
+            statement.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return false;
     }
 
 }

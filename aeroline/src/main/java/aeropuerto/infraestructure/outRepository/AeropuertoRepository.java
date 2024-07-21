@@ -44,12 +44,12 @@ public class AeropuertoRepository implements AeropuertoService {
                 if (resultSet.next()) {
                     aeropuerto = new Aeropuerto();
                     aeropuerto.setNombre(resultSet.getString("aeropuerto"));
-                    aeropuerto.setCiudad(resultSet.getString("ciudad"));
+                    aeropuerto.setCiudad(resultSet.getString("ciudad")); 
                 }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return aeropuerto;
     }

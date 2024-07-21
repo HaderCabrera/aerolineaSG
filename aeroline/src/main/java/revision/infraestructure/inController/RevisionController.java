@@ -44,38 +44,45 @@ public class RevisionController {
     
     public void registrarRevision(){
         Revision revision = solicitarDatosRegistro();
-        Long idRevision = revisionUseCase.registrarRevision(revision);
-        
-        //Logica para registrar la revision a un empleado
-        if (idRevision != 0) {
-            //PENDIENTE LOGICA DE REGISTRAR EN ENTIDAD revision_empleado
-            RevisionEmpleadoService revisionEmpleadoService = new RevisionEmpleadoRepository();
-            RevisionEmpleadoUseCase revisionEmpleadoUseCase = new RevisionEmpleadoUseCase(revisionEmpleadoService);
-            RevisionEmpleadoController revisionEmpleadoController = new RevisionEmpleadoController(revisionEmpleadoUseCase);
-            //falta terminar
-            Long confirmacion = revisionEmpleadoController.registrarRevisionEmpleado(idRevision);
-
-            if (confirmacion != null) {
-                JOptionPane.showMessageDialog(null, "Registros De Revisiòn Exitoso", "Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
-
-            } else {
-                revisionUseCase.eliminarRevision(idRevision);
-                // JOptionPane.showMessageDialog(null, "No se ha podido asignar revision a Empleado", "Denied", JOptionPane.INFORMATION_MESSAGE);
+        if (revision != null) {
+            if (revision.getDescrip() != "cancelar") {
+                Long idRevision = revisionUseCase.registrarRevision(revision);
+                //Logica para registrar la revision a un empleado
+                if (idRevision != 0) {
+                    RevisionEmpleadoService revisionEmpleadoService = new RevisionEmpleadoRepository();
+                    RevisionEmpleadoUseCase revisionEmpleadoUseCase = new RevisionEmpleadoUseCase(revisionEmpleadoService);
+                    RevisionEmpleadoController revisionEmpleadoController = new RevisionEmpleadoController(revisionEmpleadoUseCase);
+                    //falta terminar
+                    Long confirmacion = revisionEmpleadoController.registrarRevisionEmpleado(idRevision);
+                    if (confirmacion != null) {
+                        JOptionPane.showMessageDialog(null, "Registros De Revisiòn Exitoso", "Confirmaciòn", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        Boolean confirmarEliminacion = revisionUseCase.eliminarRevision(idRevision);
+                        if (confirmarEliminacion) {
+                            JOptionPane.showMessageDialog(null, "Registro de Revision Cancelado", "Denied", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No ha sido posible registrar Revision", "Denied", JOptionPane.ERROR_MESSAGE);
+                }
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "No ha sido posible registrar Revision", "Denied", JOptionPane.INFORMATION_MESSAGE);
-        }
+
+        } else JOptionPane.showMessageDialog(null, "Error Al Ingresar Datos", "Denied", JOptionPane.ERROR_MESSAGE);
+
     }
 
     public void listarRevisionesByPlaca(){
         String placa_avion = solicitarPlacaAvion();
-        List<Revision> lstRevisiones = revisionUseCase.listarRevisionesByPlaca(placa_avion);
-        if (lstRevisiones.size() > 0) {
-            mostrarHistorialRevisiones(lstRevisiones);
-        } else {
-            JOptionPane.showMessageDialog(null, "Avión sin registros!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
-        }
-        
+        if (placa_avion != null) {
+            if (placa_avion.length() > 0) {
+                List<Revision> lstRevisiones = revisionUseCase.listarRevisionesByPlaca(placa_avion);
+                if (lstRevisiones.size() > 0) {
+                    mostrarHistorialRevisiones(lstRevisiones);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Avión sin registros!", "Error De Consulta", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else JOptionPane.showMessageDialog(null, "Error al Ingresar Datos","Denied",JOptionPane.ERROR_MESSAGE);  
     }
 
     public Revision solicitarDatosRegistro(){
@@ -163,33 +170,27 @@ public class RevisionController {
             JOptionPane.OK_CANCEL_OPTION, 
             JOptionPane.QUESTION_MESSAGE
         );
-
         // Manejar la entrada del usuario
         if (option == JOptionPane.OK_OPTION) {
-
-            String fecha_revision = fechaField.getText();
-            String id_revision = idField.getText();
-            String descrip = descripcionField.getText();
-            String estado = opTgsComboBox.getSelectedItem().toString();
-
             try {
-                revision.setFecha_revision(fecha_revision);
-                revision.setId_avion(Integer.parseInt(id_revision));
-                revision.setDescrip(descrip);
-                lstRevisionEstados.forEach(revisionEstado -> {
-                    if (revisionEstado.getEstado().equals(estado)) {
-                        revision.setId_estado(revisionEstado.getId_estado());
-                    }
-                });
-                
-
+                String fecha_revision = fechaField.getText();
+                String id_avion = idField.getText();
+                String descrip = descripcionField.getText();
+                String estado = opTgsComboBox.getSelectedItem().toString();
+                if (fecha_revision.length() > 0 && id_avion.length() > 0 && descrip.length() > 0 ) {
+                    revision.setFecha_revision(fecha_revision);
+                    revision.setId_avion(Integer.parseInt(id_avion));
+                    revision.setDescrip(descrip);
+                    lstRevisionEstados.forEach(revisionEstado -> {
+                        if (revisionEstado.getEstado().equals(estado)) {
+                            revision.setId_estado(revisionEstado.getId_estado());
+                        }
+                    });   
+                } else return null;
             } catch (Exception e) {
-                System.out.println("Formatos invalidos, Try Again!" + e);
+                return null;
             }
-        
-        } else {
-            System.out.println("Registro de avión cancelado.");
-        }
+        } else revision.setDescrip("cancelar");
         return revision;
     }
 
@@ -222,6 +223,9 @@ public class RevisionController {
         // Manejar la entrada del usuario
         if (option == JOptionPane.OK_OPTION) {
             placa = txtPlaca.getText();
+            if (placa.length() > 0) {
+                return placa;
+            } else return null;
         } 
         return placa;
     }

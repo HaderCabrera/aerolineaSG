@@ -1,5 +1,6 @@
 package avion.application;
 
+
 import avion.domain.entity.Avion;
 import avion.domain.service.AvionService;
 
@@ -21,5 +22,13 @@ public class AvionUseCase {
         Avion avion = avionService.consultarAvionByPlaca(placa);
         return avion;
     }
+    public Boolean updateAvion(Avion avion){
+        Boolean confirmacion = avionService.updateAvion(avion);
+        return confirmacion;
+    }
 
+    public Boolean eliminarAvionByPlaca(String placa){
+        Boolean confirmacion = avionService.eliminarAvionByPlaca(placa);
+        return confirmacion;
+    }
 }
