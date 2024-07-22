@@ -18,11 +18,11 @@ import puesto.infraestructure.inController.PuestoController;
 import puesto.infraestructure.outRepository.PuestoRepository;
 import reserva.application.ReservaUseCase;
 import reserva.domain.entity.Reserva;
-import tipoDocumento.application.TipoDocumentoUseCase;
-import tipoDocumento.domain.entity.TipoDocumento;
-import tipoDocumento.domain.service.TipoDocumentoService;
-import tipoDocumento.infraestructure.inController.TipoDocumentoController;
-import tipoDocumento.infraestructure.outRepository.TipoDocumentoRepository;
+import detallevuelo.application.DetalleVueloUseCase;
+import detallevuelo.domain.entity.DetalleVuelo;
+import detallevuelo.domain.service.DetalleVueloService;
+import detallevuelo.infraestructure.inController.DetallevueloController;
+import detallevuelo.infraestructure.outRepository.DetalleVueloRepository;
 
 public class ReservaController {
     private final ReservaUseCase reservaUseCase;
@@ -44,6 +44,21 @@ public class ReservaController {
         JTextField txtFecha = new JTextField();
         txtFecha.setText("0000-00-00");
         
+        JLabel lblTrayecto = new JLabel("Trayecto:");
+        List<String> lstDescripcionesTrayecto = new ArrayList<>();
+        List<DetalleVuelo> lstTrayectos = new ArrayList<>();
+        String[] descripcionesTgs;
+        DetalleVueloService detalleVueloService = new DetalleVueloRepository();
+        DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
+        DetallevueloController detalleVueloController = new DetallevueloController(detalleVueloUseCase);
+        lstTrayectos = detalleVueloController.listarDescripcionesTrayecto();
+
+        Consumer<DetalleVuelo> getDescripcion = trayecto -> lstDescripcionesTrayecto.add(trayecto.getDesc_trayecto());
+        lstTrayectos.forEach(getDescripcion);
+
+        descripcionesTgs = lstDescripcionesTrayecto.toArray(new String[0]);
+        JComboBox<String> descripcionComboBox = new JComboBox<>(descripcionesTgs);
+
         JLabel lblIdCliente = new JLabel("Id cliente:");
         JTextField txtIdCliente = new JTextField();
 
@@ -53,11 +68,11 @@ public class ReservaController {
         PuestoUseCase puestoUseCase = new PuestoUseCase(puestoService);
         PuestoController puestoController = new PuestoController(puestoUseCase);
         List<Puesto> lstPuestoByIdAvion = puestoController.listarPuestoByIdAvion(null);
-        /*
+        
         JLabel lblTipo = new JLabel("Tipo Documento:");
         //GESTION PARA TIPO DE DOCUMENTPO
         List<String> lstTipos = new ArrayList<>();
-
+/* 
         TipoDocumentoService tipoDocumentoService = new TipoDocumentoRepository();
         TipoDocumentoUseCase tipoDocumentoUseCase = new TipoDocumentoUseCase(tipoDocumentoService);
         TipoDocumentoController tipoDocumentoController = new TipoDocumentoController(tipoDocumentoUseCase);
@@ -71,6 +86,7 @@ public class ReservaController {
 
         opcionesTgs = lstTipos.toArray(new String[0]);
         JComboBox<String> opTgsComboBox = new JComboBox<>(opcionesTgs);
+        /* 
         //VALIDACIONES DE ENTERO
         txtDocumento.addKeyListener(new KeyAdapter() {
             @Override

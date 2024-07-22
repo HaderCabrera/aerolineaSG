@@ -20,6 +20,7 @@ import detallevuelo.domain.entity.DetalleVuelo;
 import net.sourceforge.htmlunit.corejs.javascript.tools.debugger.Dim;
 
 import java.awt.*;
+import java.util.List;
 
 public class DetallevueloController {
     private DetalleVueloUseCase detalleVueloUseCase;
@@ -172,5 +173,8 @@ public class DetallevueloController {
         
     }
 
+    public List<DetalleVuelo> listarDescripcionesTrayecto(){
+        return detalleVueloUseCase.listarTrayectos();
+    }
     
 }
