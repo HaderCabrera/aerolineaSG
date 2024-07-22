@@ -125,7 +125,10 @@ CREATE TABLE IF NOT EXISTS puertaSalidaAbordaje (
     Foreign Key (id_aeropuerto) REFERENCES aeropuerto (id_aeropuerto)
 );
 -- crear ticket
-
+CREATE TABLE estado_empleado (
+    id_estado INT AUTO_INCREMENT PRIMARY KEY, 
+    estado VARCHAR(50) NOT NULL
+    );
 -- TABLE @EMPLEADO
 CREATE TABLE IF NOT EXISTS empleado (
     id_empleado VARCHAR(20) PRIMARY KEY,
@@ -134,8 +137,10 @@ CREATE TABLE IF NOT EXISTS empleado (
     apellidos VARCHAR(100) NOT NULL,
     id_tripulacionRoles INT NULL NULL,
     id_aerolineas INT NOT NULL,
+    id_estado INT NOT NULL,
     Foreign Key (id_tripulacionRoles) REFERENCES tripulacionRol (id_tripulacionRoles),
-    Foreign Key (id_aerolineas) REFERENCES aerolinea (id_aerolineas)
+    Foreign Key (id_aerolineas) REFERENCES aerolinea (id_aerolineas),
+    Foreign Key (id_estado) REFERENCES estado_empleado(id_estado)
 );
 CREATE TABLE IF NOT EXISTS manufactura (
     id_manufactura INT AUTO_INCREMENT PRIMARY KEY,
