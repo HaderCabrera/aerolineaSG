@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 
 import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.entity.DetalleVuelo;
-import net.sourceforge.htmlunit.corejs.javascript.tools.debugger.Dim;
+
 
 import java.awt.*;
 
@@ -139,10 +139,24 @@ public class DetallevueloController {
                             JOptionPane.showMessageDialog(panel, "Elemento eliminado.");
                         }else if(result == JOptionPane.NO_OPTION){
                             JOptionPane.showMessageDialog(null, "Eliminación cancelada.");
+
                         }
-                    
-                        
-                        //detalleVueloUseCase.editarEscalaVuelo();
+                    }
+                
+                
+                });
+
+                actualizar.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e){
+                        int result = JOptionPane.showConfirmDialog(null,
+                        "Esta Seguro de actualizar", 
+                        "Confirmación de actulizar", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.WARNING_MESSAGE);
+
+                        if(result == JOptionPane.YES_OPTION){
+                            JOptionPane.showMessageDialog(null, "actualizacion");
+                        }
                     }
                 });
 

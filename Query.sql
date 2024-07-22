@@ -277,4 +277,6 @@ FOREIGN KEY (id_trayecto) REFERENCES trayecto(id_trayecto)
 ON DELETE CASCADE;
 
 
-DELETE FROM 
+SELECT * FROM trayecto;
+SELECT * FROM escala;
+

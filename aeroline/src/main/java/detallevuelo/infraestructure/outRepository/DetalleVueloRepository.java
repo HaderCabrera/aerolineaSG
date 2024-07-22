@@ -44,6 +44,7 @@ public class DetalleVueloRepository implements DetalleVueloService {
                         detalleVuelo.setId_trayecto(resultset.getInt("ID_trayecto"));
                         detalleVuelo.setDesc_trayecto(resultset.getString("desc_trayecto"));
                         detalleVuelo.setOrigen_trayecto(resultset.getString("origen_trayecto"));
+                        detalleVuelo.setDestino_tracyecto(resultset.getString("destino_trayecto"));
                         detalleVuelo.setDistancia(resultset.getString("distancia"));
                         detalleVuelo.setTimpoEstimado(resultset.getString("TiempoEstimado"));
 
