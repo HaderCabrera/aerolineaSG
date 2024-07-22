@@ -1,6 +1,9 @@
 package reserva.infraestructure.inController;
 
 import java.awt.GridLayout;
+import java.awt.Panel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -18,6 +21,10 @@ import puesto.infraestructure.inController.PuestoController;
 import puesto.infraestructure.outRepository.PuestoRepository;
 import reserva.application.ReservaUseCase;
 import reserva.domain.entity.Reserva;
+import vuelo.application.VueloUseCase;
+import vuelo.domain.service.VueloService;
+import vuelo.infraestructure.inController.VueloController;
+import vuelo.infraestructure.outRepository.VueloRepository;
 import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
@@ -63,35 +70,33 @@ public class ReservaController {
         JTextField txtIdCliente = new JTextField();
 
         //CONSULTA DE IDAVION POR ID TRAYECTO
-        Long idAvion = Long.parseLong(descripcionComboBox.getSelectedItem().toString());
-        
-        JLabel lblNombre2 = new JLabel("Puesto:");
+        List<Long> lstIdAviones = new ArrayList<>();
+        String descripcion = descripcionComboBox.getSelectedItem().toString();
+
+        VueloService vueloService = new VueloRepository();
+        VueloUseCase vueloUseCase = new VueloUseCase(vueloService);
+        VueloController vueloController = new VueloController(vueloUseCase);
+        for (DetalleVuelo trayectoN : lstTrayectos) {
+            if (trayectoN.getDesc_trayecto().equals(descripcion)) {
+                lstIdAviones = vueloController.getIdAvionByIdTrayecto(Long.valueOf(trayectoN.getId_trayecto()));
+            }  
+        }
+
+        /*
+
+        JLabel lblPuesto = new JLabel("Puesto:");
         List<Long> lstPuestos = new ArrayList<>();
         PuestoService puestoService = new PuestoRepository();
         PuestoUseCase puestoUseCase = new PuestoUseCase(puestoService);
         PuestoController puestoController = new PuestoController(puestoUseCase);
-        List<Puesto> lstPuestoByIdAvion = puestoController.listarPuestoByIdAvion(null);
+        //List<Puesto> lstPuestoByIdAvion = puestoController.listarPuestoByIdAvion(null);
         
         JLabel lblTipo = new JLabel("Tipo Documento:");
         //GESTION PARA TIPO DE DOCUMENTPO
         List<String> lstTipos = new ArrayList<>();
-/* 
-        TipoDocumentoService tipoDocumentoService = new TipoDocumentoRepository();
-        TipoDocumentoUseCase tipoDocumentoUseCase = new TipoDocumentoUseCase(tipoDocumentoService);
-        TipoDocumentoController tipoDocumentoController = new TipoDocumentoController(tipoDocumentoUseCase);
-        
-        List<TipoDocumento> lstTipoDocumentos = tipoDocumentoController.listarTipoDocumento();
-        String[] opcionesTgs;
-
-        //USANDO CONSUMER
-        Consumer<TipoDocumento> getTipo = tipoDocumento -> lstTipos.add(tipoDocumento.getNombreDoc());
-        lstTipoDocumentos.forEach(getTipo);
-
-        opcionesTgs = lstTipos.toArray(new String[0]);
-        JComboBox<String> opTgsComboBox = new JComboBox<>(opcionesTgs);
-        /* 
+        */
         //VALIDACIONES DE ENTERO
-        txtDocumento.addKeyListener(new KeyAdapter() {
+        txtIdCliente.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
@@ -117,20 +122,12 @@ public class ReservaController {
             }
         });
 
-        panel.add(lblDocumento);
-        panel.add(txtDocumento);
-        panel.add(lblNombre1);  
-        panel.add(txtNombre1);
-        panel.add(lblNombre2); 
-        panel.add(txtNombre2);  
-        panel.add(lblApellidos); 
-        panel.add(txtApellidos);
-        panel.add(lblFecha); 
+        panel.add(lblIdCliente);
+        panel.add(txtIdCliente);
+        panel.add(lblFecha);
         panel.add(txtFecha);
-        panel.add(lblEmail);
-        panel.add(txtEmail);  
-        panel.add(lblTipo); 
-        panel.add(opTgsComboBox);
+        panel.add(lblTrayecto);  
+        panel.add(descripcionComboBox);
 
         // Mostrar el panel en un JOptionPane
         int option = JOptionPane.showConfirmDialog(
@@ -140,7 +137,7 @@ public class ReservaController {
             JOptionPane.CLOSED_OPTION, 
             JOptionPane.PLAIN_MESSAGE
         );       
-        
+        /* 
         // Manejar la entrada del usuario
         if (option == JOptionPane.OK_OPTION) {
 
@@ -171,7 +168,7 @@ public class ReservaController {
             }
         
         }else cliente.setEmail("cancelar");
-         */
+        */
         return null;
     }
 }
