@@ -197,8 +197,10 @@ CREATE TABLE IF NOT EXISTS vuelo (
     aeropuerto_destino INT NOT NULL,
     hora_salida VARCHAR(12) NOT NULL,
     hora_llegada VARCHAR(12) NOT NULL,
+    id_avion  INT  NOT NULL
     FOREIGN KEY (aeropuerto_origen) REFERENCES aeropuerto (id_aeropuerto),
-    FOREIGN KEY (aeropuerto_destino) REFERENCES aeropuerto (id_aeropuerto)
+    FOREIGN KEY (aeropuerto_destino) REFERENCES aeropuerto (id_aeropuerto),
+    Foreign Key (id_avion) REFERENCES avion(id_avion)
 );
 
 -- TABLA @ESCALA
