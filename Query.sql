@@ -270,8 +270,8 @@ ON DELETE CASCADE;
 
 -- CONSULAR ESCALAS DE UN TRAYECTO ES OTRA CONSULTA QUE PUEDO IR EN EL MISMO JPANEL
 
-
-SHOW CREATE TABLE trayecto_x_tarifa;
+SELECT * FROM trayecto;
+SHOW CREATE TABLE vuelo;
 
 ALTER Table trayecto_x_tarifa DROP FOREIGN KEY trayecto_x_tarifa_ibfk_2;
 
@@ -299,3 +299,18 @@ INSERT INTO trayecto_x_tarifa (id_trayecto, id_tarifa) VALUES
 (1, 2),
 (1, 3);
 
+UPDATE trayecto
+SET origen_trayecto = "NYY", 
+    destino_trayecto = "GGG",
+    desc_trayecto = "Vuelo directo de Nueva York a Los Ángeles",
+    distancia = "2475",
+    TiempoEstimado = "05:30:00"
+    WHERE id_trayecto = 1;
+
+ALTER TABLE  vuelo
+ADD COLUMN id_avion INT;
+
+ALTER TABLE vuelo
+ADD CONSTRAINT vuelo_ibfk_3
+FOREIGN KEY (id_avion)
+REFERENCES avion(id_avion);

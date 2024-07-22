@@ -1,6 +1,5 @@
 package detallevuelo.infraestructure.outRepository;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,6 +46,7 @@ public class DetalleVueloRepository implements DetalleVueloService {
                         detalleVuelo.setId_trayecto(resultset.getInt("ID_trayecto"));
                         detalleVuelo.setDesc_trayecto(resultset.getString("desc_trayecto"));
                         detalleVuelo.setOrigen_trayecto(resultset.getString("origen_trayecto"));
+                        detalleVuelo.setDestino_tracyecto(resultset.getString("destino_trayecto"));
                         detalleVuelo.setDistancia(resultset.getString("distancia"));
                         detalleVuelo.setTimpoEstimado(resultset.getString("TiempoEstimado"));
 
@@ -64,13 +64,13 @@ public class DetalleVueloRepository implements DetalleVueloService {
 
     @Override
     public boolean editarTrayecto(DetalleVuelo trayecto) {
-        String query = "UPDATE trayecto\n" + //
-                        "SET origen_trayecto = ?, \n" + //
-                        "    destino_trayecto = ?,\n" + //
-                        "    desc_trayecto = ?,\n" + //
-                        "    distancia = ?\n" + //
-                        "    TiempoEstimado = ?\n" + //
-                        "WHERE id_trayecto = ?;";
+        String query = "UPDATE trayecto " +
+                    "SET origen_trayecto = ?, " +
+                    "    destino_trayecto = ?, " +
+                    "    desc_trayecto = ?, " +
+                    "    distancia = ?, " +
+                    "    TiempoEstimado = ? " +
+                    "WHERE id_trayecto = ?;";
                 try(Connection conec = DatabaseConfig.getConnection();
                     PreparedStatement stm = conec.prepareStatement(query)){
                         stm.setString(1, trayecto.getOrigen_trayecto());
@@ -79,6 +79,7 @@ public class DetalleVueloRepository implements DetalleVueloService {
                         stm.setString(4, trayecto.getDistancia());
                         stm.setString(5, trayecto.getTimpoEstimado());
                         stm.setInt(6, trayecto.getId_trayecto());
+                        stm.executeUpdate();
 
 
                     }catch(SQLException e){
