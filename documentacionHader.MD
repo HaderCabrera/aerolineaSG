@@ -71,3 +71,10 @@
 
 # Caso de Uso 37: Consultar Tipo de Documento
 1. Hacer uso de servicio **Consultar tipo Documento**
+
+# 
+
+# ANALISIS SISTEMA DE RESERVA
+
+1. Gestionar la información de las reservas de vuelos, incluyendo la fecha y trayecto asociado.
+2. Registrar detalles específicos de cada reserva, incluyendo el cliente, tarifa y valor de la tarifa.

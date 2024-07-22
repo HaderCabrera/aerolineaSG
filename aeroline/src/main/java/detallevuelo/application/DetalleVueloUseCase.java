@@ -25,6 +25,4 @@ public class DetalleVueloUseCase {
     public boolean editarTrayecto(DetalleVuelo trayecto){
         return detalleVueloService.editarTrayecto(trayecto);
     }
-    
-
 }
