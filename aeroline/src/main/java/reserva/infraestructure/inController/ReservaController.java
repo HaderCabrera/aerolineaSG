@@ -62,6 +62,9 @@ public class ReservaController {
         JLabel lblIdCliente = new JLabel("Id cliente:");
         JTextField txtIdCliente = new JTextField();
 
+        //CONSULTA DE IDAVION POR ID TRAYECTO
+        Long idAvion = Long.parseLong(descripcionComboBox.getSelectedItem().toString());
+        
         JLabel lblNombre2 = new JLabel("Puesto:");
         List<Long> lstPuestos = new ArrayList<>();
         PuestoService puestoService = new PuestoRepository();
