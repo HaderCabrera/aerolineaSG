@@ -299,18 +299,3 @@ INSERT INTO trayecto_x_tarifa (id_trayecto, id_tarifa) VALUES
 (1, 2),
 (1, 3);
 
-UPDATE trayecto
-SET origen_trayecto = "NYY", 
-    destino_trayecto = "GGG",
-    desc_trayecto = "Vuelo directo de Nueva York a Los Ángeles",
-    distancia = "2475",
-    TiempoEstimado = "05:30:00"
-    WHERE id_trayecto = 1;
-
-ALTER TABLE  vuelo
-ADD COLUMN id_avion INT;
-
-ALTER TABLE vuelo
-ADD CONSTRAINT vuelo_ibfk_3
-FOREIGN KEY (id_avion)
-REFERENCES avion(id_avion);
