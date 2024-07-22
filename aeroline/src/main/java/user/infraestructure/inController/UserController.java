@@ -28,6 +28,10 @@ import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.service.DetalleVueloService;
 import detallevuelo.infraestructure.inController.DetallevueloController;
 import detallevuelo.infraestructure.outRepository.DetalleVueloRepository;
+import reserva.application.ReservaUseCase;
+import reserva.domain.service.ReservaService;
+import reserva.infraestructure.inController.ReservaController;
+import reserva.infraestructure.outRepository.ReservaRepository;
 import revision.application.RevisionUseCase;
 import revision.domain.service.RevisionService;
 import revision.infraestructure.inController.RevisionController;
@@ -385,6 +389,10 @@ public class UserController {
         TipoDocumentoUseCase tipoDocumentoUseCase = new TipoDocumentoUseCase(tipoDocumentoService);
         TipoDocumentoController tipoDocumentoController = new TipoDocumentoController(tipoDocumentoUseCase);
         
+        //LLAMADO HEXAGONAL RESERVA
+        ReservaService reservaService = new ReservaRepository();
+        ReservaUseCase reservaUseCase = new ReservaUseCase(reservaService);
+        ReservaController reservaController = new ReservaController(reservaUseCase);
         switch (permiso) {
             case "Registrar Avion":
                 avionController.registrarAvion();
@@ -487,9 +495,6 @@ public class UserController {
             case "Realizar Pago":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "Registrar Reserva Vuelo":
-                System.out.println("SI LO TOMOA BIEN");
-                break;
             case "Consultar Informacion Cliente":
                 clienteController.consultarCliente();
                 break;
@@ -523,8 +528,8 @@ public class UserController {
             case "Listar Reservas":
                 System.out.println("SI LO TOMOA BIEN");
                 break;
-            case "Crear Reserva Vuelo":
-                System.out.println("SI LO TOMOA BIEN");
+            case "Crear Reserva":
+                reservaController.registrarReserva();
                 break;
             case "Mostrar Detalles Reserva":
                 System.out.println("SI LO TOMOA BIEN");

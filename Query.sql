@@ -23,7 +23,7 @@ INSERT INTO permisosUsuarios (nombre_permiso) VALUES
 ('Registrar Tarifa De Vuelo'),('Actualizar Informacion Tarifa De Vuelo'),('Eliminar Tarifa De Vuelo'),
 ('Consultar Tarifa De Vuelo'),('Buscar Vuelo'),('Seleccionar Vuelo'),('Registrar Tipo Documento'),
 ('Actualizar Tipo Documento'),('Eliminar Tipo Documento'),('Consultar Tipo Documento'),('Realizar Pago'),
-('Registrar Reserva Vuelo'),('Consultar Informacion Cliente'),('Actualizar Informacion Cliente'),('Eliminar Cliente'),
+('Crear Reserva'),('Consultar Informacion Cliente'),('Actualizar Informacion Cliente'),('Eliminar Cliente'),
 ('Registrar Revision Mantenimiento'),('Historico De Revisiones En Avion'),('Actualizar Informacion Revision'),('Eliminar Revision Mantenimiento'),
 ('Modificar Estado Reserva'),('Eliminar Reserva Vuelo'),
 ('Consultar Reserva Vuelo'),('Listar Reservas'),('Crear Reserva Vuelo'),('Mostrar Detalles Reserva'),

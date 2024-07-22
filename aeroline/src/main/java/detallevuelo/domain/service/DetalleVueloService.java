@@ -10,5 +10,4 @@ public interface DetalleVueloService {
     boolean eliminarTrayecto(int id_trayecto);
     DetalleVuelo asignarTripulacionTrayecto(empleado empleado);
     boolean editarTrayecto(DetalleVuelo id_trayecto);
-    
 }
