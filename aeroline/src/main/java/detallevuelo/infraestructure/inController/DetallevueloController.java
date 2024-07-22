@@ -1,5 +1,6 @@
 package detallevuelo.infraestructure.inController;
 
+import javax.crypto.spec.DESKeySpec;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,6 +17,8 @@ import java.awt.event.ActionListener;
 
 import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.entity.DetalleVuelo;
+import net.sourceforge.htmlunit.corejs.javascript.tools.debugger.Dim;
+
 import java.awt.*;
 
 public class DetallevueloController {
@@ -26,7 +29,7 @@ public class DetallevueloController {
     }
 
     
-    public DetalleVuelo consultarDetalleVuelo(){
+    public DetalleVuelo consultarTrayecto(){
 
     
 
@@ -41,20 +44,7 @@ public class DetallevueloController {
         
         panel.setPreferredSize(new Dimension(450, 120));
       
-        //VALIDACIONES DE ENTERO
-        // codigoVueloField.addKeyListener(new KeyAdapter() {
-        //     @Override
-        //     public void keyTyped(KeyEvent e) {
-        //         char c = e.getKeyChar();
-        //         if (c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
-        //             JOptionPane.showMessageDialog(panel, "sin espacios", "Error", JOptionPane.ERROR_MESSAGE);
-        //             e.consume(); // Ignorar la tecla no numérica
-        //         }
-        //     }
-        // });
-
-        
-
+    
         // Añadir componentes Al window
         
         panel.add(codigoVueloLabel);
@@ -77,21 +67,25 @@ public class DetallevueloController {
             
             String codigo_vuelo = codigoVueloField.getText();
             try{
-              
-                DetalleVuelo detalvuelo = detalleVueloUseCase.consultarDetalleVuelo(codigo_vuelo);
+                int id_trayecto = Integer.parseInt(codigo_vuelo);
+                DetalleVuelo trayecto = detalleVueloUseCase.consultarTrayecto(id_trayecto);
                 JButton delateButton = new JButton("Delate");
+                Dimension buttonSize = new Dimension(80,30);
                 JButton actualizar = new JButton("Refresh");
+
+
+                delateButton.setBounds(50,100,80,30);
+                delateButton.setBackground(Color.yellow);   
+                delateButton.setPreferredSize(buttonSize);
+                actualizar.setBounds(100,100,80,30);
+                actualizar.setPreferredSize(buttonSize);
+                actualizar.setBackground(Color.green);   
                 delateButton.setPreferredSize(new Dimension(100, 30));
-                // Function <String, JLabel> createLabel = (String dato) -> {
-                // JLabel label =  new JLabel(dato);
-                // return label; };
-                // Crear el panel de detalles
                 JPanel detailsPanel = new JPanel(new GridLayout(2, 8, 10, 5));
 
                 String[] headers = {
-                    "Empleado", "Numero_Vuelo", "Rol Empleado",
-                    "Aeropuerto Origen", "Aeropuerto Destino", "Hora Salida",
-                    "Hora Llegada"
+                    "ID_trayecto", "origen_trayecto", "destino_trayecto",
+                    "descripcion", "distancia", "tiempo Estimado"
                 };
                 
                 // Añadir las etiquetas de cabecera
@@ -107,13 +101,12 @@ public class DetallevueloController {
         
                 // Valores a mostrar
                 String[] values = {
-                    detalvuelo.getEmpleado(),
-                    detalvuelo.getNumero_Vuelo(),
-                    detalvuelo.getRolEmpleado(),
-                    detalvuelo.getAeropuertoOrigen(),
-                    detalvuelo.getAeropuertoDestino(),
-                    detalvuelo.getHoraSalida(),
-                    detalvuelo.getHoraLlegada()
+                String.valueOf(trayecto.getId_trayecto()),
+                trayecto.getOrigen_trayecto(),
+                trayecto.getDestino_tracyecto(),
+                trayecto.getDesc_trayecto(),
+                trayecto.getDistancia(),
+                trayecto.getTimpoEstimado()
                 };
 
                 for (String value : values) {
@@ -123,8 +116,7 @@ public class DetallevueloController {
                     label.setFont(new Font("Arial", Font.PLAIN, 12));
                     label.setHorizontalAlignment(SwingConstants.CENTER); 
                     label.setHorizontalAlignment(SwingConstants.LEFT);
-                    detailsPanel.add(label);
-                     
+                    detailsPanel.add(label);  
                 }
 
                 detailsPanel.add(delateButton);
@@ -143,7 +135,7 @@ public class DetallevueloController {
                         JOptionPane.WARNING_MESSAGE);
 
                         if (result== JOptionPane.YES_OPTION) {
-                            detalleVueloUseCase.eliminarDetalleVuelo(Integer.parseInt(detalvuelo.getNumero_Vuelo()));
+                            detalleVueloUseCase.eliminarTrayecto(trayecto.getId_trayecto());;
                             JOptionPane.showMessageDialog(panel, "Elemento eliminado.");
                         }else if(result == JOptionPane.NO_OPTION){
                             JOptionPane.showMessageDialog(null, "Eliminación cancelada.");
