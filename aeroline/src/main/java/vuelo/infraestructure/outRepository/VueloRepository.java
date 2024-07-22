@@ -25,7 +25,7 @@ public class VueloRepository implements VueloService{
 
             statement.setLong(1, id_trayecto);
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     lstIdsAvion.add(resultSet.getLong("id_avion"));
                 }
             }
@@ -38,3 +38,4 @@ public class VueloRepository implements VueloService{
     }
 
 }
+ 
