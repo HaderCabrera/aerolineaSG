@@ -72,9 +72,10 @@
 # Caso de Uso 37: Consultar Tipo de Documento
 1. Hacer uso de servicio **Consultar tipo Documento**
 
-# 
+# Caso de Uso 3: Crear Reserva de Vuelo
+1. Generar inseerts necesarios para las consultas
+2. Gestionar entidad **Puesto**, **Estado Reserva**, **tipoClase**, **tarifa**, **Reserva**
+    1. Gestionar la información de las reservas de vuelos, incluyendo la fecha y trayecto asociado.
+    2. Registrar detalles específicos de cada reserva, incluyendo el cliente, tarifa y valor de la tarifa.
 
-# ANALISIS SISTEMA DE RESERVA
 
-1. Gestionar la información de las reservas de vuelos, incluyendo la fecha y trayecto asociado.
-2. Registrar detalles específicos de cada reserva, incluyendo el cliente, tarifa y valor de la tarifa.
