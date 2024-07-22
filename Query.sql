@@ -40,7 +40,7 @@ VALUES ('hader', 'hader123', 1),('tecnico', 'tecnico123', 4),('ventas', 'ventas1
 INSERT INTO rol_permiso(id_rolUsuario, id_permisosUsuarios) VALUES
 (1, 1),(1, 5),(1, 2),(1, 7),(1, 42),(1, 4),(1, 3),(1, 8),(1, 9),(1, 43),(1, 13),(1,11),
 (1, 14 ),(1, 6),(1, 16),(1, 44),(1, 10),(1, 17),(1, 18),(1, 19),(1, 20),(1, 23),(1, 24),(1, 25),(1, 26),
-(3, 6),(3, 16),(3, 20),(3, 21),(3, 22),(3, 45),(3, 46),(3, 38),(3, 47),(3, 30),(3, 37), (3, 26), (3, 29),
+(3, 6),(3, 16),(3, 20),(3, 21),(3, 22),(3, 45),(3, 46),(3, 38),(3, 47),(3, 30),(3, 37), (3, 26), (3, 29), (3,28)
 (4, 32),(4, 33),(4, 34),(4, 35),
 (2, 21),(2, 22),(2, 45),(2, 46),(2, 27),(2, 38);
 
@@ -140,14 +140,18 @@ SELECT * FROM avion;
 INSERT INTO estadoPuesto (nombre_estado_puesto) VALUES
 ('Disponible'),
 ('Ocupado');
-SELECT * FROM `vuelo`;
--- INSERCIONES PUESTO
 
-
-INSERT INTO puesto (id_puesto, id_estadoPuesto, numero_puesto) VALUES
-(1, 1, 3),  
-(2, 1, 6);  
-
+INSERT INTO puesto (id_avion, id_estadoPuesto, numero_puesto) VALUES
+(1, 1, 1),
+(1, 1, 2),
+(1, 1, 3),
+(1, 1, 4),
+(1, 1, 5),
+(2, 1, 1),
+(2, 1, 2),
+(2, 1, 3),
+(2, 1, 4),
+(2, 1, 5);
 
 
 INSERT INTO tripulacion(id_vuelo, id_empleado) VALUES
@@ -276,5 +280,22 @@ ADD CONSTRAINT trayecto_x_tarifa_ibfk_2
 FOREIGN KEY (id_trayecto) REFERENCES trayecto(id_trayecto) 
 ON DELETE CASCADE;
 
+INSERT INTO tipoClase (nombre_Clase) VALUES
+('Económica'),
+('Ejecutiva'),
+('Primera Clase');
 
-DELETE FROM 
+INSERT INTO tarifa (id_tipoClase, precio_tarifa, descripcion) VALUES
+(1, 100.00, 'Tarifa económica'),
+(2, 250.00, 'Tarifa con escala'),
+(3, 500.00, 'Tarifa directa');
+
+INSERT INTO estadoReserva (nombre_estado) VALUES
+('Confirmada'),
+('Cancelada');
+
+INSERT INTO trayecto_x_tarifa (id_trayecto, id_tarifa) VALUES
+(1, 1),
+(1, 2),
+(1, 3);
+
