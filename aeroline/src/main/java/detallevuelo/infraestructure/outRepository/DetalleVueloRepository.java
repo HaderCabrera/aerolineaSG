@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -16,6 +18,7 @@ import com.aeroline.DatabaseConfig;
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
 import empleado.domain.entity.empleado;
+import tipoDocumento.domain.entity.TipoDocumento;
 
 
 public class DetalleVueloRepository implements DetalleVueloService {
@@ -100,6 +103,30 @@ public class DetalleVueloRepository implements DetalleVueloService {
             }
         return true;
         
+    }
+
+    @Override
+    public List<DetalleVuelo> listarTrayectos() {
+        String sql = "SELECT id_trayecto, desc_trayecto FROM trayecto";
+        List<DetalleVuelo> lstDescripcionTrayectos = new ArrayList<>();
+        DetalleVuelo detalleVuelo = null;
+
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    detalleVuelo = new DetalleVuelo();
+                    detalleVuelo.setDesc_trayecto(resultSet.getString("desc_trayecto"));
+                    detalleVuelo.setId_trayecto(Integer.parseInt(resultSet.getString("id_trayecto")));
+                    lstDescripcionTrayectos.add(detalleVuelo);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lstDescripcionTrayectos;
     }
     
 
