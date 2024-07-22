@@ -281,21 +281,21 @@ FOREIGN KEY (id_trayecto) REFERENCES trayecto(id_trayecto)
 ON DELETE CASCADE;
 
 INSERT INTO tipoClase (nombre_Clase) VALUES
-('Económica'),
+('Economica'),
 ('Ejecutiva'),
 ('Primera Clase');
 
 INSERT INTO tarifa (id_tipoClase, precio_tarifa, descripcion) VALUES
-(1, 100.00, 'Tarifa económica'),
-(2, 250.00, 'Tarifa con escala'),
-(3, 500.00, 'Tarifa directa');
+(1, 250.00, 'Tarifa Vuelo Con Escala'),
+(1, 500.00, 'Tarifa Vuelo Directo'),
+(2, 250.00, 'Tarifa Vuelo Con Escala'),
+(2, 500.00, 'Tarifa Vuelo Directo'),
+(3, 250.00, 'Tarifa Vuelo Con Escala'),
+(3, 500.00, 'Tarifa Vuelo Directo');
 
 INSERT INTO estadoReserva (nombre_estado) VALUES
 ('Confirmada'),
 ('Cancelada');
 
-INSERT INTO trayecto_x_tarifa (id_trayecto, id_tarifa) VALUES
-(1, 1),
-(1, 2),
-(1, 3);
+
 
