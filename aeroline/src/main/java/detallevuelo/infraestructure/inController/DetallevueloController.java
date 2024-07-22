@@ -1,6 +1,5 @@
 package detallevuelo.infraestructure.inController;
 
-import javax.crypto.spec.DESKeySpec;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -110,13 +109,13 @@ public class DetallevueloController {
                 };
 
                 for (String value : values) {
-                    JLabel label = new JLabel(value);
+                    JTextField label = new JTextField (value);
                     label.setPreferredSize(new Dimension(500, 3)); 
                     label.setBorder(BorderFactory.createLineBorder(Color.BLACK)); 
                     label.setFont(new Font("Arial", Font.PLAIN, 12));
                     label.setHorizontalAlignment(SwingConstants.CENTER); 
                     label.setHorizontalAlignment(SwingConstants.LEFT);
-                    detailsPanel.add(label);  
+                    detailsPanel.add(label); 
                 }
 
                 detailsPanel.add(delateButton);
@@ -143,7 +142,6 @@ public class DetallevueloController {
                         }
                     }
                 
-                
                 });
 
                 actualizar.addActionListener(new ActionListener() {
@@ -156,6 +154,12 @@ public class DetallevueloController {
 
                         if(result == JOptionPane.YES_OPTION){
                             JOptionPane.showMessageDialog(null, "actualizacion");
+                            
+
+                            JOptionPane.showMessageDialog(null, "Actaulizacion compleata");
+
+                        }else if(result == JOptionPane.NO_OPTION){
+                            JOptionPane.showMessageDialog(null, "Actualizacion cancelada.");
                         }
                     }
                 });
@@ -184,6 +188,11 @@ public class DetallevueloController {
 
         return detallevuelo;
         
+    }
+
+    public DetalleVuelo actulizarTrayecto(){
+
+        return null;
     }
 
     
