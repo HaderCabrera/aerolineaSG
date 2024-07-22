@@ -18,6 +18,7 @@ import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.entity.DetalleVuelo;
 
 import java.awt.*;
+import java.util.List;
 
 public class DetallevueloController {
     private DetalleVueloUseCase detalleVueloUseCase;
@@ -191,4 +192,8 @@ public class DetallevueloController {
 
     }
 
+    public List<DetalleVuelo> listarDescripcionesTrayecto(){
+        return detalleVueloUseCase.listarTrayectos();
+    }
+    
 }

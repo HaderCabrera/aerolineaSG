@@ -1,5 +1,7 @@
 package detallevuelo.domain.service;
 
+import java.util.List;
+
 import detallevuelo.domain.entity.DetalleVuelo;
 import empleado.domain.entity.empleado;
 
@@ -10,5 +12,5 @@ public interface DetalleVueloService {
     boolean eliminarTrayecto(int id_trayecto);
     DetalleVuelo asignarTripulacionTrayecto(empleado empleado);
     boolean editarTrayecto(DetalleVuelo id_trayecto);
-    
+    List<DetalleVuelo> listarTrayectos();
 }

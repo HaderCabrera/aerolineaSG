@@ -1,5 +1,7 @@
 package detallevuelo.application;
 
+import java.util.List;
+
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
 import empleado.domain.entity.empleado;
@@ -24,5 +26,9 @@ public class DetalleVueloUseCase {
 
     public boolean editarTrayecto(DetalleVuelo trayecto){
         return detalleVueloService.editarTrayecto(trayecto);
+    }
+
+    public List<DetalleVuelo> listarTrayectos(){
+        return detalleVueloService.listarTrayectos();
     }
 }
