@@ -1,7 +1,12 @@
 package tripulacion.domain.service;
 
+import java.util.List;
+
+import empleado.domain.entity.empleado;
 import tripulacion.domain.entity.tripulacion;
 
 public interface tripulacionService {
-    tripulacion asignarTripulacion(int id_vuelo, int id_empleado);
+    tripulacion asignarEmpleado(empleado empleado);
+    List<empleado> listaempleados();
+    tripulacion obtenerTripulacionPorVuelo(int idVuelo);
 }
