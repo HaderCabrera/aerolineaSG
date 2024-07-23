@@ -1,5 +1,9 @@
 package user.infraestructure.inController;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +41,7 @@ import tipoDocumento.domain.service.TipoDocumentoService;
 import tipoDocumento.infraestructure.inController.TipoDocumentoController;
 import tipoDocumento.infraestructure.outRepository.TipoDocumentoRepository;
 
+import java.awt.*;
 
 import user.application.UserUseCase;
 import user.domain.entity.User;
@@ -418,6 +423,11 @@ public class UserController {
                 break;
 
             case "Consultar Tripulacion De Trayecto":
+
+                TripulacionService tripulacionService= new TripulacionRepositiry();
+                TripulacionUseCase tripulacionUseCase = new  TripulacionUseCase(tripulacionService);
+                TripulacionController  tripulacionController = new TripulacionController(tripulacionUseCase);
+                tripulacionController.obtenerTripulacionPorVuelo();
                 
                 System.out.println("SI LO TOMOA BIEN");
                 break;

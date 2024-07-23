@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS empleado (
     apellidos VARCHAR(100) NOT NULL,
     id_tripulacionRoles INT NULL NULL,
     id_aerolineas INT NOT NULL,
-    id_estado INT NOT NULL,
+    id_estado INT NOT NULL, 
     Foreign Key (id_tripulacionRoles) REFERENCES tripulacionRol (id_tripulacionRoles),
     Foreign Key (id_aerolineas) REFERENCES aerolinea (id_aerolineas),
     Foreign Key (id_estado) REFERENCES estado_empleado(id_estado)
@@ -221,7 +221,8 @@ CREATE TABLE IF NOT EXISTS escala(
 -- TABLA @TRIPULACION
 
 CREATE TABLE IF NOT EXISTS tripulacion(
-    id_vuelo INT NOT NULL,
+    id_tripulacion INT PRIMARY KEY AUTO_INCREMENT,
+    id_vuelo INT NULL,
     id_empleado VARCHAR(20) ,
     Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
     Foreign Key (id_empleado) REFERENCES empleado(id_empleado)
