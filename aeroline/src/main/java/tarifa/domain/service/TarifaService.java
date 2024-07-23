@@ -1,5 +1,9 @@
 package tarifa.domain.service;
 
-public interface TarifaService {
+import java.util.List;
 
+import tarifa.domain.entity.Tarifa;
+
+public interface TarifaService {
+    List<Tarifa> listarTarifasByTrayecto (List<Integer> idPermisos);
 }

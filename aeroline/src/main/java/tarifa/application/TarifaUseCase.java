@@ -1,5 +1,8 @@
 package tarifa.application;
 
+import java.util.List;
+
+import tarifa.domain.entity.Tarifa;
 import tarifa.domain.service.TarifaService;
 
 public class TarifaUseCase {
@@ -7,6 +10,10 @@ public class TarifaUseCase {
 
     public TarifaUseCase(TarifaService tarifaService) {
         this.tarifaService = tarifaService;
+    }
+
+    public List<Tarifa> listarTarifasByTrayecto(List<Integer> idPermisos){
+        return tarifaService.listarTarifasByTrayecto(idPermisos);
     }
     
 }
