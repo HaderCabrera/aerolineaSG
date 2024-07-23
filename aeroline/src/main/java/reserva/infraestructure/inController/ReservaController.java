@@ -1,20 +1,42 @@
 package reserva.infraestructure.inController;
 
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
+import cliente.application.ClienteUseCase;
+import cliente.domain.entity.Cliente;
+import cliente.domain.service.ClienteService;
+import cliente.infraestructure.inController.ClienteController;
+import cliente.infraestructure.outRepository.ClienteRepository;
 import reserva.application.ReservaUseCase;
 import reserva.domain.entity.Reserva;
+
+import detallevuelo.domain.entity.DetalleVuelo;
+import detallevuelo.domain.service.DetalleVueloService;
+import detallevuelo.application.DetalleVueloUseCase;
+import detallevuelo.infraestructure.inController.DetallevueloController;
+import detallevuelo.infraestructure.outRepository.DetalleVueloRepository;
+import escala.application.EscalaUseCase;
+import escala.domain.entity.Escala;
+import escala.domain.service.EscalaService;
+import escala.infraestructure.inController.EscalaController;
+import escala.infraestructure.outRepository.EscalaRepository;
 
 public class ReservaController {
     private final ReservaUseCase reservaUseCase;
@@ -31,11 +53,10 @@ public class ReservaController {
     }
 
     public Reserva registrarDatosReserva(){
-        System.out.println("SI ENTRO");
         // Configuración del JFrame principal
         JFrame ventanaReserva = new JFrame("Gestionar Reserva");
         ventanaReserva.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventanaReserva.setSize(400, 300);
+        ventanaReserva.setSize(500, 150);
         ventanaReserva.setLocationRelativeTo(null);
 
         //FORMULARIO 1
@@ -50,11 +71,14 @@ public class ReservaController {
         panel1.add(txtIdCliente);
         panel1.add(lblFecha);
         panel1.add(txtFecha);
+        panel1.setPreferredSize(new Dimension(200, 100));
 
         //FORMULARIO 2
-        JPanel panel2 = new JPanel(new GridLayout(2, 2, 10, 5));
+        JPanel panel2 = new JPanel(new GridLayout(1, 2, 10, 5));
         JLabel lblTrayecto = new JLabel("Trayecto:");
+
         List<String> lstDescripcionesTrayecto = new ArrayList<>();
+        lstDescripcionesTrayecto.add("Selecciona un trayecto");
         List<DetalleVuelo> lstTrayectos = new ArrayList<>();
         String[] descripcionesTgs;
         DetalleVueloService detalleVueloService = new DetalleVueloRepository();
@@ -64,25 +88,63 @@ public class ReservaController {
 
         Consumer<DetalleVuelo> getDescripcion = trayecto -> lstDescripcionesTrayecto.add(trayecto.getDesc_trayecto());
         lstTrayectos.forEach(getDescripcion);
-
         descripcionesTgs = lstDescripcionesTrayecto.toArray(new String[0]);
         JComboBox<String> descripcionComboBox = new JComboBox<>(descripcionesTgs);
+
         panel2.add(lblTrayecto);
         panel2.add(descripcionComboBox);
+        panel2.setPreferredSize(new Dimension(600, 100));
+
+        //FORMULARIO 3
 
         // Panel principal que contendrá los formularios
         JPanel panelPrincipal = new JPanel(new CardLayout()); // Usamos CardLayout para gestionar los formularios
         panelPrincipal.add(panel1);
         panelPrincipal.add(panel2);
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Margen de 20 píxeles en todos los lados
+
+        //INSTANCIA R HEXAGONAL DE CLIENTE
+        ClienteService clienteService = new ClienteRepository();
+        ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
+        ClienteController clienteController = new ClienteController(clienteUseCase);
+
+        //INSTANCIAR HEXAGONAL ESCALA
+        EscalaService escalaService = new EscalaRepository();
+        EscalaUseCase escalaUseCase = new EscalaUseCase(escalaService);
+        EscalaController escalaController = new EscalaController(escalaUseCase);
 
         //Botón para cambiar al siguiente formulario
         JButton btnSiguiente = new JButton("Siguiente");
         btnSiguiente.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 // Cambiar al siguiente formulario usando CardLayout
+                Cliente cliente = new Cliente();
+                cliente = clienteUseCase.consultarCliente(Long.parseLong(txtIdCliente.getText()));
+
+                if (cliente != null && descripcionComboBox.getSelectedItem().toString() != "Selecciona un trayecto") {
+                    //SACAR ID DEL TRAYECTO SELECCIONADO
+                   DetalleVuelo trayecto = detalleVueloController.obtenerTrayectoByDescripcion(descripcionComboBox.getSelectedItem().toString());
+                   List<Escala> lstEscalasByDescripcion = escalaController.validarTipoTarifasForTrayecto(Long.valueOf(trayecto.getId_trayecto()));
+                   int validarTarifas = 0;
+                   if (lstEscalasByDescripcion.size() > 1) {
+                    //LLAMAR A LISTAR TARIFAS ESCALAS;
+                    for (Escala escala : lstEscalasByDescripcion) {
+                        if (escala.getDestino().equals(trayecto.getDestino_tracyecto()) && escala.getInicio().equals(trayecto.getOrigen_trayecto())) {
+                            validarTarifas = 3;
+                        } 
+                    }
+                    } else if (lstEscalasByDescripcion.size() == 1) {
+                    //LLAMAR A LISTAR TARIFAS DIRECTAS;
+                    } else validarTarifas = 1;
+                    System.out.println("EL VALIDADOR QUEDO EN: " + validarTarifas);
+                } else System.out.println("CLIENTE NOE XISTE");
+                
                 CardLayout cardLayout = (CardLayout) panelPrincipal.getLayout();
                 cardLayout.next(panelPrincipal);
+
             }
         });   
 
@@ -91,9 +153,10 @@ public class ReservaController {
         ventanaReserva.getContentPane().add(panelPrincipal, BorderLayout.CENTER);
         ventanaReserva.getContentPane().add(btnSiguiente, BorderLayout.SOUTH);
         // Mostrar el JFrame
-
+        // Revalidar y redibujar el JFrame para asegurarse de que los cambios sean visibles
+        ventanaReserva.revalidate();
+        ventanaReserva.repaint();
         ventanaReserva.setVisible(true);
-
 
         return null;
     }

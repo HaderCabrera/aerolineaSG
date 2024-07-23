@@ -232,12 +232,15 @@ VALUES
 ('ORD', 'MIA', 'Vuelo de Chicago a Miami', '1197', '02:45:00');
 -- INSERCIONES A LA TABLA ESCALA
 
-INSERT INTO escala (id_vuelo ,id_trayecto)
-VALUES
-(1 , 1),
-(2, 2),
-(2,1),
-(1,2);
+-- INSERT INTO escala (id_vuelo ,id_trayecto)
+-- VALUES
+-- (1 ,1),
+-- (2, 2),
+-- (2,1),
+-- (1,2);
+
+INSERT INTO escala (id_vuelo, id_trayecto, origen, destino)
+VALUES (1, 1, 'JJJ', 'ppp'), (2, 1, 'JJJ', 'pp2');
 
 -- PROCEDIMIENTO PARA ABTRAER INFORMACION DE TRAYECTO
 -- LO CORRECTO ES DECIR CUANTOS VUELOS TIENE ASOCIADO UN TRAYECTO 

@@ -9,15 +9,11 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-
-
 import com.aeroline.DatabaseConfig;
-
 
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
 import empleado.domain.entity.empleado;
-import tipoDocumento.domain.entity.TipoDocumento;
 
 
 public class DetalleVueloRepository implements DetalleVueloService {
@@ -128,6 +124,32 @@ public class DetalleVueloRepository implements DetalleVueloService {
             e.printStackTrace();
         }
         return lstDescripcionTrayectos;
+    }
+
+    @Override
+    public DetalleVuelo obtenerTrayectoByDescripcion(String descripcion) {
+        String sql = "SELECT id_trayecto, origen_trayecto, destino_trayecto, desc_trayecto, distancia, TiempoEstimado FROM trayecto WHERE desc_trayecto = ?";
+        DetalleVuelo detalleVuelo = null;
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, descripcion);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    detalleVuelo = new DetalleVuelo();
+                    detalleVuelo.setId_trayecto(Integer.parseInt(resultSet.getString("id_trayecto")));
+                    detalleVuelo.setOrigen_trayecto(resultSet.getString("origen_trayecto"));
+                    detalleVuelo.setDestino_tracyecto(resultSet.getString("destino_trayecto"));
+                    detalleVuelo.setDesc_trayecto(resultSet.getString("desc_trayecto"));
+                    detalleVuelo.setDistancia(resultSet.getString("distancia"));
+                    detalleVuelo.setTimpoEstimado(resultSet.getString("TiempoEstimado"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return detalleVuelo;
     }
     
 

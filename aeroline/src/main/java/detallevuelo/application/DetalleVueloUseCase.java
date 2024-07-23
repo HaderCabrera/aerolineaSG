@@ -31,4 +31,7 @@ public class DetalleVueloUseCase {
     public List<DetalleVuelo> listarTrayectos(){
         return detalleVueloService.listarTrayectos();
     }
+    public DetalleVuelo obtenerTrayectoByDescripcion(String descripcion){
+        return detalleVueloService.obtenerTrayectoByDescripcion(descripcion);
+    }
 }
