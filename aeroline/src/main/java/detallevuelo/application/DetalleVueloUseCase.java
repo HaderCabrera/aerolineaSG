@@ -4,10 +4,10 @@ import java.util.List;
 
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
-import empleado.domain.entity.empleado;
+import empleado.domain.entity.Empleado;
 
 public class DetalleVueloUseCase {
-    private DetalleVueloService detalleVueloService;
+    private final DetalleVueloService detalleVueloService;
 
     public DetalleVueloUseCase(DetalleVueloService detalleVueloService) {
         this.detalleVueloService = detalleVueloService;
@@ -20,7 +20,7 @@ public class DetalleVueloUseCase {
     public boolean eliminarTrayecto(int id_trayecto){
          return detalleVueloService.eliminarTrayecto(id_trayecto);
     }
-    public DetalleVuelo asignarTripulacionTrayecto(empleado empleado){
+    public DetalleVuelo asignarTripulacionTrayecto(Empleado empleado){
         return detalleVueloService.asignarTripulacionTrayecto(empleado);
     }
 

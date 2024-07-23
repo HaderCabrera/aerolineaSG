@@ -16,14 +16,14 @@ import com.aeroline.DatabaseConfig;
 
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
-import empleado.domain.entity.empleado;
+import empleado.domain.entity.Empleado;
 import tipoDocumento.domain.entity.TipoDocumento;
 
 
 public class DetalleVueloRepository implements DetalleVueloService {
 
     @Override
-    public DetalleVuelo asignarTripulacionTrayecto(empleado empleado) {
+    public DetalleVuelo asignarTripulacionTrayecto(Empleado empleado) {
         
 
         return null;

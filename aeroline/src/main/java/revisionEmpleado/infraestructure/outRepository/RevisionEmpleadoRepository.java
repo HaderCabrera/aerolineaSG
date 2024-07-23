@@ -41,6 +41,8 @@ public class RevisionEmpleadoRepository implements RevisionEmpleadoService{
 
         } catch (SQLException e) { 
             e.printStackTrace();
+
+            
             String mensaje = "Registro Fallido!"; 
             JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.WARNING_MESSAGE);
             return 0L;
