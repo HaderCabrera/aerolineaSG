@@ -192,6 +192,10 @@ public class DetallevueloController {
 
     }
 
+    public DetalleVuelo obtenerTrayectoByDescripcion(String descripcion){
+        return detalleVueloUseCase.obtenerTrayectoByDescripcion(descripcion);
+    }
+  
     public List<DetalleVuelo> listarDescripcionesTrayecto(){
         return detalleVueloUseCase.listarTrayectos();
     }

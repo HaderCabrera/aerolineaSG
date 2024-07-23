@@ -1,5 +1,9 @@
 package escala.domain.service;
 
-public interface EscalaService {
+import java.util.List;
 
+import escala.domain.entity.Escala;
+
+public interface EscalaService {
+    List<Escala> consultarEscalarByDescripcion(Long id_trayecto);
 }
