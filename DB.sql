@@ -212,6 +212,8 @@ CREATE TABLE IF NOT EXISTS vuelo (
 CREATE TABLE IF NOT EXISTS escala(
     id_vuelo INT,
     id_trayecto INT NOT NULL,
+    origen VARCHAR(40),
+    destino VARCHAR(40),
     Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
     Foreign Key (id_trayecto) REFERENCES trayecto(id_trayecto) ON DELETE CASCADE
 );
