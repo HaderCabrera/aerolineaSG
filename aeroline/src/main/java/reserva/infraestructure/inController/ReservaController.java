@@ -26,7 +26,11 @@ import cliente.infraestructure.inController.ClienteController;
 import cliente.infraestructure.outRepository.ClienteRepository;
 import reserva.application.ReservaUseCase;
 import reserva.domain.entity.Reserva;
-
+import tarifa.application.TarifaUseCase;
+import tarifa.domain.entity.Tarifa;
+import tarifa.domain.service.TarifaService;
+import tarifa.infraestructure.inController.TarifaController;
+import tarifa.infraestructure.outRepository.TarifaRepository;
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
 import detallevuelo.application.DetalleVueloUseCase;
@@ -113,6 +117,11 @@ public class ReservaController {
         EscalaUseCase escalaUseCase = new EscalaUseCase(escalaService);
         EscalaController escalaController = new EscalaController(escalaUseCase);
 
+        //INSTANCIAR TARIFA
+        TarifaService tarifaService = new TarifaRepository();
+        TarifaUseCase tarifaUseCase  = new TarifaUseCase(tarifaService);
+        TarifaController tarifaController = new TarifaController(tarifaUseCase);
+
         //Botón para cambiar al siguiente formulario
         JButton btnSiguiente = new JButton("Siguiente");
         btnSiguiente.addActionListener(new ActionListener() {
@@ -123,28 +132,31 @@ public class ReservaController {
                 // Cambiar al siguiente formulario usando CardLayout
                 Cliente cliente = new Cliente();
                 cliente = clienteUseCase.consultarCliente(Long.parseLong(txtIdCliente.getText()));
-
+                int validarTarifas = 0;
                 if (cliente != null && descripcionComboBox.getSelectedItem().toString() != "Selecciona un trayecto") {
                     //SACAR ID DEL TRAYECTO SELECCIONADO
                    DetalleVuelo trayecto = detalleVueloController.obtenerTrayectoByDescripcion(descripcionComboBox.getSelectedItem().toString());
                    List<Escala> lstEscalasByDescripcion = escalaController.validarTipoTarifasForTrayecto(Long.valueOf(trayecto.getId_trayecto()));
-                   int validarTarifas = 0;
-                   if (lstEscalasByDescripcion.size() > 1) {
-                    //LLAMAR A LISTAR TARIFAS ESCALAS;
-                    for (Escala escala : lstEscalasByDescripcion) {
-                        if (escala.getDestino().equals(trayecto.getDestino_tracyecto()) && escala.getInicio().equals(trayecto.getOrigen_trayecto())) {
-                            validarTarifas = 3;
-                        } 
-                    }
+
+                   if (lstEscalasByDescripcion.size() > 2) {
+                        //LLAMAR A LISTAR TARIFAS ESCALAS;
+                        for (Escala escala : lstEscalasByDescripcion) {
+                            if (escala.getDestino().equals(trayecto.getDestino_tracyecto()) && escala.getInicio().equals(trayecto.getOrigen_trayecto())) {
+                                validarTarifas = 3;
+                            } 
+                        }
                     } else if (lstEscalasByDescripcion.size() == 1) {
-                    //LLAMAR A LISTAR TARIFAS DIRECTAS;
+                        validarTarifas = 2;
                     } else validarTarifas = 1;
-                    System.out.println("EL VALIDADOR QUEDO EN: " + validarTarifas);
+
+                    //INSTANCIAR TARIFA
+                    List<Tarifa> lstTarifasValidades = tarifaController.listarTarifasByTrayecto(validarTarifas);
+                    System.out.println("CANTIDAD DE TARIFAS PARA ESE VUELO: " + lstTarifasValidades.size());
+
                 } else System.out.println("CLIENTE NOE XISTE");
-                
+ 
                 CardLayout cardLayout = (CardLayout) panelPrincipal.getLayout();
                 cardLayout.next(panelPrincipal);
-
             }
         });   
 
