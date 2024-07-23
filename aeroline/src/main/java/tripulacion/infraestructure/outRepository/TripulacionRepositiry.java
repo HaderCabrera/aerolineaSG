@@ -94,7 +94,7 @@ public class TripulacionRepositiry implements  TripulacionService{
 
                         estadoEmpleado.setId_empleado(rs.getString("CODEC_T"));
                         estadoEmpleado.setNombre1(rs.getString("Tripulante"));
-                        estadoEmpleado.setId_estadoEmpleado(Integer.parseInt(rs.getString("Estado_Empleado")));
+                        estadoEmpleado.setId_estadoEmpleado(rs.getString("Estado_Empleado"));
                         lstDispo.add(estadoEmpleado);
                     }
                 }

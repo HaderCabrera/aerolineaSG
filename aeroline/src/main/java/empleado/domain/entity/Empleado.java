@@ -6,7 +6,7 @@ public class Empleado {
     private String nombre2;
     private String apellidos;
     private int id_tripulacionRoles;
-    private int id_estadoEmpleado;
+    private String id_estadoEmpleado;
     
 
     public Empleado() {
@@ -21,7 +21,7 @@ public class Empleado {
 
 
     public Empleado(String id_empleado, String nombre1, String nombre2, String apellidos, int id_tripulacionRoles,
-            int id_estadoEmpleado) {
+            String id_estadoEmpleado) {
         this.id_empleado = id_empleado;
         this.nombre1 = nombre1;
         this.nombre2 = nombre2;
@@ -81,12 +81,12 @@ public class Empleado {
     }
 
 
-    public int getId_estadoEmpleado() {
+    public String getId_estadoEmpleado() {
         return id_estadoEmpleado;
     }
 
 
-    public void setId_estadoEmpleado(int id_estadoEmpleado) {
+    public void setId_estadoEmpleado(String id_estadoEmpleado) {
         this.id_estadoEmpleado = id_estadoEmpleado;
     }
     
