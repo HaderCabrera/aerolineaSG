@@ -40,6 +40,12 @@ import tipoDocumento.application.TipoDocumentoUseCase;
 import tipoDocumento.domain.service.TipoDocumentoService;
 import tipoDocumento.infraestructure.inController.TipoDocumentoController;
 import tipoDocumento.infraestructure.outRepository.TipoDocumentoRepository;
+import tripulacion.application.TripulacionUseCase;
+
+import tripulacion.domain.service.TripulacionService;
+import tripulacion.infraestructure.inController.TripulacionController;
+import tripulacion.infraestructure.outRepository.TripulacionRepositiry;
+
 
 import java.awt.*;
 
@@ -401,6 +407,17 @@ public class UserController {
         ReservaService reservaService = new ReservaRepository();
         ReservaUseCase reservaUseCase = new ReservaUseCase(reservaService);
         ReservaController reservaController = new ReservaController(reservaUseCase);
+
+        //LLAMANDO HEXAGONAL TRIPULACION ESTADOS
+        TripulacionService tripulacionService = new TripulacionRepositiry();
+        TripulacionUseCase tripulacionUseCase = new  TripulacionUseCase(tripulacionService);
+        TripulacionController  tripulacionController = new TripulacionController(tripulacionUseCase);
+
+
+        //LLAMANDO HEXAGONAL TRAYECTO
+        DetalleVueloService detalleVueloService = new DetalleVueloRepository();
+        DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
+        DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
         switch (permiso) {
             case "Registrar Avion":
                 avionController.registrarAvion();
@@ -424,18 +441,14 @@ public class UserController {
 
             case "Consultar Tripulacion De Trayecto":
 
-                TripulacionService tripulacionService= new TripulacionRepositiry();
-                TripulacionUseCase tripulacionUseCase = new  TripulacionUseCase(tripulacionService);
-                TripulacionController  tripulacionController = new TripulacionController(tripulacionUseCase);
+               
                 tripulacionController.obtenerTripulacionPorVuelo();
                 
                 System.out.println("SI LO TOMOA BIEN");
                 break;
 
             case "Consultar Informacion De Trayecto":
-                DetalleVueloService detalleVueloService = new DetalleVueloRepository();
-                DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
-                DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
+                
                 detallevueloController.consultarTrayecto();
                 System.out.println("SI LO TOMOA BIEN");
                 break;
