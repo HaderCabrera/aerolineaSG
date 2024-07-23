@@ -7,14 +7,10 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import java.awt.*;
 
 import aeropuerto.application.AeropuertoUseCase;
 import aeropuerto.domain.service.AeropuertoService;
@@ -44,10 +40,9 @@ import tipoDocumento.application.TipoDocumentoUseCase;
 import tipoDocumento.domain.service.TipoDocumentoService;
 import tipoDocumento.infraestructure.inController.TipoDocumentoController;
 import tipoDocumento.infraestructure.outRepository.TipoDocumentoRepository;
-import tripulacion.application.TripulacionUseCase;
-import tripulacion.domain.service.TripulacionService;
-import tripulacion.infraestructure.inController.TripulacionController;
-import tripulacion.infraestructure.outRepository.TripulacionRepositiry;
+
+import java.awt.*;
+
 import user.application.UserUseCase;
 import user.domain.entity.User;
 
@@ -61,15 +56,18 @@ public class UserController {
 
     public void start(){
         //variables
-        boolean bandera0 = false;
-
-        while (!bandera0) {
             String[] opcionesMenuPrincipal = {"Iniciar Sesión", "Acceder Como Cliente", "Salír"};
-            
+
+            JFrame ventanaPrincipal = new JFrame("Gestionar Reserva");
+            ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            ventanaPrincipal.setSize(280, 160);
+            ventanaPrincipal.setLocationRelativeTo(null);
+
             // Mostrar el menú principal
             JPanel panel = new JPanel();
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
             Dimension buttonSize = new Dimension(200, 30);
+            panel.setBackground(Color.decode("#3e3d41"));
 
             // Agregar las opciones al panel
             for (String opcion : opcionesMenuPrincipal) {
@@ -78,9 +76,11 @@ public class UserController {
                 button.setMaximumSize(buttonSize);
                 button.setMinimumSize(buttonSize);
                 button.setAlignmentX(Component.CENTER_ALIGNMENT);
+
                 button.addActionListener(e -> {
                     switch (opcion) {
                         case "Iniciar Sesión":
+                        ventanaPrincipal.setVisible(false);
                             List<String> datosAcceso  = vistaInicioSesion();
                             if (datosAcceso != null) {
                                 if (!datosAcceso.get(0).equals("incorrecto")) {
@@ -104,35 +104,27 @@ public class UserController {
 
                         case "Acceder Como Cliente":
                             List<String> permisos = userUseCase.getPermisosCase(2);
+                            ventanaPrincipal.setVisible(false);
                             generarVistaUser(permisos);
                             break;
 
                         case "Salír":
+                            ventanaPrincipal.setVisible(false);
                             JOptionPane.showMessageDialog(null, "Saliendo de la aplicación.");
-                            System.exit(0);
                             break;
                     }
                 });
                 panel.add(button);
                 panel.add(Box.createRigidArea(new Dimension(0, 5)));
             }
-            // Mostrar el panel en un JOptionPane
-            JOptionPane.showOptionDialog(
-                null,
-                panel,
-                "Aeroline, Hight All The Time!",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                new Object[]{}, // Pasar un array vacío de opciones para que solo se muestre el panel
-                null
-            );
+            ventanaPrincipal.add(panel);
+            ventanaPrincipal.setVisible(true);
         }
-    }
 
     public List<String> vistaInicioSesion(){
          //Crear los componentes
         JPanel panel = new JPanel(new GridLayout(2, 2, 1, 1));
+
         JLabel userLabel = new JLabel("Usuario:");
         JTextField userField = new JTextField();
         userField.setFont(new Font("Monospaced", Font.BOLD, 13));   
@@ -161,6 +153,7 @@ public class UserController {
 
         // Manejar la entrada del usuario
         if (option == JOptionPane.OK_OPTION) {
+
             String usuario = userField.getText();
             String contraseña = new String(passField.getPassword());
             if (usuario.length() > 0 && contraseña.length() > 0) {
@@ -171,6 +164,7 @@ public class UserController {
         } else {
             return null;
         }
+  
         return datosAcceso;
     }
 
@@ -196,14 +190,22 @@ public class UserController {
                 lstPermisoAeropuerto.add(permiso);
             }
         }
+
+        //frame
+        JFrame ventanaAdmin = new JFrame("Gestion como administrador");
+        ventanaAdmin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaAdmin.setSize(280, 260);
+        ventanaAdmin.setLocationRelativeTo(null);
+        
         // Definir las opciones del submenú de Gestión de Usuarios
         String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Trayecto", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        Dimension buttonSize = new Dimension(200, 30); // Tamaño fijo para todos los botones
+        panel.setBackground(Color.decode("#3e3d41"));
+        Dimension buttonSize = new Dimension(200, 30);
+         // Tamaño fijo para todos los botones
 
         // Agregar las opciones al panel
         for (String opcion : opcionesPaqueteAdmin) {
@@ -215,26 +217,32 @@ public class UserController {
             button.addActionListener(e -> {
                 switch (opcion) {
                     case "Gestionar Avion":
-                        generarVistaUser(lstPermisoAvion);    
+                        ventanaAdmin.setVisible(false);  
+                        generarVistaUser(lstPermisoAvion);
                         break;
 
                     case "Gestionar Vuelo":
+                        ventanaAdmin.setVisible(false);  
                         generarVistaUser(lstPermisoVuelo);
                         break;
 
                     case "Gestionar Trayecto":
+                        ventanaAdmin.setVisible(false);      
                         generarVistaUser(lstPermisosTrayecto);
                         break;
 
                     case "Gestionar Aeropuerto":
+                        ventanaAdmin.setVisible(false);  
                         generarVistaUser(lstPermisoAeropuerto);
                         break;
 
                     case "Gestionar Documento":
+                        ventanaAdmin.setVisible(false);  
                         generarVistaUser(lstPermisoDocumento);
                         break;
 
                     case "Menú Principal":
+                        ventanaAdmin.setVisible(false); 
                         start();
                         break;
                 }
@@ -243,17 +251,8 @@ public class UserController {
             panel.add(Box.createRigidArea(new Dimension(0, 5))); // Espacio entre botones
         }
 
-        // Mostrar el panel en un JOptionPane
-        JOptionPane.showOptionDialog(
-            null,
-            panel,
-            "Gestión de Usuarios",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            new Object[]{}, // Pasar un array vacío de opciones para que solo se muestre el panel
-            null
-        );        
+        ventanaAdmin.add(panel);
+        ventanaAdmin.setVisible(true);      
     }
 
     public void mostrarSubMenuPaquetesPermisosVendedor(List<String> permisos){
@@ -271,12 +270,17 @@ public class UserController {
         // Definir las opciones del submenú de Gestión de Usuarios
         String[] opcionesPaqueteAdmin = {"Gestionar Vuelo", "Gestionar Cliente", "Consultar Asignacion De Tripulacion", "Consultar Tarifa De Vuelo","Consultar Tipo De Documento", "Menú Principal"};
 
+        JFrame ventanaPrincipal = new JFrame("Gestiones vendedor");
+        ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaPrincipal.setSize(420, 270);
+        ventanaPrincipal.setLocationRelativeTo(null);
+
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(Color.decode("#3e3d41"));
 
         Dimension buttonSize = new Dimension(350, 30); // Tamaño fijo para todos los botones
-
         // Agregar las opciones al panel
         for (String opcion : opcionesPaqueteAdmin) {
             JButton button = new JButton(opcion);
@@ -287,10 +291,12 @@ public class UserController {
             button.addActionListener(e -> {
                 switch (opcion) {
                     case "Gestionar Vuelo":
+                        ventanaPrincipal.setVisible(false); 
                         generarVistaUser(lstPermisoReserva);    
                         break;
 
                     case "Gestionar Cliente":
+                        ventanaPrincipal.setVisible(false); 
                         generarVistaUser(lstPermisoCliente);
                         break;
 
@@ -307,6 +313,7 @@ public class UserController {
                         break;
 
                     case "Menú Principal":
+                        ventanaPrincipal.setVisible(false); 
                         start();
                         break;
                 }
@@ -315,17 +322,8 @@ public class UserController {
             panel.add(Box.createRigidArea(new Dimension(0, 5))); // Espacio entre botones
         }
 
-        // Mostrar el panel en un JOptionPane
-        JOptionPane.showOptionDialog(
-            null,
-            panel,
-            "Gestión de Usuarios",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            new Object[]{}, // Pasar un array vacío de opciones para que solo se muestre el panel
-            null
-        );        
+        ventanaPrincipal.add(panel);
+        ventanaPrincipal.setVisible(true);        
     }
 
     public void generarVistaUser(List<String> permisos) {
@@ -335,13 +333,17 @@ public class UserController {
         System.arraycopy(opcionesUsuarios, 0, nuevasOpciones, 0, opcionesUsuarios.length);
         nuevasOpciones[nuevasOpciones.length - 1] = "Menú Principal";
 
+        JFrame ventanaPrincipal = new JFrame("Seleccion de servicio");
+        ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaPrincipal.setSize(470, 440);
+        ventanaPrincipal.setLocationRelativeTo(null);
+
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();    
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
+        panel.setBackground(Color.decode("#3e3d41"));
         Dimension buttonSize = new Dimension(450, 30); // Tamaño fijo para todos los botones
 
-        // Agregar las opciones al panel
         for (String opcion : nuevasOpciones) {
             JButton button = new JButton(opcion);
             button.setPreferredSize(buttonSize);
@@ -349,23 +351,24 @@ public class UserController {
             button.setMinimumSize(buttonSize);
             button.setAlignmentX(Component.CENTER_ALIGNMENT);
             button.addActionListener(e -> {
+                if (e.getActionCommand().toString().equals("Menú Principal")) {
+                    ventanaPrincipal.setVisible(false);
+                }
                 ejecutarPermiso(e.getActionCommand());
             });
             panel.add(button);
             panel.add(Box.createRigidArea(new Dimension(0, 5))); // Espacio entre botones
         }
 
-        // Mostrar el panel en un JOptionPane
-        JOptionPane.showOptionDialog(
-            null,
-            panel,
-            "Airline, Higth All The Time!",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            new Object[]{}, // Pasar un array vacío de opciones para que solo se muestre el panel
-            null
-        );
+        // Crear un JScrollPane y agregar el panel al JScrollPane
+        JScrollPane scrollPane = new JScrollPane(panel);
+
+        // Agregar el JScrollPane al JFrame
+        ventanaPrincipal.add(scrollPane);
+
+        ventanaPrincipal.add(panel);
+        ventanaPrincipal.setVisible(true);
+        
    }
 
     public void ejecutarPermiso(String permiso){

@@ -557,12 +557,12 @@ VALUES (
     );
 -- INSERCIONES A LA TABLA ESCALA
 
-INSERT INTO
-    escala (id_vuelo, id_trayecto)
-VALUES (1, 1),
-    (2, 2),
-    (2, 1),
-    (1, 2);
+INSERT INTO escala (id_vuelo ,id_trayecto)
+VALUES
+(1 , 1),
+(2, 2),
+(2,1),
+(1,2);
 
 -- PROCEDIMIENTO PARA ABTRAER INFORMACION DE TRAYECTO
 -- LO CORRECTO ES DECIR CUANTOS VUELOS TIENE ASOCIADO UN TRAYECTO
@@ -607,36 +607,25 @@ DROP FOREIGN KEY trayecto_x_tarifa_ibfk_2;
 ALTER TABLE trayecto_x_tarifa
 ADD CONSTRAINT trayecto_x_tarifa_ibfk_2 FOREIGN KEY (id_trayecto) REFERENCES trayecto (id_trayecto) ON DELETE CASCADE;
 
-INSERT INTO
-    tipoClase (nombre_Clase)
-VALUES ('Económica'),
-    ('Ejecutiva'),
-    ('Primera Clase');
+INSERT INTO tipoClase (nombre_Clase) VALUES
+('Económica'),
+('Ejecutiva'),
+('Primera Clase');
 
-INSERT INTO
-    tarifa (
-        id_tipoClase,
-        precio_tarifa,
-        descripcion
-    )
-VALUES (1, 100.00, 'Tarifa económica'),
-    (
-        2,
-        250.00,
-        'Tarifa con escala'
-    ),
-    (3, 500.00, 'Tarifa directa');
+INSERT INTO tarifa (id_tipoClase, precio_tarifa, descripcion) VALUES
+(1, 100.00, 'Tarifa económica'),
+(2, 250.00, 'Tarifa con escala'),
+(3, 500.00, 'Tarifa directa');
 
 INSERT INTO
     estadoReserva (nombre_estado)
 VALUES ('Confirmada'),
     ('Cancelada');
 
-INSERT INTO
-    trayecto_x_tarifa (id_trayecto, id_tarifa)
-VALUES (1, 1),
-    (1, 2),
-    (1, 3);
+INSERT INTO trayecto_x_tarifa (id_trayecto, id_tarifa) VALUES
+(1, 1),
+(1, 2),
+(1, 3);
 
 -- INSERCION DE DATOS A LA TABLA eSTADO_EMPLEADO
 

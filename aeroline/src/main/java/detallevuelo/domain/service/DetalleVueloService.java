@@ -13,4 +13,5 @@ public interface DetalleVueloService {
     DetalleVuelo asignarTripulacionTrayecto(Empleado empleado);
     boolean editarTrayecto(DetalleVuelo id_trayecto);
     List<DetalleVuelo> listarTrayectos();
+    DetalleVuelo obtenerTrayectoByDescripcion(String descripcion);
 }
