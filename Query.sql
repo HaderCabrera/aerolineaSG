@@ -122,7 +122,8 @@ INSERT INTO
 VALUES ('hader', 'hader123', 1),
     ('tecnico', 'tecnico123', 4),
     ('ventas', 'ventas123', 3),
-    ('cliente', 'cliente123', 2);
+    ('cliente', 'cliente123', 2),
+    ('eliezer', 'eliezer123', 1);
 -- Insertar datos en rol_permiso
 INSERT INTO
     rol_permiso (
@@ -557,12 +558,9 @@ VALUES (
     );
 -- INSERCIONES A LA TABLA ESCALA
 
-INSERT INTO escala (id_vuelo ,id_trayecto)
-VALUES
-(1 , 1),
-(2, 2),
-(2,1),
-(1,2);
+INSERT INTO escala (id_vuelo, id_trayecto, origen, destino)
+VALUES (1, 1, 'COL', 'MEX'),(2, 1, 'COL', 'PERU'),(4, 1, 'PERU', 'MEX')
+;
 
 -- PROCEDIMIENTO PARA ABTRAER INFORMACION DE TRAYECTO
 -- LO CORRECTO ES DECIR CUANTOS VUELOS TIENE ASOCIADO UN TRAYECTO
@@ -613,9 +611,12 @@ INSERT INTO tipoClase (nombre_Clase) VALUES
 ('Primera Clase');
 
 INSERT INTO tarifa (id_tipoClase, precio_tarifa, descripcion) VALUES
-(1, 100.00, 'Tarifa económica'),
-(2, 250.00, 'Tarifa con escala'),
-(3, 500.00, 'Tarifa directa');
+(1, 250.00, 'Vuelo con escala, clase Economica'),
+(1, 270.00, 'Vuelo directo, clase Economica'),
+(2, 290.00, 'Vuelo con escala, clase Ejecutiva'),
+(2, 290.00, 'Vuelo directo, clase Ejecutiva'),
+(3, 410.00, 'Vuelo con escala, Primera Clase'),
+(3, 450.00, 'Vuelo directo, Primera Clase');
 
 INSERT INTO
     estadoReserva (nombre_estado)
@@ -626,6 +627,8 @@ INSERT INTO trayecto_x_tarifa (id_trayecto, id_tarifa) VALUES
 (1, 1),
 (1, 2),
 (1, 3);
+
+
 
 -- INSERCION DE DATOS A LA TABLA eSTADO_EMPLEADO
 

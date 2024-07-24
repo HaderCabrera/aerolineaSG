@@ -3,7 +3,9 @@ package reserva.infraestructure.inController;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,8 +18,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+
+import com.ibm.icu.impl.BOCU;
 
 import cliente.application.ClienteUseCase;
 import cliente.domain.entity.Cliente;
@@ -49,68 +55,21 @@ public class ReservaController {
         this.reservaUseCase = reservaUseCase;
     }
 
-    public Boolean registrarReserva(){
-
+    public void registrarReserva(){
         Reserva reserva = registrarDatosReserva();
-        return null;
-        
+        Boolean confirmacion = reservaUseCase.registrarReserva(reserva);
+        if (confirmacion) {
+            JOptionPane.showMessageDialog(null, "Registros Exitoso","Confirmacion",JOptionPane.PLAIN_MESSAGE);
+        } else JOptionPane.showMessageDialog(null, "Error al registrar.","Error de conexiòn",JOptionPane.WARNING_MESSAGE);
     }
 
     public Reserva registrarDatosReserva(){
-        // Configuración del JFrame principal
-        JFrame ventanaReserva = new JFrame("Gestionar Reserva");
-        ventanaReserva.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventanaReserva.setSize(500, 150);
-        ventanaReserva.setLocationRelativeTo(null);
-
-        //FORMULARIO 1
-        JPanel panel1 = new JPanel(new GridLayout(2, 2, 10, 5));
-        JLabel lblIdCliente = new JLabel("Id cliente:");
-        JTextField txtIdCliente = new JTextField();
-        // Crear etiquetas y agregarlas al panel
-        JLabel lblFecha = new JLabel("Fecha Registro:");
-        JTextField txtFecha = new JTextField();
-        txtFecha.setText("0000-00-00");
-        panel1.add(lblIdCliente);
-        panel1.add(txtIdCliente);
-        panel1.add(lblFecha);
-        panel1.add(txtFecha);
-        panel1.setPreferredSize(new Dimension(200, 100));
-
-        //FORMULARIO 2
-        JPanel panel2 = new JPanel(new GridLayout(1, 2, 10, 5));
-        JLabel lblTrayecto = new JLabel("Trayecto:");
-
-        List<String> lstDescripcionesTrayecto = new ArrayList<>();
-        lstDescripcionesTrayecto.add("Selecciona un trayecto");
+        Reserva reserva = new Reserva();
         List<DetalleVuelo> lstTrayectos = new ArrayList<>();
-        String[] descripcionesTgs;
+        //INSTANCIA PARA TRAYECTO
         DetalleVueloService detalleVueloService = new DetalleVueloRepository();
         DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
         DetallevueloController detalleVueloController = new DetallevueloController(detalleVueloUseCase);
-        lstTrayectos = detalleVueloController.listarDescripcionesTrayecto();
-
-        Consumer<DetalleVuelo> getDescripcion = trayecto -> lstDescripcionesTrayecto.add(trayecto.getDesc_trayecto());
-        lstTrayectos.forEach(getDescripcion);
-        descripcionesTgs = lstDescripcionesTrayecto.toArray(new String[0]);
-        JComboBox<String> descripcionComboBox = new JComboBox<>(descripcionesTgs);
-
-        panel2.add(lblTrayecto);
-        panel2.add(descripcionComboBox);
-        panel2.setPreferredSize(new Dimension(600, 100));
-
-        //FORMULARIO 3
-
-        // Panel principal que contendrá los formularios
-        JPanel panelPrincipal = new JPanel(new CardLayout()); // Usamos CardLayout para gestionar los formularios
-        panelPrincipal.add(panel1);
-        panelPrincipal.add(panel2);
-        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Margen de 20 píxeles en todos los lados
-
-        //INSTANCIA R HEXAGONAL DE CLIENTE
-        ClienteService clienteService = new ClienteRepository();
-        ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
-        ClienteController clienteController = new ClienteController(clienteUseCase);
 
         //INSTANCIAR HEXAGONAL ESCALA
         EscalaService escalaService = new EscalaRepository();
@@ -122,54 +81,184 @@ public class ReservaController {
         TarifaUseCase tarifaUseCase  = new TarifaUseCase(tarifaService);
         TarifaController tarifaController = new TarifaController(tarifaUseCase);
 
-        //Botón para cambiar al siguiente formulario
-        JButton btnSiguiente = new JButton("Siguiente");
-        btnSiguiente.addActionListener(new ActionListener() {
+        lstTrayectos = detalleVueloController.listarDescripcionesTrayecto();
+    
+        Cliente clienteValidado = reservaStepOne();
+        if (clienteValidado != null) {
+            int validarTarifas = 0;
+            String revisionSeleccionada = reservaStepTwo(lstTrayectos);
+            //TOMAR EL ID DE LA DESCRIPCION SELECCIONADA Y CONSULTAR SI TIENE ESCALAS O VUELOS
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            DetalleVuelo trayecto = detalleVueloController.obtenerTrayectoByDescripcion(revisionSeleccionada);
 
-                // Cambiar al siguiente formulario usando CardLayout
-                Cliente cliente = new Cliente();
-                cliente = clienteUseCase.consultarCliente(Long.parseLong(txtIdCliente.getText()));
-                int validarTarifas = 0;
-                if (cliente != null && descripcionComboBox.getSelectedItem().toString() != "Selecciona un trayecto") {
-                    //SACAR ID DEL TRAYECTO SELECCIONADO
-                   DetalleVuelo trayecto = detalleVueloController.obtenerTrayectoByDescripcion(descripcionComboBox.getSelectedItem().toString());
-                   List<Escala> lstEscalasByDescripcion = escalaController.validarTipoTarifasForTrayecto(Long.valueOf(trayecto.getId_trayecto()));
+            List<Escala> lstEscalasByDescripcion = escalaController.validarTipoTarifasForTrayecto(Long.valueOf(trayecto.getId_trayecto()));
+            if (lstEscalasByDescripcion.size() > 2) {
+            //LLAMAR A LISTAR TARIFAS ESCALAS;
+                for (Escala escala : lstEscalasByDescripcion) {
+                    if (escala.getDestino().equals(trayecto.getDestino_tracyecto()) && escala.getInicio().equals(trayecto.getOrigen_trayecto())) {
+                        validarTarifas = 3;
+                    } 
+                }
+            } else if (lstEscalasByDescripcion.size() == 1) {
+                validarTarifas = 2;
+            } else validarTarifas = 1;
 
-                   if (lstEscalasByDescripcion.size() > 2) {
-                        //LLAMAR A LISTAR TARIFAS ESCALAS;
-                        for (Escala escala : lstEscalasByDescripcion) {
-                            if (escala.getDestino().equals(trayecto.getDestino_tracyecto()) && escala.getInicio().equals(trayecto.getOrigen_trayecto())) {
-                                validarTarifas = 3;
-                            } 
-                        }
-                    } else if (lstEscalasByDescripcion.size() == 1) {
-                        validarTarifas = 2;
-                    } else validarTarifas = 1;
+            //INSTANCIAR TARIFA
+            List<Tarifa> lstTarifasValidades = tarifaController.listarTarifasByTrayecto(validarTarifas);
 
-                    //INSTANCIAR TARIFA
-                    List<Tarifa> lstTarifasValidades = tarifaController.listarTarifasByTrayecto(validarTarifas);
-                    System.out.println("CANTIDAD DE TARIFAS PARA ESE VUELO: " + lstTarifasValidades.size());
+            Long idTarifaSelect = reservaSetpThree(lstTarifasValidades);
 
-                } else System.out.println("CLIENTE NOE XISTE");
- 
-                CardLayout cardLayout = (CardLayout) panelPrincipal.getLayout();
-                cardLayout.next(panelPrincipal);
-            }
-        });   
+            // if (condition) { 
+            // }
+            reserva.setFecha_reserva("2024-07-24");
+            reserva.setId_cliente(clienteValidado.getId_cliente());
+            reserva.setId_estadoReserva(1L);
+            reserva.setId_puesto(1L);
+            reserva.setId_tarifa(idTarifaSelect);
 
-        // Configurar el JFrame principal
-        ventanaReserva.getContentPane().setLayout(new BorderLayout());
-        ventanaReserva.getContentPane().add(panelPrincipal, BorderLayout.CENTER);
-        ventanaReserva.getContentPane().add(btnSiguiente, BorderLayout.SOUTH);
-        // Mostrar el JFrame
-        // Revalidar y redibujar el JFrame para asegurarse de que los cambios sean visibles
-        ventanaReserva.revalidate();
-        ventanaReserva.repaint();
-        ventanaReserva.setVisible(true);
+        } else JOptionPane.showMessageDialog(null, "Error al ingresar usuario","Error de formulario",JOptionPane.WARNING_MESSAGE);
 
-        return null;
+
+        return reserva;
     }
+
+    public Cliente reservaStepOne(){
+        //INSTANCIA R HEXAGONAL DE CLIENTE
+        Cliente cliente = new Cliente();
+
+        ClienteService clienteService = new ClienteRepository();
+        ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
+        //ClienteController clienteController = new ClienteController(clienteUseCase);
+
+        //FORMULARIO 1
+        JPanel panel1 = new JPanel(new GridLayout(1, 2, 1, 1));    
+        panel1.setPreferredSize(new Dimension(600, 500));
+        panel1.setBorder(BorderFactory.createEmptyBorder(230, 100, 230, 100));
+
+        JLabel lblIdCliente = new JLabel("Id cliente:");
+        JTextField txtIdCliente = new JTextField();
+
+        // Establecer estilo de fuente
+        Font font = new Font("Monospaced", Font.BOLD, 20); // Arial, negrita, tamaño 16
+        txtIdCliente.setFont(font);
+        lblIdCliente.setFont(font);
+
+        panel1.add(lblIdCliente);
+        panel1.add(txtIdCliente);
+
+        
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel1, 
+            "Formulario registros de reserva!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        // Manejar la entrada del usuario
+        if (option == JOptionPane.OK_OPTION) {
+            if (txtIdCliente.getText().length() > 0) {
+                cliente = clienteUseCase.consultarCliente(Long.valueOf(txtIdCliente.getText())); 
+            } else JOptionPane.showMessageDialog(null, "Ingrese un id de cliente.","Validacion de cliente",JOptionPane.ERROR_MESSAGE);
+
+        } else {
+            return null;
+        }
+        return cliente;
+    }
+
+    public String reservaStepTwo(List<DetalleVuelo> lstDetallesVuelo){
+        String trayectoSelect = "";
+        //FORMULARIO 2
+        JPanel panel1 = new JPanel(new GridLayout(2, 1, 20, 20));    
+        panel1.setPreferredSize(new Dimension(600, 500));
+        panel1.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
+
+        JLabel lblTrayecto = new JLabel("Trayecto:");
+
+        List<String> lstDescripcionesTrayecto = new ArrayList<>();
+        String[] descripcionesTgs;
+        Consumer<DetalleVuelo> getDescripcion = trayecto -> lstDescripcionesTrayecto.add(trayecto.getDesc_trayecto());
+        lstDetallesVuelo.forEach(getDescripcion);
+        descripcionesTgs = lstDescripcionesTrayecto.toArray(new String[0]);
+        JComboBox<String> descripcionComboBox = new JComboBox<>(descripcionesTgs);
+
+        // Establecer estilo de fuente
+        Font font1 = new Font("Monospaced", Font.ITALIC, 14); 
+        Font font = new Font("Monospaced", Font.BOLD, 20); // Arial, negrita, tamaño 16
+        lblTrayecto.setFont(font);
+        descripcionComboBox.setFont(font1);
+
+        panel1.add(lblTrayecto);
+        panel1.add(descripcionComboBox);
+
+        
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel1, 
+            "Formulario registros de reserva!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        // Manejar la entrada del usuario
+        if (option == JOptionPane.OK_OPTION) {
+            trayectoSelect = descripcionComboBox.getSelectedItem().toString();
+        } else {
+            return null;
+        }
+        return trayectoSelect;
+    }
+
+    public Long reservaSetpThree(List<Tarifa>lstTarifasValidades){
+        Long idTipoTarifa = 0L;
+        //FORMULARIO 3
+        JPanel panel1 = new JPanel(new GridLayout(2, 1, 20, 20));    
+        panel1.setPreferredSize(new Dimension(600, 500));
+        panel1.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
+
+        JLabel lblTarifa = new JLabel("Tipo de tarifa disponible:");
+
+        List<String> descripciones = new ArrayList<>();
+        String[] descripcionTgs;
+        Consumer<Tarifa> getDescripcionTarifa = descTarifa -> descripciones.add(descTarifa.getDescripcion());
+        lstTarifasValidades.forEach(getDescripcionTarifa);
+        descripcionTgs = descripciones.toArray(new String[0]);
+        JComboBox<String> tarifaComboBox = new JComboBox<>(descripcionTgs);
+
+        // Establecer estilo de fuente
+        Font font1 = new Font("Monospaced", Font.ITALIC, 14); 
+        Font font = new Font("Monospaced", Font.BOLD, 20); // Arial, negrita, tamaño 16
+        lblTarifa.setFont(font);
+        tarifaComboBox.setFont(font1);
+
+        panel1.add(lblTarifa);
+        panel1.add(tarifaComboBox);
+
+        
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel1, 
+            "Formulario registros de reserva!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        // Manejar la entrada del usuario
+        if (option == JOptionPane.OK_OPTION) {
+            for (Tarifa tarifa : lstTarifasValidades) {
+                    if (tarifa.getDescripcion().equals(tarifaComboBox.getSelectedItem().toString())) {
+                        idTipoTarifa = tarifa.getId_tarifa();
+                    }
+            }
+        } else {
+            return null;
+        }
+        return idTipoTarifa;
+    }
+
+
 }

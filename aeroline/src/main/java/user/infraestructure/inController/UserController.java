@@ -1,14 +1,9 @@
 package user.infraestructure.inController;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
 
@@ -47,8 +42,6 @@ import tripulacion.infraestructure.inController.TripulacionController;
 import tripulacion.infraestructure.outRepository.TripulacionRepositiry;
 
 
-import java.awt.*;
-
 import user.application.UserUseCase;
 import user.domain.entity.User;
 
@@ -61,12 +54,14 @@ public class UserController {
     }
 
     public void start(){
+
         //variables
             String[] opcionesMenuPrincipal = {"Iniciar Sesión", "Acceder Como Cliente", "Salír"};
 
             JFrame ventanaPrincipal = new JFrame("Gestionar Reserva");
+
             ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            ventanaPrincipal.setSize(280, 160);
+            ventanaPrincipal.setSize(600, 500);
             ventanaPrincipal.setLocationRelativeTo(null);
 
             // Mostrar el menú principal
@@ -74,6 +69,7 @@ public class UserController {
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
             Dimension buttonSize = new Dimension(200, 30);
             panel.setBackground(Color.decode("#3e3d41"));
+            panel.setBorder(BorderFactory.createEmptyBorder(180, 100, 230, 100));
 
             // Agregar las opciones al panel
             for (String opcion : opcionesMenuPrincipal) {
@@ -200,9 +196,10 @@ public class UserController {
         //frame
         JFrame ventanaAdmin = new JFrame("Gestion como administrador");
         ventanaAdmin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventanaAdmin.setSize(280, 260);
+        ventanaAdmin.setSize(500, 500);
         ventanaAdmin.setLocationRelativeTo(null);
-        
+
+
         // Definir las opciones del submenú de Gestión de Usuarios
         String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Trayecto", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
 
@@ -210,6 +207,7 @@ public class UserController {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.decode("#3e3d41"));
+        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 230, 100));
         Dimension buttonSize = new Dimension(200, 30);
          // Tamaño fijo para todos los botones
 
@@ -278,13 +276,16 @@ public class UserController {
 
         JFrame ventanaPrincipal = new JFrame("Gestiones vendedor");
         ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventanaPrincipal.setSize(420, 270);
+        //ventanaPrincipal.setSize(420, 270);
+        ventanaPrincipal.setSize(500, 500);
+
         ventanaPrincipal.setLocationRelativeTo(null);
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.decode("#3e3d41"));
+        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 230, 100));
 
         Dimension buttonSize = new Dimension(350, 30); // Tamaño fijo para todos los botones
         // Agregar las opciones al panel
@@ -341,13 +342,16 @@ public class UserController {
 
         JFrame ventanaPrincipal = new JFrame("Seleccion de servicio");
         ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventanaPrincipal.setSize(470, 440);
+        ventanaPrincipal.setSize(500, 500);
+
         ventanaPrincipal.setLocationRelativeTo(null);
+
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();    
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.decode("#3e3d41"));
+        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 230, 100));
         Dimension buttonSize = new Dimension(450, 30); // Tamaño fijo para todos los botones
 
         for (String opcion : nuevasOpciones) {
@@ -366,15 +370,8 @@ public class UserController {
             panel.add(Box.createRigidArea(new Dimension(0, 5))); // Espacio entre botones
         }
 
-        // Crear un JScrollPane y agregar el panel al JScrollPane
-        JScrollPane scrollPane = new JScrollPane(panel);
-
-        // Agregar el JScrollPane al JFrame
-        ventanaPrincipal.add(scrollPane);
-
         ventanaPrincipal.add(panel);
         ventanaPrincipal.setVisible(true);
-        
    }
 
     public void ejecutarPermiso(String permiso){
