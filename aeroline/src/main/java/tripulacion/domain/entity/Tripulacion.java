@@ -7,9 +7,9 @@ import empleado.domain.entity.Empleado;
 import tripulacionRol.domain.entity.tripulacionRol;
 
 public class Tripulacion {
-    private  int  id_tripulacion;
+    private  long id_tripulacion;
     private  String  id_empelado;
-    private int id_vuelo;
+    private long id_vuelo;
     private String numero_vuelo;
     private tripulacionRol rol;
     private  String nombre_empleado;
@@ -19,7 +19,7 @@ public class Tripulacion {
     }
 
     
-    public Tripulacion(int id_tripulacion, String id_empelado, int id_vuelo, String numero_vuelo, tripulacionRol rol,
+    public Tripulacion(Long id_tripulacion, String id_empelado, long id_vuelo, String numero_vuelo, tripulacionRol rol,
             String nombre_empleado, List<Empleado> lstEmpleado) {
         this.id_tripulacion = id_tripulacion;
         this.id_empelado = id_empelado;
@@ -39,11 +39,11 @@ public class Tripulacion {
         this.id_empelado = id_empelado;
     }
 
-    public int getId_vuelo() {
+    public long getId_vuelo() {
         return id_vuelo;
     }
 
-    public void setId_vuelo(int id_vuelo) {
+    public void setId_vuelo(long id_vuelo) {
         this.id_vuelo = id_vuelo;
     }
 
@@ -55,12 +55,12 @@ public class Tripulacion {
         this.lstEmpleado = lstEmpleado;
     }
 
-    public int getId_tripulacion() {
+    public long getId_tripulacion() {
         return id_tripulacion;
     }
 
 
-    public void setId_tripulacion(int id_tripulacion) {
+    public void setId_tripulacion(long id_tripulacion) {
         this.id_tripulacion = id_tripulacion;
     }
 

@@ -48,6 +48,11 @@ import tripulacion.infraestructure.outRepository.TripulacionRepositiry;
 
 import user.application.UserUseCase;
 import user.domain.entity.User;
+import vuelo.application.VueloUseCase;
+import vuelo.domain.entity.Vuelo;
+import vuelo.domain.service.VueloService;
+import vuelo.infraestructure.inController.VueloController;
+import vuelo.infraestructure.outRepository.VueloRepository;
 
 public class UserController {
     private UserUseCase userUseCase;
@@ -407,9 +412,16 @@ public class UserController {
         ReservaController reservaController = new ReservaController(reservaUseCase);
 
         //LLAMANDO HEXAGONAL TRIPULACION ESTADOS
-        TripulacionService tripulacionService = new TripulacionRepositiry();
-        TripulacionUseCase tripulacionUseCase = new  TripulacionUseCase(tripulacionService);
-        TripulacionController  tripulacionController = new TripulacionController(tripulacionUseCase);
+        // TripulacionService tripulacionService = new TripulacionRepositiry();
+        // TripulacionUseCase tripulacionUseCase = new  TripulacionUseCase(tripulacionService);
+        // TripulacionController  tripulacionController = new TripulacionController(tripulacionUseCase);
+
+        //LLAMDO HEXAGONAL VUELO
+
+        VueloService vueloService = new VueloRepository();
+        VueloUseCase vueloUseCase = new VueloUseCase(vueloService);
+        VueloController vueloController = new VueloController(vueloUseCase);
+
 
 
         //LLAMANDO HEXAGONAL TRAYECTO
@@ -445,7 +457,7 @@ public class UserController {
             case "Consultar Tripulacion De Trayecto":
 
                
-                tripulacionController.obtenerTripulacionPorVuelo();
+                vueloController.listarVuelos();
                 
                 System.out.println("SI LO TOMOA BIEN");
                 break;
