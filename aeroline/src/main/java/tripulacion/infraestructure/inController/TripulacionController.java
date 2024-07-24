@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -45,14 +46,23 @@ public class TripulacionController {
             String estado = disF.getText();
             List<Empleado> tripulantesDisponibles = tripulacionUseCase.ObtenerTripulantesDisponibles(estado);
 
-            // Convertir la lista de tripulantes a un array de datos para la JTable
+            // if (tripulantesDisponibles == null || tripulantesDisponibles.isEmpty()) {
+            //     JOptionPane.showMessageDialog(null, "No se encontraron tripulantes disponibles para el estado especificado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            //     return;
+            // }
+
             String[][] data = new String[tripulantesDisponibles.size()][3];
-            for (int i = 0; i < tripulantesDisponibles.size(); i++) {
-                Empleado tripulante = tripulantesDisponibles.get(i);
-                data[i][0] = tripulante.getId_empleado();
-                data[i][1] = tripulante.getNombre1();
-                data[i][2] = String.valueOf(tripulante.getId_estadoEmpleado());
+            int index = 0; // Índice para el array de datos
+            for (Empleado tripulante : tripulantesDisponibles) {
+                data[index][0] = tripulante.getId_empleado();
+                data[index][1] = tripulante.getNombre1();
+                data[index][2] = tripulante.getId_estadoEmpleado();
+                index++;
             }
+            
+            // Convertir la lista de tripulantes a un array de datos para la JTable
+          
+            System.out.println("Esta imprimprimeindo");
 
             String[] column = {"CODEC_T", "Tripulante", "Estado_Empleado"};
             JFrame tableFrame = new JFrame("Tripulantes Disponibles");
