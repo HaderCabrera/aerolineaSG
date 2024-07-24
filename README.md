@@ -17,6 +17,9 @@ tripulación.
 ## Implementacion de CONSUMER
 ![](./img/consumer.png)
 
+## Modificacion necesario puesto-escala
+![](./img/pdtePuesto.png)
+
 ## Shedule
 
 ### Definicion de entidades/servicios.

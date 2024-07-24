@@ -12,8 +12,8 @@ public class TarifaUseCase {
         this.tarifaService = tarifaService;
     }
 
-    public List<Tarifa> listarTarifasByTrayecto(List<Integer> idPermisos){
-        return tarifaService.listarTarifasByTrayecto(idPermisos);
+    public List<Tarifa> listarTarifasByTrayecto(int identificador){
+        return tarifaService.listarTarifasByTrayecto(identificador);
     }
     
 }

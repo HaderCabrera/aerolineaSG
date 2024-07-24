@@ -45,13 +45,13 @@ CREATE TABLE IF NOT EXISTS tipoClase (
 );
 
 -- TABLA  @TARIFA 
-CREATE TABLE IF NOT EXISTS tarifa (
-    id_tarifa INT AUTO_INCREMENT PRIMARY KEY,
-    id_tipoClase INT NOT NULL,
-    precio_tarifa DECIMAL(10, 2) NOT NULL,
-    descripcion TEXT,
-    Foreign Key (id_tipoClase) REFERENCES tipoClase (id_tipoClase)
-);
+    CREATE TABLE IF NOT EXISTS tarifa (
+        id_tarifa INT AUTO_INCREMENT PRIMARY KEY,
+        id_tipoClase INT NOT NULL,
+        precio_tarifa DECIMAL(10, 2) NOT NULL,
+        descripcion TEXT,
+        Foreign Key (id_tipoClase) REFERENCES tipoClase (id_tipoClase)
+    );
 -- TABLA @TRAYECTO
 
 CREATE TABLE trayecto (
