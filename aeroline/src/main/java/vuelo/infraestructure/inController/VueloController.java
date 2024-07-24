@@ -71,12 +71,15 @@ public class VueloController {
         JTextField idEmpleado_asignar = new JTextField();
         JTextField idEmpleado = new JTextField();
         JButton asignarButton = new JButton("Asignar Empleados");
+        JButton Agregar = new JButton("ADD");
         panel.add(vueloLabel);
+
         
         panel.add(idVueloField);
         panel.add(idEmpleado);
         panel.add(idEmpleado_asignar);
         panel.add(asignarButton);
+        panel.add(Agregar);
 
         tableFrame.add(panel, BorderLayout.NORTH);
         tableFrame.add(sp, BorderLayout.CENTER);
@@ -197,6 +200,10 @@ public class VueloController {
                 tableFrame2.setVisible(true);
             });
 
+        });
+
+        Agregar.addActionListener(e ->{
+            
         });
 
         return null;
