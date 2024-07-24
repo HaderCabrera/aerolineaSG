@@ -78,4 +78,9 @@
     1. Gestionar la información de las reservas de vuelos, incluyendo la fecha y trayecto asociado.
     2. Registrar detalles específicos de cada reserva, incluyendo el cliente, tarifa y valor de la tarifa.
 
+# Caso de Uso 6: Consultar Reserva de Vuelo
+
+# Caso de Uso 28: Actualizar Información de Escala
+
+
 

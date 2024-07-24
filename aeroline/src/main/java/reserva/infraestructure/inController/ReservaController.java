@@ -37,6 +37,7 @@ import tarifa.domain.entity.Tarifa;
 import tarifa.domain.service.TarifaService;
 import tarifa.infraestructure.inController.TarifaController;
 import tarifa.infraestructure.outRepository.TarifaRepository;
+
 import detallevuelo.domain.entity.DetalleVuelo;
 import detallevuelo.domain.service.DetalleVueloService;
 import detallevuelo.application.DetalleVueloUseCase;
@@ -61,6 +62,39 @@ public class ReservaController {
         if (confirmacion) {
             JOptionPane.showMessageDialog(null, "Registros Exitoso","Confirmacion",JOptionPane.PLAIN_MESSAGE);
         } else JOptionPane.showMessageDialog(null, "Error al registrar.","Error de conexiòn",JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void consultarReservaByClienteTrayecto(){
+        ClienteService clienteService = new ClienteRepository();
+        ClienteUseCase clienteUseCase = new ClienteUseCase(clienteService);
+        ClienteController clienteController = new ClienteController(clienteUseCase);
+
+        DetalleVueloService detalleVueloService = new DetalleVueloRepository();
+        DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
+        DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
+        String opcionBusqueda = solicitarClienteOrTrayecto();
+
+        if (opcionBusqueda == "Por Cliente") {
+            Long idCliente = clienteController.obtenerIdCliente();
+            if (idCliente != null) {
+                if (idCliente != 151841511L) {
+                    Reserva reserva = reservaUseCase.consultarReservaByCliente(idCliente);
+                    if (reserva != null) {
+                        mostrarDatosReserva(reserva);   
+                    } else JOptionPane.showMessageDialog(null, "Cliente No Encontrado!", "Denied", JOptionPane.WARNING_MESSAGE);  
+                }
+            } else JOptionPane.showMessageDialog(null, "Datos de Ingreso Invalidos!", "Denied", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Long idTrayecto = detallevueloController.obtenerIdTrayecto();
+            if (idTrayecto != null) {
+                if (idTrayecto != 151841511L) {
+                    Reserva reserva = reservaUseCase.consultarReservaByTrayecto(idTrayecto);
+                    if (reserva != null) {
+                        mostrarDatosReserva(reserva);   
+                    } else JOptionPane.showMessageDialog(null, "Trayecto No Encontrado!", "Denied", JOptionPane.WARNING_MESSAGE);  
+                }
+            } else JOptionPane.showMessageDialog(null, "Datos de Ingreso Invalidos!", "Denied", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public Reserva registrarDatosReserva(){
@@ -92,6 +126,8 @@ public class ReservaController {
             DetalleVuelo trayecto = detalleVueloController.obtenerTrayectoByDescripcion(revisionSeleccionada);
 
             List<Escala> lstEscalasByDescripcion = escalaController.validarTipoTarifasForTrayecto(Long.valueOf(trayecto.getId_trayecto()));
+
+            System.out.println("TAMAÑO " + lstEscalasByDescripcion.size());
             if (lstEscalasByDescripcion.size() > 2) {
             //LLAMAR A LISTAR TARIFAS ESCALAS;
                 for (Escala escala : lstEscalasByDescripcion) {
@@ -103,9 +139,10 @@ public class ReservaController {
                 validarTarifas = 2;
             } else validarTarifas = 1;
 
+            System.out.println("VALIRDOR " + validarTarifas);
             //INSTANCIAR TARIFA
+            System.out.println(validarTarifas);
             List<Tarifa> lstTarifasValidades = tarifaController.listarTarifasByTrayecto(validarTarifas);
-
             Long idTarifaSelect = reservaSetpThree(lstTarifasValidades);
 
             // if (condition) { 
@@ -260,5 +297,99 @@ public class ReservaController {
         return idTipoTarifa;
     }
 
+    public void mostrarDatosReserva(Reserva reserva){
+        JPanel panel = new JPanel(new GridLayout(8, 2, 10, 5));
+        panel.setPreferredSize(new Dimension(400,300));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        // Crear etiquetas y agregarlas al panel
+        JLabel lblFecha = new JLabel("Fecha Reserva:");
+        JTextField txtFecha = new JTextField();
+        txtFecha.setText(reserva.getFecha_reserva());
+    
+        JLabel lblEstado = new JLabel("Estado:");
+        JTextField txtEstado = new JTextField();
+        txtEstado.setText(reserva.getEstadoReserva());
+
+        JLabel lblPuesto = new JLabel("Puesto:");
+        JTextField txtPuesto = new JTextField();
+        txtPuesto.setText(reserva.getPuesto());
+
+        JLabel lblTarifa = new JLabel("Tarifa:");
+        JTextField txtTarifa = new JTextField();
+        txtTarifa.setText(reserva.getTarifa());
+
+        Font font = new Font("Monospaced", Font.BOLD, 16); 
+        Font font2 = new Font("Monospaced", Font.BOLD, 14); 
+        lblFecha.setFont(font);
+        txtFecha.setFont(font2);
+        lblEstado.setFont(font);
+        txtEstado.setFont(font2);
+        lblPuesto.setFont(font);
+        txtPuesto.setFont(font2);
+        lblTarifa.setFont(font);
+        txtTarifa.setFont(font2);
+
+        panel.add(lblFecha);
+        panel.add(txtFecha);
+        panel.add(lblEstado);  
+        panel.add(txtEstado);  
+        panel.add(lblPuesto);
+        panel.add(txtPuesto); 
+        panel.add(lblTarifa);  
+        panel.add(txtTarifa); 
+  
+        // Mostrar el panel en un JOptionPane
+        JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.PLAIN_MESSAGE
+        );       
+    }
+
+    public String solicitarClienteOrTrayecto(){
+        String trayectoSelect = "";
+
+        JPanel panel1 = new JPanel(new GridLayout(2, 1, 20, 20));    
+        panel1.setPreferredSize(new Dimension(600, 500));
+        panel1.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
+
+        JLabel lblTrayecto = new JLabel("Tipo de busqueda:");
+
+        List<String> lstOpciones = new ArrayList<>();
+        lstOpciones.add("Por Cliente");
+        lstOpciones.add("Por Trayecto");
+        String[] descripcionesTgs;
+        descripcionesTgs = lstOpciones.toArray(new String[0]);
+        JComboBox<String> descripcionComboBox = new JComboBox<>(descripcionesTgs);
+
+        // Establecer estilo de fuente
+        Font font1 = new Font("Monospaced", Font.ITALIC, 17); 
+        Font font = new Font("Monospaced", Font.BOLD, 20); // Arial, negrita, tamaño 16
+        lblTrayecto.setFont(font);
+        descripcionComboBox.setFont(font1);
+
+        panel1.add(lblTrayecto);
+        panel1.add(descripcionComboBox);
+
+        
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel1, 
+            "Consulta de reserva", 
+            JOptionPane.CLOSED_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        // Manejar la entrada del usuario
+        if (option == JOptionPane.OK_OPTION) {
+            trayectoSelect = descripcionComboBox.getSelectedItem().toString();
+        } else {
+            return null;
+        }
+        return trayectoSelect;
+    }
 }

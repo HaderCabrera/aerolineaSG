@@ -12,6 +12,7 @@ import com.aeroline.DatabaseConfig;
 import reserva.domain.entity.Reserva;
 import reserva.domain.service.ReservaService;
 
+
 public class ReservaRepository implements ReservaService{
 
     @Override
@@ -44,6 +45,58 @@ public class ReservaRepository implements ReservaService{
             return false;
         }
         return false;
+    }
+
+    @Override
+    public Reserva consultarReservaByCliente(Long idCliente) {
+        String sql = "CALL ObtenerDatosReservaByCliente(?);";
+        Reserva reserva = null;
+
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, idCliente);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    reserva = new Reserva();
+                    //reserva.setId_reserva(Long.valueOf(resultSet.getInt("id_reserva")));
+                    reserva.setFecha_reserva(resultSet.getString("fecha_reserva"));
+                    reserva.setEstadoReserva(resultSet.getString("estado"));
+                    reserva.setPuesto(resultSet.getString("puesto"));
+                    reserva.setTarifa(resultSet.getString("tarifa"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reserva;
+    }
+
+    @Override
+    public Reserva consultarReservaByTrayecto(Long idTrayecto) {
+        String sql = "CALL ObtenerDatosReservaByTrayecto(?);";
+        Reserva reserva = null;
+
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, idTrayecto);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    reserva = new Reserva();
+                    //reserva.setId_reserva(Long.valueOf(resultSet.getInt("id_reserva")));
+                    reserva.setFecha_reserva(resultSet.getString("fecha_reserva"));
+                    reserva.setEstadoReserva(resultSet.getString("estado"));
+                    reserva.setPuesto(resultSet.getString("puesto"));
+                    reserva.setTarifa(resultSet.getString("tarifa"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reserva;
     }
 
 }

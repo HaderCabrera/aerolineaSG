@@ -523,7 +523,7 @@ BEGIN
     WHERE A.placa_identificacion = placa;
 END $$
 
-DELIMITER;
+DELIMITER ;
 
 INSERT INTO
     estado_revision (estado)
@@ -534,28 +534,28 @@ VALUES ('Pendiente'),
 SELECT * FROM vuelo;
 -- INSERCIONES A LA TABLA TRAYECTO
 
-INSERT INTO
-    trayecto (
-        origen_trayecto,
-        destino_trayecto,
-        desc_trayecto,
-        distancia,
-        TiempoEstimado
-    )
-VALUES (
-        'NYC',
-        'LAX',
-        'Vuelo directo de Nueva York a Los Ángeles',
-        '2475',
-        '05:30:00'
-    ),
-    (
-        'ORD',
-        'MIA',
-        'Vuelo de Chicago a Miami',
-        '1197',
-        '02:45:00'
-    );
+-- INSERT INTO
+--     trayecto (
+--         origen_trayecto,
+--         destino_trayecto,
+--         desc_trayecto,
+--         distancia,
+--         TiempoEstimado
+--     )
+-- VALUES (
+--         'NYC',
+--         'LAX',
+--         'Vuelo directo de Nueva York a Los Ángeles',
+--         '2475',
+--         '05:30:00'
+--     ),
+--     (
+--         'ORD',
+--         'MIA',
+--         'Vuelo de Chicago a Miami',
+--         '1197',
+--         '02:45:00'
+--     );
 -- INSERCIONES A LA TABLA ESCALA
 
 INSERT INTO escala (id_vuelo, id_trayecto, origen, destino)
@@ -698,19 +698,28 @@ DELIMITER;
 CALL Listar_Empleados_Activos("inactivo");
 
 
-SELECT id_vuelo, numero_vuelo, aeropuerto_destino, aeropuerto_origen, hora_llegada , hora_salida FROM vuelo;
-SELECT id_vuelo, numero_vuelo, aeropuerto_destino, aeropuerto_origen, hora_llegada , hora_salida FROM vuelo;
+DELIMITER $$
+CREATE PROCEDURE ObtenerDatosReservaByCliente(idCliente INT)
+	BEGIN
+		SELECT R.fecha_reserva, R.id_reserva , ER.nombre_estado AS estado, P.numero_puesto AS puesto, T.descripcion AS tarifa
+		FROM reserva AS R
+		INNER JOIN estadoReserva AS ER ON R.id_estadoReserva = ER.id_estadoReserva
+		INNER JOIN puesto AS P ON R.id_puesto = P.id_puesto
+		INNER JOIN tarifa AS T ON R.id_tarifa = T.id_tarifa
+		WHERE R.id_cliente = idCliente;
+	END $$
+DELIMITER ;
 
 
-ALTER TABLE escala ADD COLUMN id_escala INT NOT NULL;
-SHOW CREATE TABLE escala;
-SELECT * FROM escala;
-ALTER TABLE escala DROP COLUMN id_escala;
-
-SHOW CREATE TABLE escala;
-ALTER TABLE escala ADD COLUMN id_escala INT NOT NULL;
-UPDATE escala
- SET id_escala = 3 WHERE id_vuelo = 4;
-
-
-ALTER TABLE escala ADD PRIMARY KEY (id_escala);
+DELIMITER $$
+CREATE PROCEDURE ObtenerDatosReservaByTrayecto(idTrayecto INT)
+	BEGIN
+		SELECT R.fecha_reserva, R.id_reserva , ER.nombre_estado AS estado, P.numero_puesto AS puesto, T.descripcion AS tarifa
+		FROM trayecto_x_tarifa AS TXT
+		INNER JOIN tarifa AS T ON TXT.id_tarifa = T.id_tarifa
+		INNER JOIN reserva AS R ON T.id_tarifa = R.id_tarifa
+		INNER JOIN estadoReserva AS ER ON R.id_estadoReserva = ER.id_estadoReserva
+		INNER JOIN puesto AS P ON R.id_puesto = P.id_puesto
+		WHERE TXT.id_trayecto = idTrayecto;
+	END $$
+DELIMITER ;
