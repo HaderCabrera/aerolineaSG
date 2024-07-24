@@ -15,4 +15,12 @@ public class EscalaUseCase {
     public List<Escala> consultarEscalarByDescripcion (Long id_trayecto){
         return escalaService.consultarEscalarByDescripcion(id_trayecto);
     }
+
+    public Boolean actualizarEscala(Escala escala){
+        return escalaService.actualizarEscala(escala);
+    }
+
+    public Escala obtenerEscalaById(Long idEscala){
+        return escalaService.obtenerEscalaById(idEscala);
+    }
 }
