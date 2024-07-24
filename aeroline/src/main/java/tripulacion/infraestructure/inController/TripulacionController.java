@@ -1,16 +1,26 @@
 package tripulacion.infraestructure.inController;
 
+import java.awt.Font;
 import java.util.List;
+import java.util.Vector;
+import java.util.function.Consumer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+
+import org.eclipse.jdt.core.dom.Dimension;
 
 import empleado.domain.entity.Empleado;
+import revision.domain.entity.Revision;
 import tripulacion.application.TripulacionUseCase;
 import tripulacion.domain.entity.Tripulacion;
 
@@ -37,12 +47,11 @@ public class TripulacionController {
         windowFirst.add(disF);
         windowFirst.add(submitButton);
 
-        windowFirst.setSize(400, 250);
+        windowFirst.setSize(400, 400);
         windowFirst.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         windowFirst.setVisible(true);
 
-
-        submitButton.addActionListener(e -> {
+      submitButton.addActionListener(e -> {
             String estado = disF.getText();
             List<Empleado> tripulantesDisponibles = tripulacionUseCase.ObtenerTripulantesDisponibles(estado);
 
@@ -66,14 +75,13 @@ public class TripulacionController {
 
             String[] column = {"CODEC_T", "Tripulante", "Estado_Empleado"};
             JFrame tableFrame = new JFrame("Tripulantes Disponibles");
-            JTable jt = new JTable(data, column);
-            JScrollPane sp = new JScrollPane(jt);
-
-            tableFrame.add(sp);
-            tableFrame.setSize(400, 300);
+            tableFrame.setSize(600, 300);
+            tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            tableFrame.add(new JScrollPane(table));
             tableFrame.setVisible(true);
         });
-
+    
+    
         return null;
     }
 
