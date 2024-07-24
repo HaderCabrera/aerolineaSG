@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -59,7 +60,7 @@ public class AvionController {
             if (placa.length() > 0) {
                 Avion avion = avionUseCase.consultarAvionByPlaca(placa);
                 if (avion != null) {
-                    mostrarDatosAvion(avion);
+                    //mostrarDatosAvion(avion);
                     return avion;
                 }  else {
                     JOptionPane.showMessageDialog(null, "Avión no encontrado!", "Error De Consulta", JOptionPane.WARNING_MESSAGE);
@@ -114,6 +115,8 @@ public class AvionController {
         // Crear los componentes
         JPanel panel = new JPanel(new GridLayout(5, 2, 5, 1));
 
+        panel.setBorder(BorderFactory.createEmptyBorder(100, 50, 250, 50));
+
         JLabel placaLabel = new JLabel("Placa de identificación:");
         JTextField placaField = new JTextField();
         placaField.setFont(new Font("Monospaced", Font.BOLD, 12));
@@ -133,7 +136,7 @@ public class AvionController {
         JLabel modeloLabel = new JLabel("Id modelo:");
         JTextField modeloField = new JTextField();
         modeloField.setFont(new Font("Monospaced", Font.BOLD, 12));
-        panel.setPreferredSize(new Dimension(450, 120));
+        panel.setPreferredSize(new Dimension(500, 500));
 
         //VALIDACIONES DE FECHA
         fechaField.addKeyListener(new KeyAdapter() {

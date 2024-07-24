@@ -61,7 +61,7 @@ public class UserController {
             JFrame ventanaPrincipal = new JFrame("Gestionar Reserva");
 
             ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            ventanaPrincipal.setSize(600, 500);
+            ventanaPrincipal.setSize(750, 750);
             ventanaPrincipal.setLocationRelativeTo(null);
 
             // Mostrar el menú principal
@@ -82,7 +82,7 @@ public class UserController {
                 button.addActionListener(e -> {
                     switch (opcion) {
                         case "Iniciar Sesión":
-                        ventanaPrincipal.setVisible(false);
+                        //ventanaPrincipal.setVisible(false);
                             List<String> datosAcceso  = vistaInicioSesion();
                             if (datosAcceso != null) {
                                 if (!datosAcceso.get(0).equals("incorrecto")) {
@@ -195,13 +195,13 @@ public class UserController {
 
         //frame
         JFrame ventanaAdmin = new JFrame("Gestion como administrador");
-        ventanaAdmin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventanaAdmin.setSize(500, 500);
+        ventanaAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventanaAdmin.setSize(750, 750);
         ventanaAdmin.setLocationRelativeTo(null);
 
 
         // Definir las opciones del submenú de Gestión de Usuarios
-        String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Trayecto", "Gestionar Aeropuerto", "Gestionar Documento", "Menú Principal"};
+        String[] opcionesPaqueteAdmin = {"Gestionar Avion", "Gestionar Vuelo", "Gestionar Trayecto", "Gestionar Aeropuerto", "Gestionar Documento", "Atras"};
 
         // Crear un panel con BoxLayout para organizar las opciones verticalmente
         JPanel panel = new JPanel();
@@ -221,33 +221,33 @@ public class UserController {
             button.addActionListener(e -> {
                 switch (opcion) {
                     case "Gestionar Avion":
-                        ventanaAdmin.setVisible(false);  
+                        // ventanaAdmin.setVisible(false);  
                         generarVistaUser(lstPermisoAvion);
                         break;
 
                     case "Gestionar Vuelo":
-                        ventanaAdmin.setVisible(false);  
+                        // ventanaAdmin.setVisible(false);  
                         generarVistaUser(lstPermisoVuelo);
                         break;
 
                     case "Gestionar Trayecto":
-                        ventanaAdmin.setVisible(false);      
+                        // ventanaAdmin.setVisible(false);      
                         generarVistaUser(lstPermisosTrayecto);
                         break;
 
                     case "Gestionar Aeropuerto":
-                        ventanaAdmin.setVisible(false);  
+                        // ventanaAdmin.setVisible(false);  
                         generarVistaUser(lstPermisoAeropuerto);
                         break;
 
                     case "Gestionar Documento":
-                        ventanaAdmin.setVisible(false);  
+                        //ventanaAdmin.setVisible(false);  
                         generarVistaUser(lstPermisoDocumento);
                         break;
 
-                    case "Menú Principal":
+                    case "Atras":
                         ventanaAdmin.setVisible(false); 
-                        start();
+                        //start();
                         break;
                 }
             });
@@ -272,12 +272,12 @@ public class UserController {
             } 
         }
         // Definir las opciones del submenú de Gestión de Usuarios
-        String[] opcionesPaqueteAdmin = {"Gestionar Vuelo", "Gestionar Cliente", "Consultar Asignacion De Tripulacion", "Consultar Tarifa De Vuelo","Consultar Tipo De Documento", "Menú Principal"};
+        String[] opcionesPaqueteAdmin = {"Gestionar Vuelo", "Gestionar Cliente", "Consultar Asignacion De Tripulacion", "Consultar Tarifa De Vuelo","Consultar Tipo De Documento", "Atras"};
 
         JFrame ventanaPrincipal = new JFrame("Gestiones vendedor");
-        ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaPrincipal.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //ventanaPrincipal.setSize(420, 270);
-        ventanaPrincipal.setSize(500, 500);
+        ventanaPrincipal.setSize(750, 750);
 
         ventanaPrincipal.setLocationRelativeTo(null);
 
@@ -298,12 +298,12 @@ public class UserController {
             button.addActionListener(e -> {
                 switch (opcion) {
                     case "Gestionar Vuelo":
-                        ventanaPrincipal.setVisible(false); 
+                        //ventanaPrincipal.setVisible(false); 
                         generarVistaUser(lstPermisoReserva);    
                         break;
 
                     case "Gestionar Cliente":
-                        ventanaPrincipal.setVisible(false); 
+                        //ventanaPrincipal.setVisible(false); 
                         generarVistaUser(lstPermisoCliente);
                         break;
 
@@ -319,9 +319,9 @@ public class UserController {
                         ejecutarPermiso("Consultar Tipo Documento");
                         break;
 
-                    case "Menú Principal":
+                    case "Atras":
                         ventanaPrincipal.setVisible(false); 
-                        start();
+                        //start();
                         break;
                 }
             });
@@ -338,10 +338,11 @@ public class UserController {
         String[] opcionesUsuarios = permisos.toArray(new String[0]);
         String[] nuevasOpciones = new String[opcionesUsuarios.length + 1];
         System.arraycopy(opcionesUsuarios, 0, nuevasOpciones, 0, opcionesUsuarios.length);
-        nuevasOpciones[nuevasOpciones.length - 1] = "Menú Principal";
+        nuevasOpciones[nuevasOpciones.length - 1] = "Atras";
 
         JFrame ventanaPrincipal = new JFrame("Seleccion de servicio");
-        ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaPrincipal.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventanaPrincipal.setSize(500, 500);
 
         ventanaPrincipal.setLocationRelativeTo(null);
@@ -361,7 +362,7 @@ public class UserController {
             button.setMinimumSize(buttonSize);
             button.setAlignmentX(Component.CENTER_ALIGNMENT);
             button.addActionListener(e -> {
-                if (e.getActionCommand().toString().equals("Menú Principal")) {
+                if (e.getActionCommand().toString().equals("Atras")) {
                     ventanaPrincipal.setVisible(false);
                 }
                 ejecutarPermiso(e.getActionCommand());
