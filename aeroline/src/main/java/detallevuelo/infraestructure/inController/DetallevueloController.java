@@ -13,6 +13,8 @@ import javax.swing.SwingConstants;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.entity.DetalleVuelo;
@@ -200,4 +202,49 @@ public class DetallevueloController {
         return detalleVueloUseCase.listarTrayectos();
     }
     
+    public Long obtenerIdTrayecto(){
+        JPanel panel = new JPanel(new GridLayout(1, 1, 5, 1));
+
+        JLabel lblIdTrayecto = new JLabel("Id Trayecto:");
+        JTextField txtIdTrayecto = new JTextField();
+        txtIdTrayecto.setFont(new Font("Monospaced", Font.BOLD, 12));
+
+        panel.setPreferredSize(new Dimension(250, 30));
+
+        //VALIDACIONES DE ENTERO
+        txtIdTrayecto.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                    JOptionPane.showMessageDialog(panel, "Caracter no valido!", "Error", JOptionPane.ERROR_MESSAGE);
+                    e.consume(); // Ignorar la tecla no numérica
+                } 
+            }
+        });    
+        //Agreganmos elementos al panel
+        panel.add(lblIdTrayecto);
+        panel.add(txtIdTrayecto);
+
+        // Mostrar el panel en un JOptionPane
+        int option = JOptionPane.showConfirmDialog(
+            null, 
+            panel, 
+            "Airline, Hight All  The Time!", 
+            JOptionPane.OK_CANCEL_OPTION, 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        //Tratar datos recolectados
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                String idCliente = txtIdTrayecto.getText();
+                return Long.parseLong(idCliente); 
+            } catch (Exception e) {
+                return null;
+            }
+        } else {
+            return 151841511L;
+        }
+    }
 }

@@ -80,4 +80,7 @@
 
 # Caso de Uso 6: Consultar Reserva de Vuelo
 
+# Caso de Uso 28: Actualizar Información de Escala
+
+
 

@@ -23,6 +23,10 @@ import detallevuelo.application.DetalleVueloUseCase;
 import detallevuelo.domain.service.DetalleVueloService;
 import detallevuelo.infraestructure.inController.DetallevueloController;
 import detallevuelo.infraestructure.outRepository.DetalleVueloRepository;
+import escala.application.EscalaUseCase;
+import escala.domain.service.EscalaService;
+import escala.infraestructure.inController.EscalaController;
+import escala.infraestructure.outRepository.EscalaRepository;
 import reserva.application.ReservaUseCase;
 import reserva.domain.service.ReservaService;
 import reserva.infraestructure.inController.ReservaController;
@@ -272,7 +276,7 @@ public class UserController {
             } 
         }
         // Definir las opciones del submenú de Gestión de Usuarios
-        String[] opcionesPaqueteAdmin = {"Gestionar Vuelo", "Gestionar Cliente", "Consultar Asignacion De Tripulacion", "Consultar Tarifa De Vuelo","Consultar Tipo De Documento", "Atras"};
+        String[] opcionesPaqueteAdmin = {"Gestionar Vuelo / Reserva / Escala", "Gestionar Cliente", "Consultar Asignacion De Tripulacion", "Consultar Tipo De Documento", "Atras"};
 
         JFrame ventanaPrincipal = new JFrame("Gestiones vendedor");
         ventanaPrincipal.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -297,7 +301,7 @@ public class UserController {
             button.setAlignmentX(Component.CENTER_ALIGNMENT);
             button.addActionListener(e -> {
                 switch (opcion) {
-                    case "Gestionar Vuelo":
+                    case "Gestionar Vuelo / Reserva / Escala":
                         //ventanaPrincipal.setVisible(false); 
                         generarVistaUser(lstPermisoReserva);    
                         break;
@@ -309,10 +313,6 @@ public class UserController {
 
                     case "Consultar Asignacion De Tripulacion":
                         ejecutarPermiso("Consultar Tripulacion De Trayecto");
-                        break;
-
-                    case "Consultar Escala De Un Trayecto":
-                        ejecutarPermiso("Consultar Escalas De Vuelo");
                         break;
 
                     case "Consultar Tipo De Documento":
@@ -416,6 +416,11 @@ public class UserController {
         DetalleVueloService detalleVueloService = new DetalleVueloRepository();
         DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
         DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
+
+        //LLAMADO HEXAGONAL ESCALA
+        EscalaService escalaService = new EscalaRepository();
+        EscalaUseCase escalaUseCase = new EscalaUseCase(escalaService);
+        EscalaController escalaController = new EscalaController(escalaUseCase);
         switch (permiso) {
             case "Registrar Avion":
                 avionController.registrarAvion();
@@ -547,7 +552,7 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Consultar Reserva Vuelo":
-                System.out.println("SI LO TOMOA BIEN");
+                reservaController.consultarReservaByClienteTrayecto();
                 break;
             case "Listar Reservas":
                 System.out.println("SI LO TOMOA BIEN");
@@ -565,7 +570,7 @@ public class UserController {
                 System.out.println("SI LO TOMOA BIEN");
                 break;
             case "Actualizar Informacion De Escala":
-                System.out.println("SI LO TOMOA BIEN");
+                escalaController.actualizarEscala();
                 break;
             case "Añadir Pasajero":
                 System.out.println("SI LO TOMOA BIEN");

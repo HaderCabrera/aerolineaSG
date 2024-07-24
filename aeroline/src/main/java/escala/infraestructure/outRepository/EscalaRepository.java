@@ -42,5 +42,53 @@ public class EscalaRepository implements EscalaService{
         return lstEscalasByTrayecto;
     }
 
+    @Override
+    public Boolean actualizarEscala(Escala escala) {
+        String sql = "UPDATE escala SET id_vuelo = ?, id_trayecto = ?, origen = ?, destino = ?  WHERE id = ?";
+
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            
+            statement.setLong(1, escala.getId_vuelo());
+            statement.setLong(2, escala.getId_trayecto());
+            statement.setString(3, escala.getInicio());
+            statement.setString(4, escala.getDestino());
+            
+            statement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public Escala obtenerEscalaById(Long idEscala) {
+        String sql = "SELECT id_vuelo, id_trayecto, origen, destino FROM escala WHERE id_vuelo = ?";
+        Escala escala = null;
+
+        try (Connection connection = DatabaseConfig.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, idEscala);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    escala = new Escala();
+                    escala.setId_vuelo(Long.valueOf(resultSet.getString("id_vuelo")));
+                    escala.setId_trayecto(Long.valueOf(resultSet.getString("id_trayecto")));
+                    escala.setDestino(resultSet.getString("destino"));
+                    escala.setInicio(resultSet.getString("origen"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return escala;
+    }
+
 
 }

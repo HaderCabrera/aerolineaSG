@@ -13,4 +13,12 @@ public class ReservaUseCase {
     public Boolean registrarReserva(Reserva reserva){
         return reservaService.registrarReserva(reserva);
     }
+
+    public Reserva consultarReservaByCliente(Long idCliente){
+        return reservaService.consultarReservaByCliente(idCliente);
+    }
+
+    public Reserva consultarReservaByTrayecto(Long idTrayecto){
+        return reservaService.consultarReservaByTrayecto(idTrayecto);
+    }
 }
