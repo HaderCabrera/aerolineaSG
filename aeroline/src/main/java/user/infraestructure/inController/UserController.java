@@ -48,6 +48,10 @@ import tripulacion.infraestructure.outRepository.TripulacionRepositiry;
 
 import user.application.UserUseCase;
 import user.domain.entity.User;
+import vuelo.application.VueloUseCase;
+import vuelo.domain.service.VueloService;
+import vuelo.infraestructure.inController.VueloController;
+import vuelo.infraestructure.outRepository.VueloRepository;
 
 public class UserController {
     private UserUseCase userUseCase;

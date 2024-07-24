@@ -2,6 +2,7 @@ package vuelo.application;
 
 import java.util.List;
 
+import vuelo.domain.entity.Vuelo;
 import vuelo.domain.service.VueloService;
 
 public class VueloUseCase {
@@ -13,5 +14,9 @@ public class VueloUseCase {
 
     public List<Long> getIdAvionByIdTrayecto(Long id_trayecto){
         return vueloService.getIdAvionByIdTrayecto(id_trayecto);
+    }
+
+    public  List<Vuelo> obtenerIdVuelos(){
+        return vueloService.obtenerIdVuelos();
     }
 }
