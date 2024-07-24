@@ -698,3 +698,19 @@ DELIMITER;
 CALL Listar_Empleados_Activos("inactivo");
 
 
+SELECT id_vuelo, numero_vuelo, aeropuerto_destino, aeropuerto_origen, hora_llegada , hora_salida FROM vuelo;
+SELECT id_vuelo, numero_vuelo, aeropuerto_destino, aeropuerto_origen, hora_llegada , hora_salida FROM vuelo;
+
+
+ALTER TABLE escala ADD COLUMN id_escala INT NOT NULL;
+SHOW CREATE TABLE escala;
+SELECT * FROM escala;
+ALTER TABLE escala DROP COLUMN id_escala;
+
+SHOW CREATE TABLE escala;
+ALTER TABLE escala ADD COLUMN id_escala INT NOT NULL;
+UPDATE escala
+ SET id_escala = 3 WHERE id_vuelo = 4;
+
+
+ALTER TABLE escala ADD PRIMARY KEY (id_escala);

@@ -44,6 +44,10 @@ import tripulacion.infraestructure.outRepository.TripulacionRepositiry;
 
 import user.application.UserUseCase;
 import user.domain.entity.User;
+import vuelo.application.VueloUseCase;
+import vuelo.domain.service.VueloService;
+import vuelo.infraestructure.inController.VueloController;
+import vuelo.infraestructure.outRepository.VueloRepository;
 
 public class UserController {
     private UserUseCase userUseCase;
@@ -415,6 +419,11 @@ public class UserController {
         DetalleVueloService detalleVueloService = new DetalleVueloRepository();
         DetalleVueloUseCase detalleVueloUseCase = new DetalleVueloUseCase(detalleVueloService);
         DetallevueloController detallevueloController = new DetallevueloController(detalleVueloUseCase);
+
+        // LLAMADO HEXAGONAL VUELO
+        //VueloService vueloService = new VueloRepository();
+        //VueloUseCase vueloUseCase = new VueloUseCase(vueloService);
+        //VueloController vueloController = new VueloController(vueloUseCase);
         switch (permiso) {
             case "Registrar Avion":
                 avionController.registrarAvion();

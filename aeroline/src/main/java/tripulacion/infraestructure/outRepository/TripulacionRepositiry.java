@@ -23,7 +23,7 @@ public class TripulacionRepositiry implements  TripulacionService{
         String query = "INSERT INTO tripulacion (id_vuelo, id_empleado) VALUES (?, ?)";
 
         try(Connection conec = DatabaseConfig.getConnection();
-            PreparedStatement stm = conec.prepareStatement(query)){
+            PreparedStatement stm = conec.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)){
 
                 stm.setInt(1, tripulacion.getId_vuelo());
                 stm.setString(2, tripulacion.getId_empelado());
