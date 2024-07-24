@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,11 +20,7 @@ import javax.swing.JTextField;
 
 import escala.application.EscalaUseCase;
 import escala.domain.entity.Escala;
-import tipoDocumento.application.TipoDocumentoUseCase;
-import tipoDocumento.domain.entity.TipoDocumento;
-import tipoDocumento.domain.service.TipoDocumentoService;
-import tipoDocumento.infraestructure.inController.TipoDocumentoController;
-import tipoDocumento.infraestructure.outRepository.TipoDocumentoRepository;
+
 
 public class EscalaController {
     private final EscalaUseCase escalaUseCase;
@@ -43,28 +40,39 @@ public class EscalaController {
 
         Escala escala = escalaUseCase.obtenerEscalaById(idEscala);
 
-        Boolean actualizacion = escalaUseCase.actualizarEscala(escala);
-        if (actualizacion) {
-            JOptionPane.showMessageDialog(null, "Actualizaciòn exitosa!","Confimacion", JOptionPane.INFORMATION_MESSAGE);
-        }
+
+        escala = obtenerDatosEscalaNueva(escala);
+        if (escala != null) {
+            Boolean actualizacion = escalaUseCase.actualizarEscala(escala);
+            System.out.println("PASA PARA ACA");
+            if (actualizacion) {
+                JOptionPane.showMessageDialog(null, "Actualizaciòn exitosa!","Confimacion", JOptionPane.INFORMATION_MESSAGE);
+            } else JOptionPane.showMessageDialog(null, "Actualizaciòn rechazada!","Denied", JOptionPane.WARNING_MESSAGE);
+        }  
     }
 
-    public Escala obtenerDatosEscalaNueva(){
-        Escala escala = null;
+    public Escala obtenerDatosEscalaNueva(Escala escala){
+        Escala escalaN = null;
         JPanel panel = new JPanel(new GridLayout(8, 2, 10, 5));
-        
+        panel.setPreferredSize(new Dimension(400,300));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 80, 20, 80));
+
         // Crear etiquetas y agregarlas al panel
         JLabel lblVuelo = new JLabel("Id vuelo:");
         JTextField txtVuelo = new JTextField();
-    
+        txtVuelo.setText(String.valueOf(escala.getId_vuelo()));
+
         JLabel lblTrayecto = new JLabel("Id trayecto:");
         JTextField txtTrayecto = new JTextField();
+        txtTrayecto.setText(String.valueOf(escala.getId_trayecto()));
 
         JLabel lblOrigen = new JLabel("Origen:");
         JTextField txtOrigen = new JTextField();
+        txtOrigen.setText(escala.getInicio());
 
         JLabel lblDestino = new JLabel("Destino:");
         JTextField txtDestino = new JTextField();
+        txtDestino.setText(escala.getDestino());
 
         //VALIDACIONES DE ENTERO
         txtTrayecto.addKeyListener(new KeyAdapter() {
@@ -88,6 +96,16 @@ public class EscalaController {
                 }
             }
         });
+        Font font2 = new Font("Monospaced", Font.BOLD, 14); 
+        Font font = new Font("Monospaced", Font.BOLD, 20); 
+        lblVuelo.setFont(font);
+        lblTrayecto.setFont(font);
+        lblOrigen.setFont(font);
+        lblDestino.setFont(font);
+        txtVuelo.setFont(font2);
+        txtTrayecto.setFont(font2);
+        txtOrigen.setFont(font2);
+        txtDestino.setFont(font2);
 
         panel.add(lblVuelo);
         panel.add(txtVuelo);
@@ -110,24 +128,25 @@ public class EscalaController {
         
         // Manejar la entrada del usuario
         if (option == JOptionPane.OK_OPTION) {
-            escala = new Escala();
+            escalaN = new Escala();
             Long id_vuelo = Long.valueOf(txtVuelo.getText());
             Long id_trayecto = Long.valueOf(txtTrayecto.getText());
             String origen = txtOrigen.getText();
             String destino = txtDestino.getText();
 
             try {
-                escala.setId_vuelo(id_vuelo);
-                escala.setId_trayecto(id_trayecto);
-                escala.setInicio(origen);
-                escala.setDestino(destino);
+                escalaN.setId_vuelo(id_vuelo);
+                escalaN.setId_trayecto(id_trayecto);
+                escalaN.setInicio(origen);
+                escalaN.setDestino(destino);
+                escalaN.setId_escala(escala.getId_escala());
                 
             } catch (Exception e) {
                 System.out.println("Formatos invalidos, Try Again!" + e);
             }
         
-        }
-        return escala;
+        } else return null;
+        return escalaN;
     }
 
     public Long obtenerIdEscala(){

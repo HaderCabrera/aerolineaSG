@@ -44,7 +44,7 @@ public class EscalaRepository implements EscalaService{
 
     @Override
     public Boolean actualizarEscala(Escala escala) {
-        String sql = "UPDATE escala SET id_vuelo = ?, id_trayecto = ?, origen = ?, destino = ?  WHERE id = ?";
+        String sql = "UPDATE escala SET id_vuelo = ?, id_trayecto = ?, origen = ?, destino = ?  WHERE id_escala = ?";
 
         try (Connection connection = DatabaseConfig.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -53,6 +53,7 @@ public class EscalaRepository implements EscalaService{
             statement.setLong(2, escala.getId_trayecto());
             statement.setString(3, escala.getInicio());
             statement.setString(4, escala.getDestino());
+            statement.setLong(5, Long.valueOf(escala.getId_escala()));
             
             statement.executeUpdate();
 
@@ -66,7 +67,7 @@ public class EscalaRepository implements EscalaService{
 
     @Override
     public Escala obtenerEscalaById(Long idEscala) {
-        String sql = "SELECT id_vuelo, id_trayecto, origen, destino FROM escala WHERE id_vuelo = ?";
+        String sql = "SELECT id_escala, id_vuelo, id_trayecto, origen, destino FROM escala WHERE id_escala = ?";
         Escala escala = null;
 
         try (Connection connection = DatabaseConfig.getConnection();
@@ -80,6 +81,7 @@ public class EscalaRepository implements EscalaService{
                     escala.setId_trayecto(Long.valueOf(resultSet.getString("id_trayecto")));
                     escala.setDestino(resultSet.getString("destino"));
                     escala.setInicio(resultSet.getString("origen"));
+                    escala.setId_escala(Long.valueOf(resultSet.getString("id_escala")));
                 }
             }
 
