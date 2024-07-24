@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import javax.swing.JTextField;
 
 import empleado.domain.entity.Empleado;
 import tripulacion.application.TripulacionUseCase;
+import tripulacion.domain.entity.Tripulacion;
 import tripulacion.domain.service.TripulacionService;
 import tripulacion.infraestructure.inController.TripulacionController;
 import tripulacion.infraestructure.outRepository.TripulacionRepositiry;
@@ -43,6 +45,7 @@ public class VueloController {
         TripulacionService tripulacionService = new TripulacionRepositiry();
         TripulacionUseCase tripulacionUseCase = new TripulacionUseCase(tripulacionService);
         TripulacionController tripulacionController = new TripulacionController(tripulacionUseCase);
+        Tripulacion tripulacion = new Tripulacion();    
 
         String[][] data = new String[ListaVuelos.size()][6];
         for (int i = 0; i < ListaVuelos.size(); i++) {
@@ -92,7 +95,7 @@ public class VueloController {
         jt.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                
                 int row = jt.rowAtPoint(e.getPoint());
                 int column = jt.columnAtPoint(e.getPoint());
 
@@ -103,15 +106,26 @@ public class VueloController {
                     System.out.println("Botón clickeado para empleado ID: " + valueColumn1.toString());
                     idVueloField.setText(valueColumn2.toString());
                     String valor_vuelo = valueColumn1.toString();
-                    System.out.println(valor_vuelo+  "    ===" + valueColumn2);
+                    String id_vuelo = valueColumn1.toString();
+                    Long id_vueloLong = Long.parseLong(id_vuelo);
+                    
+                    System.out.println(valor_vuelo+"  ===" + valueColumn2);
                     // tripulacionUseCase.asignarEmpleadoToTripulacion(t)
                     // valueColumn2.toString());
                     System.out.println("se ejecuto esta parte");
-
+                    try {
+                        tripulacion.setId_vuelo(id_vueloLong);
+                        tripulacion.setId_empelado(idEmpleado_asignar.getText());
+                        tripulacionUseCase.asignarEmpleadoToTripulacion(tripulacion);
+                    } catch (NumberFormatException  p) {
+                        System.out.println("Error en el formato del ID de vuelo.");
+                    }
                 }
             }
 
         });
+
+        
         asignarButton.addActionListener(listasVuelos -> {
 
             JFrame windowFirst = new JFrame("Obtener Tripulación");
@@ -202,9 +216,7 @@ public class VueloController {
 
         });
 
-        Agregar.addActionListener(e ->{
-            
-        });
+       
 
         return null;
 

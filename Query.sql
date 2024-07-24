@@ -168,7 +168,8 @@ VALUES (1, 1),
     (3, 37),
     (3, 26),
     (3, 29),
-    (3, 28) (4, 32),
+    (3, 28),
+     (4, 32),
     (4, 33),
     (4, 34),
     (4, 35),
@@ -264,7 +265,7 @@ VALUES ('American Airlines'),
     ('United Airlines'),
     ('Southwest Airlines'),
     ('Lufthansa');
-
+SELECT * FROM empleado;
 INSERT INTO
     empleado (
         id_empleado,
@@ -272,13 +273,15 @@ INSERT INTO
         nombre2,
         apellidos,
         id_tripulacionRoles,
-        id_aerolineas
+        id_aerolineas,
+        id_estado
     )
 VALUES (
         'E001',
         'Santiago',
         'Sandoval',
         'Smith',
+        1,
         1,
         1
     ),
@@ -288,7 +291,8 @@ VALUES (
         'Perez',
         'Johnson',
         3,
-        2
+        2,
+        1
     ),
     (
         'E003',
@@ -296,7 +300,8 @@ VALUES (
         'Hernandez',
         'Williams',
         4,
-        3
+        3,
+        2
     ),
     (
         'E004',
@@ -304,7 +309,8 @@ VALUES (
         'Celis',
         'Brown',
         5,
-        4
+        4,
+        2
     ),
     (
         'E005',
@@ -312,36 +318,13 @@ VALUES (
         'Rodriguez',
         'Jones',
         2,
-        5
+        5,
+        3
     );
 
 -- Insertar tres registros en la tabla tipoDocumento
-INSERT INTO
-    tipoDocumento (nombreDoc)
-VALUES ('Documento de Identidad'),
-    ('Pasaporte'),
-    ('Licencia de Conducir');
 
--- Insertar un registro en la tabla cliente
-INSERT INTO
-    cliente (
-        documento,
-        nombre1,
-        nombre2,
-        apellidos,
-        fecha_nacimiento,
-        email,
-        id_tipo_documento
-    )
-VALUES (
-        12345678,
-        'Juan',
-        'Carlos',
-        'Gómez Pérez',
-        '1990-05-15',
-        'juan@gmail.com',
-        1
-    );
+
 -- INSERCIONES PAIS
 
 INSERT INTO
@@ -373,21 +356,23 @@ VALUES ('Gate A1', 1),
 
 -- INSERCIONES VUELO
 SELECT * FROM vuelo;
-
+SELECT * FROM avion;
 INSERT INTO
     vuelo (
         numero_vuelo,
         aeropuerto_origen,
         aeropuerto_destino,
         hora_salida,
-        hora_llegada
+        hora_llegada,
+        id_avion
     )
 VALUES (
         'VU123',
         1,
         2,
         '08:00 AM',
-        '10:00 AM'
+        '10:00 AM',
+        1
     );
 
 INSERT INTO
@@ -396,14 +381,16 @@ INSERT INTO
         aeropuerto_origen,
         aeropuerto_destino,
         hora_salida,
-        hora_llegada
+        hora_llegada,
+        id_avion
     )
 VALUES (
         'VU456',
         2,
         1,
         '02:00 PM',
-        '04:00 PM'
+        '04:00 PM',
+        2
     );
 
 SELECT * FROM avion;
@@ -414,6 +401,7 @@ INSERT INTO
 VALUES ('Disponible'),
     ('Ocupado');
 
+SELECT * FROM puesto;
 INSERT INTO
     puesto (
         id_avion,
@@ -733,3 +721,8 @@ SELECT * FROM vuelo;
 INSERT INTO tripulacion (id_vuelo, id_empleado) VALUES (1,"E005");
 
 DROP Table tripulacion;
+
+SELECT * FROM tripulacion;
+INSERT INTO tripulacion 
+id_vuelo, id_empleado
+VALUES 1, "E005";
