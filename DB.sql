@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS escala(
 
 CREATE TABLE IF NOT EXISTS tripulacion(
     id_tripulacion INT PRIMARY KEY AUTO_INCREMENT,
-    id_vuelo INT NULL,
+    id_vuelo INT,
     id_empleado VARCHAR(20) ,
     Foreign Key (id_vuelo) REFERENCES vuelo(id_vuelo),
     Foreign Key (id_empleado) REFERENCES empleado(id_empleado)

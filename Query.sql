@@ -654,7 +654,7 @@ DELIMITER $$
 
 CREATE PROCEDURE obtenerEmpleadosPor_Codec_vuelo(IN Codec_Vuelo VARCHAR(10))
 BEGIN
-    SELECT 
+    SELECT
         EM.id_empleado AS CODEC_T,
         CONCAT(EM.nombre1, ' ', COALESCE(EM.nombre2, ''), ' ', COALESCE(EM.apellidos, '')) AS Tripulante,
         R.nombre AS Rol_Tripulante
@@ -681,7 +681,7 @@ SELECT *  FROM empleado;
 
 UPDATE empleado SET id_estado = 2 WHERE id_empleado = "E005";
 
-
+DROP PROCEDURE Listar_Empleados_Activos;
 -- LISTAR ESTADOS DE DISPONIBILIDAD DE EMPLEADOS 
 DELIMITER $$
 
@@ -723,3 +723,13 @@ CREATE PROCEDURE ObtenerDatosReservaByTrayecto(idTrayecto INT)
 		WHERE TXT.id_trayecto = idTrayecto;
 	END $$
 DELIMITER ;
+
+SHOW CREATE TABLE trayecto_x_tarifa;
+
+SELECT * FROM tripulacion;
+SELECT * FROM vuelo;
+SELECT * FROM empleado;
+SELECT * FROM vuelo;
+INSERT INTO tripulacion (id_vuelo, id_empleado) VALUES (1,"E005");
+
+DROP Table tripulacion;

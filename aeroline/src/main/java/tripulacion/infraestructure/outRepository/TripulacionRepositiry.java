@@ -20,35 +20,30 @@ public class TripulacionRepositiry implements  TripulacionService{
 
     @Override
     public Tripulacion asignarEmpleadoToTripulacion(Tripulacion tripulacion) {
-        String query = "INSERT INTO tripulacion (id_vuelo, id_empleado) VALUES (?, ?)";
-
-        try(Connection conec = DatabaseConfig.getConnection();
-            PreparedStatement stm = conec.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)){
-
-                stm.setInt(1, tripulacion.getId_vuelo());
-                stm.setString(2, tripulacion.getId_empelado());
-
-                int rowsAffected = stm.executeUpdate();
-
-                if (rowsAffected > 0) {
-                    try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
-                        if (generatedKeys.next()) {
-                            int id_tripulacion = generatedKeys.getInt(1);
-                            tripulacion.setId_tripulacion(id_tripulacion); // Asignar la clave generada al objeto tripulacion
-                            return tripulacion;
-                        }
+        String query = "INSERT INTO tripulacion (id_vuelo, id_empleado) VALUES (?, ?);";
+        try (Connection conec = DatabaseConfig.getConnection();
+            PreparedStatement stm = conec.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+    
+            stm.setLong(1, tripulacion.getId_vuelo());
+            stm.setString(2, tripulacion.getId_empelado()); // Corregido "getId_empelado" a "getId_empleado"
+    
+            int rowsAffected = stm.executeUpdate();
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        Long id_tripulacion = generatedKeys.getLong(1); // Obtener el ID de la tripulación generada
+                        tripulacion.setId_tripulacion(id_tripulacion); // Asignar el ID generado al objeto Tripulacion
+                        return tripulacion;
                     }
                 }
-                
-            }catch(SQLException e){
-                e.printStackTrace();
-
-                String mensaje = "Registro Fallido!"; 
-                JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.WARNING_MESSAGE);
-                return null;
             }
-            return null;
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Registro Fallido!", "Denied", JOptionPane.WARNING_MESSAGE);
         }
+        return null;
+    }
 
     @Override
     public List<Empleado> obtenerTripulacionPorVuelo(String Codec_vuelo) {
@@ -109,6 +104,8 @@ public class TripulacionRepositiry implements  TripulacionService{
             }
         return lstDispo;
     }
+
+   
 
     
     }   
