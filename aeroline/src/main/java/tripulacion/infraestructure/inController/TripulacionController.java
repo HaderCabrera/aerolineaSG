@@ -70,14 +70,17 @@ public class TripulacionController {
             }
             
             // Convertir la lista de tripulantes a un array de datos para la JTable
-          
+
             System.out.println("Esta imprimprimeindo");
 
             String[] column = {"CODEC_T", "Tripulante", "Estado_Empleado"};
             JFrame tableFrame = new JFrame("Tripulantes Disponibles");
-            tableFrame.setSize(600, 300);
-            tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            tableFrame.add(new JScrollPane(table));
+
+            JTable jt = new JTable(data, column);
+            JScrollPane sp = new JScrollPane(jt);
+
+            tableFrame.add(sp);
+            tableFrame.setSize(400, 300);
             tableFrame.setVisible(true);
         });
     
