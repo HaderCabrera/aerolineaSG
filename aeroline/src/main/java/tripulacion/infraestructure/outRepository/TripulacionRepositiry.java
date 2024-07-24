@@ -65,7 +65,7 @@ public class TripulacionRepositiry implements  TripulacionService{
                         Empleado TripulantesAsignados = new Empleado();
                         TripulantesAsignados.setId_empleado(rs.getString ("CODEC_T"));
                         TripulantesAsignados.setNombre1(rs.getString("Tripulante"));
-                        TripulantesAsignados.setId_tripulacionRoles(Integer.parseInt(rs.getString("Rol_Tripulante")));
+                        TripulantesAsignados.setId_empleado(rs.getString("Estado_Empleado"));
                         lstTripulantes.add(TripulantesAsignados);
                     }   
                 }
@@ -83,19 +83,21 @@ public class TripulacionRepositiry implements  TripulacionService{
     @Override
     public List<Empleado> ObtenerTripulantesDisponibles(String dispo) {
         String query = "CALL Listar_Empleados_Activos(?);";
+        List<Empleado> lstDispo = new ArrayList<>();
+        Empleado estado =null;
 
         try(Connection conec = DatabaseConfig.getConnection();
             PreparedStatement stm = conec.prepareStatement(query)){
-                List<Empleado> lstDispo = new ArrayList<>();
-                stm.setString(1, dispo);
+                
+                stm.setString(1, dispo );
                 try(ResultSet rs = stm.executeQuery()){
                     while (rs.next()){
-                        Empleado estadoEmpleado = new  Empleado();
+                        estado = new Empleado();
 
-                        estadoEmpleado.setId_empleado(rs.getString("CODEC_T"));
-                        estadoEmpleado.setNombre1(rs.getString("Tripulante"));
-                        estadoEmpleado.setId_estadoEmpleado(Integer.parseInt(rs.getString("Estado_Empleado")));
-                        lstDispo.add(estadoEmpleado);
+                        estado.setId_empleado(rs.getString("CODEC_T"));
+                        estado.setNombre1(rs.getString("Tripulante"));
+                        estado.setId_estadoEmpleado(rs.getString("Estado_Empleado"));;
+                        lstDispo.add(estado);
                     }
                 }
             } catch(SQLException e){
@@ -105,7 +107,7 @@ public class TripulacionRepositiry implements  TripulacionService{
                 JOptionPane.showMessageDialog(null, mensaje, "Denied", JOptionPane.WARNING_MESSAGE);
                 return null;
             }
-        return null;
+        return lstDispo;
     }
 
     
