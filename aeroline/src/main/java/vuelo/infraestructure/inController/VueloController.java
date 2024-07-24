@@ -1,12 +1,14 @@
 package vuelo.infraestructure.inController;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLayer;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,6 +33,15 @@ public class VueloController {
 
     public Vuelo listarVuelos(){
         List<Vuelo> ListaVuelos = vueloUseCase.obtenerIdVuelos();
+        JFrame frame = new JFrame("Vista Vuelos");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 200);
+        frame.setLayout(new BorderLayout());
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+        JLabel label = new JLabel(null, "Este es un JLabel");
+
 
 
         String[][] data = new String[ListaVuelos.size()][6];
@@ -58,14 +69,16 @@ public class VueloController {
 
 
             // Panel para los campos y botones
-            JPanel panel = new JPanel();
+            
             panel.setLayout(new GridLayout(2, 2, 10, 10)); // Filas, Columnas, Espacio Horizontal, Espacio Vertical
             JLabel vueloLabel = new JLabel(null, "Información del Vuelo:");
             JTextField idVueloField = new JTextField();
             JButton asignarButton = new JButton("Asignar Empleados");
+            
+            panel.add(idVueloField);
+            panel.add(asignarButton);
+            
 
-            panel.add(vueloLabel);
-            panel.
 
 
  
@@ -73,10 +86,10 @@ public class VueloController {
 
  
 
-            tableFrame.add(sp);
-            tableFrame.setSize(800, 400);
-            tableFrame.setVisible(true);
-            tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            // tableFrame.add(sp);
+            // tableFrame.setSize(800, 400);
+            // tableFrame.setVisible(true);
+            // tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             
 
